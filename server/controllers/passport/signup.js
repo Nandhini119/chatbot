@@ -24,6 +24,7 @@ module.exports = function(passport){
                 newUser.username = username;
                 newUser.password = password;
                 newUser.email = req.param('email');
+                newUser.type = 'user';
 
 
                 //saving into databases

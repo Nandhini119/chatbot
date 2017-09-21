@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-let userController = require('../../controllers/usersController.js');
+let usersController = require('../../controllers/usersController.js');
 
 module.exports = function(passport){
 
@@ -33,8 +33,9 @@ router.post('/signup', passport.authenticate('signup',{
 }));
 
 router.post('/adminsignup', function(req, res) {
+  console.log('POST /users/adminsignup');
   try {
-    usersController.adminSignup(admin, function(result) {
+    usersController.adminSignup(req.body, function(result) {
       res.status(201).json({
         result: result
       });
@@ -45,9 +46,9 @@ router.post('/adminsignup', function(req, res) {
     });
   } catch(e) {
     console.log('error in signup success route: ', e)
-    res.status(500).json{
+    res.status(500).json({
       error: "internal server error"
-    };
+    });
   }
 });
 
