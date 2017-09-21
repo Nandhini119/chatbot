@@ -1,0 +1,25 @@
+.backgroundimage {
+  background-image: url('../../assets/images/adminbackground1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height : 100%;
+}
+.bg-img {
+  background-image: url('../../assets/images/adminbackground1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.logo {
+  margin-top:  -10px;
+}
+.ïmagepoint  {
+  cursor : pointer;
+}
+
+@media (max-width : 768px)
+{
+  .logo {
+    margin-top : -15px;
+  }
+}
