@@ -8,18 +8,11 @@ module.exports = function(passport){
     },
     function(req, username, password, done){
       console.log('inside passport login');
-      UserModel.findOne({'username': username,'password': password},function(err, user){
-          if (err) {
-            console.log('login error1');
-            return done (err);
-          }
-          if(!user) {
-            console.log('login error2');
-            return done(null, false);
-          }
-          // success condition
-          console.log('login success');
-          return done (null, user)
+      UserModel.findOne({'username': username,'password': password}, function(err, user) {
+        /* mongo server error */
+        if(err) return done (err);
+        /* user will be null if no match is found  */
+        return done(null, user);
       })
     }
 
