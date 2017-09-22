@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
     },
     password: String,
     type: String,
+    status: String
 });
 let user = mongoose.model("user", Schema);
 module.exports = user;

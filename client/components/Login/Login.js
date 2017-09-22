@@ -80,7 +80,7 @@ handleLogin()
                     });
                 console.log('login success');
               } else {
-                  alert('Invalid login');
+                  alert('Invalid credentials');
                   /*self.setState({
                   loginSuccess: false
                 });
@@ -148,7 +148,7 @@ validationSuccess() {
             </Paper>
             </Col>
           </Row>
-         {this.state.loginSuccess ?  < Redirect to = '/userhome' />:''}
+         {this.state.loginSuccess ?  < Redirect to = '/adminhome' />:''}
           </div>
           </div>
 

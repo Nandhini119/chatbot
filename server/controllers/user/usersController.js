@@ -1,4 +1,4 @@
-let UserModel = require('../models/user');
+let UserModel = require('../../models/user');
 
 let adminSignup = function(admin, successCB, errorCB) {
     let newAdmin = new UserModel();
@@ -13,7 +13,6 @@ let adminSignup = function(admin, successCB, errorCB) {
       successCB(newAdmin);
     });
 }
-
 module.exports = {
   adminSignup
 }

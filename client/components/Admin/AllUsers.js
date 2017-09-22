@@ -12,8 +12,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import {Row, Col} from 'react-flexbox-grid';
+import $ from 'jquery';
 import UserTable from './UserTable.js';
-
 
 
 const tableData = [
@@ -63,6 +63,20 @@ const tableData = [
 export default class AllUsers extends React.Component
 {
 
+  componentWillMount() {
+    alert("hi allusers");
+    $.ajax({
+            url: '/admin/allusers',
+            type: 'GET',
+            data: { },
+            success: function(response) {
+              console.log(response.result)
+                        },
+                        error: function(err) {
+                          console.log(err)
+                            }
+              });
+  }
   render(){
     return(
       <div className = "container-fluid ">

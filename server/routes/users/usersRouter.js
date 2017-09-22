@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-let usersController = require('../../controllers/usersController.js');
+let usersController = require('../../controllers/user/usersController.js');
 
 module.exports = function(passport){
 
