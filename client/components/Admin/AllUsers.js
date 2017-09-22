@@ -63,14 +63,24 @@ const tableData = [
 export default class AllUsers extends React.Component
 {
 
+constructor(props){
+  super(props);
+  this.state = {
+    allusers : "",
+  }
+}
   componentWillMount() {
-    alert("hi allusers");
+    let self = this;
+    var userdata = " ";
     $.ajax({
             url: '/admin/allusers',
             type: 'GET',
             data: { },
             success: function(response) {
-              console.log(response.result)
+              userdata = response.result.map((row, index) => {
+                return (<UserTable userdata = {row}  id={index}/>);
+              })
+              self.setState({allusers : userdata});
                         },
                         error: function(err) {
                           console.log(err)
@@ -86,7 +96,7 @@ export default class AllUsers extends React.Component
       <ArrowBack color = "white"/>
       </IconButton>
       <Row center='xs'>
-      <Col xs={8}>
+      <Col xs={10}>
       <div>
         <Table
           fixedHeader={true}>
@@ -96,17 +106,14 @@ export default class AllUsers extends React.Component
             <TableRow>
               <TableHeaderColumn>ID</TableHeaderColumn>
               <TableHeaderColumn >Name</TableHeaderColumn>
-              <TableHeaderColumn >Mail-ID</TableHeaderColumn>
+              <TableHeaderColumn >Mail-Id</TableHeaderColumn>
               <TableHeaderColumn ></TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
             showRowHover={true}>
-            {tableData.map((row, index) => {
-              return (<UserTable userdata = {row} id={index}/>);
-            }
-              )}
+            {this.state.allusers}
           </TableBody>
         </Table>
 

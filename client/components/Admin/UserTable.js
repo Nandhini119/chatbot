@@ -10,10 +10,11 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
+import $ from 'jquery';
 
 const styles = {
   button : {
-    margin : 15
+    margin : 15,
   }
 };
 
@@ -23,28 +24,85 @@ export default class UserTable extends React.Component {
   {
     super(props);
     this.state = {
-    button : true
+    button : true,
     }
     this.handleBlock = this.handleBlock.bind(this);
     this.handleUnblock = this.handleUnblock.bind(this);
   }
+  componentWillMount() {
+    let self = this;
+    $.ajax({
+      url : '/admin/checkstatus',
+      type : 'GET',
+      data : {email : this.props.userdata.email},
+      success :  function(response) {
+        console.log("hiiii");
+        console.log(response[0])
+        if(response[0].status == 'blocked')
+        {
+          self.setState({button : false});
+        }else if(response[0].status == 'active')
+        {
+          self.setState({button : true});
+        }
+        else {}
+      },
+
+    error :
+      function(err) {
+        console.log(err);
+      }
+
+
+    })
+  }
 handleBlock()
 {
-  this.setState({button : false});
+  let self = this;
+  $.ajax({
+    url : '/admin/block',
+    type : 'POST',
+    data : {email : this.props.userdata.email},
+    success :  function(response) {
+      self.setState({button : false});
+        if(response.body.status == 'status changed')
+        {
+          console.log("successfully blocked the user")
+        }
+    },
+    error :  function(err) {
+      console.log(err);
+    }
+  })
+
 }
 handleUnblock()
 {
-  this.setState({button : true});
+
+  let self = this;
+  $.ajax({
+    url : '/admin/unblock',
+    type : 'POST',
+    data : {email : this.props.userdata.email},
+    success :  function(response) {
+      self.setState({button : true});
+        if(response.body.status == 'status changed')
+        {
+          console.log("successfully blocked the user")
+        }
+    },
+    error :  function(err) {
+      console.log(err);
+    }
+  })
 }
-
-
 render()
 {
   return(
                 <TableRow>
                     <TableRowColumn>{this.props.id}</TableRowColumn>
-                    <TableRowColumn>{this.props.userdata.name}</TableRowColumn>
-                    <TableRowColumn>{this.props.userdata.mailid}</TableRowColumn>
+                    <TableRowColumn>{this.props.userdata.username}</TableRowColumn>
+                    <TableRowColumn>{this.props.userdata.email}</TableRowColumn>
                      <TableRowColumn>
                      {this.state.button?<RaisedButton label="Block" primary = {true} onClick = {this.handleBlock} style={styles.button} /> :
                    <RaisedButton label="Unblock" backgroundColor = "#FE4A3A" style={styles.button} onClick = {this.handleUnblock}/> }</TableRowColumn>
