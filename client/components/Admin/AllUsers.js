@@ -15,51 +15,6 @@ import {Row, Col} from 'react-flexbox-grid';
 import $ from 'jquery';
 import UserTable from './UserTable.js';
 
-
-const tableData = [
-  {
-    name: 'John Smith',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Randal White',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Stephanie Sanders',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Steve Brown',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Joyce Whitten',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Samuel Roberts',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Adam Moore',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Adam Moore',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Adam Moore',
-    mailid: 'abc.gmail.com',
-  },
-  {
-    name: 'Adam Moore',
-    mailid: 'abc.gmail.com',
-  },
-];
-
-
 export default class AllUsers extends React.Component
 {
 
@@ -67,6 +22,7 @@ constructor(props){
   super(props);
   this.state = {
     allusers : "",
+
   }
 }
   componentWillMount() {
@@ -78,7 +34,7 @@ constructor(props){
             data: { },
             success: function(response) {
               userdata = response.result.map((row, index) => {
-                return (<UserTable userdata = {row}  id={index}/>);
+                return (<UserTable userdata = {row} key={index} id={index}/>);
               })
               self.setState({allusers : userdata});
                         },
@@ -91,13 +47,13 @@ constructor(props){
     return(
       <div className = "container-fluid ">
 
-      <div>
+      <div >
       <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
       <ArrowBack color = "white"/>
       </IconButton>
       <Row center='xs'>
       <Col xs={10}>
-      <div>
+      <div >
         <Table
           fixedHeader={true}>
           <TableHeader

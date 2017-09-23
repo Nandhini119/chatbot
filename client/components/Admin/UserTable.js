@@ -36,8 +36,6 @@ export default class UserTable extends React.Component {
       type : 'GET',
       data : {email : this.props.userdata.email},
       success :  function(response) {
-        console.log("hiiii");
-        console.log(response[0])
         if(response[0].status == 'blocked')
         {
           self.setState({button : false});
@@ -65,10 +63,6 @@ handleBlock()
     data : {email : this.props.userdata.email},
     success :  function(response) {
       self.setState({button : false});
-        if(response.body.status == 'status changed')
-        {
-          console.log("successfully blocked the user")
-        }
     },
     error :  function(err) {
       console.log(err);
@@ -86,10 +80,6 @@ handleUnblock()
     data : {email : this.props.userdata.email},
     success :  function(response) {
       self.setState({button : true});
-        if(response.body.status == 'status changed')
-        {
-          console.log("successfully blocked the user")
-        }
     },
     error :  function(err) {
       console.log(err);
