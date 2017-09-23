@@ -2,13 +2,13 @@
   background-image: url('../../assets/images/adminbackground1.png');
   background-repeat: no-repeat;
   background-size: cover;
-  height : 100%;
+  
+  border: 5px solid white;
 }
 .logo {
   margin-top:  -10px;
 }
-@media (max-width : 768px)
-{
+@media (max-width : 768px) {
   .logo {
     margin-top : -15px;
   }
