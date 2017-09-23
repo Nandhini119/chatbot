@@ -11,14 +11,19 @@ module.exports = function(passport){
         if(err) return res.status(500).json({message: 'Server Error'});
         else if(user) return res.status(200).json({user: user});
         else return res.status(500).json({message: 'Invalid User'});
-      })(req, res, next)
+      })(req, res, next);
     });
 
   /* user signup action */
-  router.post('/signup', passport.authenticate('signup',{
-     successRedirect:'/users/signupsuccess',
-     failureRedirect:'/users/signupfailed',
-  }));
+  router.post('/signup', function(req, res, next) {
+    passport.authenticate('signup', function(err, newUser, info){
+      if(err) return res.status(500).json({status: 'signup failed'});
+      else if(newUser) return res.status(200).json({status:'signup success'});
+      else return res.status(500).json({status:'username already exsist'});
+    })
+  }
+
+  );
 
   router.post('/adminsignup', function(req, res) {
     console.log('POST /users/adminsignup');
@@ -40,21 +45,15 @@ module.exports = function(passport){
     }
   });
 
-  router.get('/signupsuccess', function(req, res) {
-     try {
-       res.status(200).json({status: 'signup success'});
-     } catch(e) {
-       console.log('error in signup success route: ', e)
-     }
-   });
 
-   router.get('/signupfailed', function(req, res) {
-     console.log('failed signupfailed');
-     try {
-       res.status(200).json({status: 'username already exsist'});
-     } catch(e) {
-       console.log('error in signup failed route: ', e)
-     }
+   router.get('/logout',function(req, res){
+     req.session.destroy(function(req,res){
+       if(err) {
+         res.status(500).json({status: 'error in logout'});
+       } else {
+         res.status(200).json({status:"success"});
+       }
+     });
    });
 
    return router;
