@@ -167,6 +167,7 @@ if(this.validationSuccess()){
 
               <TextField
                hintText="Password"
+               type="password"
                value={this.state.password}
                errorText={this.state.passwordError}
               floatingLabelText="Password"
@@ -178,7 +179,7 @@ if(this.validationSuccess()){
             </Paper>
             </Col>
           </Row>
-          {this.state.signupflag ?  < Redirect to = '/adminhome' > < /Redirect>:''}
+          {this.state.signupflag ?  < Redirect to = '/userhome' > < /Redirect>:''}
           </div>
           </div>
 

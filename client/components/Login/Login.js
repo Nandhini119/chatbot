@@ -101,24 +101,21 @@ class Login extends Component {
           <Col xs={11} sm={5}>
           <Paper style={styles.paperstyle} zDepth={3} >
             <h3>Login Here!!</h3>
-
-              <TextField
-            /*  icon={  <svg xmlns="http://www.w3.org/2000/svg" style={styles.svgstyle} width="24" height="24" viewBox="0 0 18 18"><path d="M9 1C4.58 1 1 4.58 1 9s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 2.75c1.24 0 2.25 1.01 2.25 2.25S10.24 8.25 9 8.25 6.75 7.24 6.75 6 7.76 3.75 9 3.75zM9 14.5c-1.86 0-3.49-.92-4.49-2.33C4.62 10.72 7.53 10 9 10c1.47 0 4.38.72 4.49 2.17-1 1.41-2.63 2.33-4.49 2.33z"/></svg>
-}*/
-                //style={styles.textfieldstyle}
-                hintText="Username"
-                value={this.state.username}
-                errorText={this.state.usernameError}
-                floatingLabelText={<Accountcircle/>}
-                onChange={this.onUsernameChange} /><br/>
-
-              <TextField
+            <TextField
+              hintText="Username"
+              value={this.state.username}
+              errorText={this.state.usernameError}
+              floatingLabelText={<Accountcircle/>}
+              onChange={this.onUsernameChange} />
+            <br/>
+            <TextField
                hintText="Password"
+               type="password"
                value={this.state.password}
                errorText={this.state.passwordError}
                floatingLabelText={<Password/>}
-               onChange={this.onPasswordChange} /><br />
-
+               onChange={this.onPasswordChange} />
+            <br />
             <RaisedButton label="Log In" primary={true} style={styles.buttonstyle} onClick = {this.onLogin} />
             <RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />
             <p>New User?<Link to = '/signup'>
@@ -127,8 +124,8 @@ class Login extends Component {
             </Col>
           </Row>
           {
-            this.state.currentUser === 'user' ? <Redirect to='/userhome' /> :
-            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' /> :''
+            this.state.currentUser === 'user' ? <Redirect to='/userhome' push={false} /> :
+            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push={false} /> :''
           }
           </div>
       </div>
