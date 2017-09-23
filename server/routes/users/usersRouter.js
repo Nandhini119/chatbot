@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
 let usersController = require('../../controllers/user/usersController.js');
 
-module.exports = function(passport){
+module.exports = function(passport) {
 
   /* login action */
   router.post('/login', function(req, res, next) {
@@ -46,8 +45,8 @@ module.exports = function(passport){
   });
 
 
-   router.get('/logout',function(req, res){
-     req.session.destroy(function(req,res){
+   router.get('/logout',function(req, res) {
+     req.session.destroy(function(req,res) {
        if(err) {
          res.status(500).json({status: 'error in logout'});
        } else {

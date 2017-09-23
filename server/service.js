@@ -15,7 +15,7 @@ let setupStaticRoutes = function(app) {
 
 let setupAppRoutes = function(app) {
   let users = require('./routes/users/usersRouter')(passport);
-  let admin = require('./routes/admin/adminRouter');
+  let admin = require('./routes/admin/adminRouter')(passport);
   app.use('/users',users);
   app.use('/admin',admin);
  return app;
