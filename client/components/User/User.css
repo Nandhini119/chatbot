@@ -2,8 +2,14 @@
   background-image: url('../../assets/images/adminbackground1.png');
   background-repeat: no-repeat;
   background-size: cover;
-  
+
   border: 5px solid white;
+}
+.appbar {
+  background-color: black;
+}
+.title {
+  color:white;
 }
 .logo {
   margin-top:  -10px;

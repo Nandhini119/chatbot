@@ -17,7 +17,7 @@ let adminSignup = function(admin, successCB, errorCB) {
 let question = function(words,success,error){
   for(var key in words['words[]']) {
     var value = words['words[]'][key];
-    console.log("value"+value);
+    
 }
 
 }

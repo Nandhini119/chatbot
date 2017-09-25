@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Glyphicon} from 'react-bootstrap';
 import {Avatar} from 'material-ui';
 import Logo from '../../assets/images/Logo.png';
@@ -16,125 +15,112 @@ import ChatHistory from './Chats/ChatHistory.js';
 import $ from 'jquery';
 import  './User.css';
 
-
 const styles = {
-  appbar : {
-    backgroundColor : "black",
-  },
   title : {
     color : "white",
-
   },
 }
 
-
-
-
 export default class User extends React.Component{
-  constructor(props) {
-      super(props);
 
-      this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {
         open: false,
         msgs: [],
         wordarr : []
-      };
-      this.sendMessage = this.sendMessage.bind(this);
-      this.splitSentence = this.splitSentence.bind(this);
+                };
+    this.sendMessage = this.sendMessage.bind(this);
+    this.splitSentence = this.splitSentence.bind(this);
+    this.handlePopover = this.handlePopover.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     }
-
-
-    sendMessage(message) {
+/*opens popover menu.Here event is used to make the popover to display in the target*/
+handlePopover(event)
+{
+  event.preventDefault();
+  this.setState({open:true,
+  anchorEl: event.currentTarget});
+}
+/*closes the popover*/
+handleRequestClose()
+{
+  this.setState({open:false});
+}
+/*following two function takes the message typed by the user in text box, split into words and send to server*/
+sendMessage(message) {
     // for now this will let us know things work.  `console` will give us a
     // warning though
     let msgs = this.state.msgs;
     msgs.push(message);
-    this.setState({
-      msgs: msgs
-    });
+    this.setState({msgs: msgs});
     this.splitSentence(message);
-    //console.log('history: ', msgs);
     }
-splitSentence(message)
-{
+splitSentence(message){
   let self = this;
   let words = message.What.split(" ");
-console.log("message",words);
-this.setState({wordarr: words});
-$.ajax({
-  url : '/users/question',
-  type : 'POST',
-  data : {words: words},
-  success : function(response) {
-    console.log("response",response)
-
-  },
-  error : function(err) {
-    console.log(err);
-  }
-})
-
+  this.setState({wordarr: words});
+  $.ajax({
+    url : '/users/question',
+    type : 'POST',
+    data : {words: words},
+    success : function(response) {
+      console.log("response",response)
+    },
+    error : function(err) {
+      console.log(err);
+    }
+});
 }
   render()
   {
-
     return(
       <div className = "backgroundimage">
-        <MuiThemeProvider >
           <div>
-          <nav className="navbar navbar-inverse navbar-fixed-top" style = {styles.appbar}>
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <nav className="navbar navbar-inverse appbar" >
+              <div className="container-fluid">
+                <div className="navbar-header">
+                  <button type="button" className="navbar-toggle"
+                    data-toggle="collapse" data-target="#myNavbar">
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
-                </button>
-                <a className="navbar-brand" style = {styles.title} href="#">
-                <span><img src = {Logo} className = " logo responsive" alt = "Logo"/></span> Quora</a>
-              </div>
-              <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right">
-                <li><a href="#" className="bookmark"><Bookmark  style={styles.title}/></a></li>
-                  <li><a href="#" style = {styles.title}><span><Avatar  color = "white" size = {30} backgroundColor = "purple" onClick={this.handleTouchTap}>U</Avatar></span> User</a></li>
-
-                  <Popover
+                  </button>
+                  <a className="navbar-brand">
+                    <span>
+                      <img src = {Logo} className = " logo responsive" alt = "Logo"/>
+                    </span>Quora</a>
+                </div>
+                <div className="collapse navbar-collapse" id="myNavbar">
+                  <ul className="nav navbar-nav navbar-right">
+                    <li><a  className="bookmark title"><Bookmark  /></a></li>
+                    <li><a ><span><Avatar  color = "white"
+                      size = {30} backgroundColor = "purple" onClick={this.handlePopover}>U</Avatar>
+                      </span> User</a></li>
+                      <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
-                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                            onRequestClose={this.handleRequestClose}
-                          >
+                            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            onRequestClose={this.handleRequestClose}>
                             <Menu>
-                              <MenuItem primaryText="About Us" />
-                              <MenuItem primaryText="Help &amp; feedback" />
-                              <MenuItem primaryText="Settings"
-                              rightIcon={<ArrowDropRight />}
-                              menuItems={[
-                               <MenuItem
-                                value="V1"
-                                primaryText="Change Password"
-                              />,
-                              <MenuItem
-                               value="V2"
-                               primaryText="Delete Account"
-                             />,
-                            ]}
-                              />
-                              <MenuItem primaryText="Log out" />
+                              <MenuItem >
+                              Notifications
+                                <Badge badgeContent={10}
+                                  badgeStyle={{top: 20, right: 0,left:30}}/>
+                              </MenuItem>
+                              <MenuItem primaryText="Delete Account" />
+                              <MenuItem primaryText="Logout"/>
                             </Menu>
-                          </Popover>
-                </ul>
+                      </Popover>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </nav>
+            </nav>
           </div>
-
-          </MuiThemeProvider>
-          <ChatHistory history={ this.state.msgs } />
-          <ChatInput sendMessage={ this.sendMessage } />
+        <ChatHistory history={ this.state.msgs } />
+        <ChatInput sendMessage={ this.sendMessage } />
       </div>
-
     );
   }
 

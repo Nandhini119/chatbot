@@ -64,12 +64,12 @@ module.exports = function(passport) {
     }
   });
 
-   router.get('/logout',function(req, res) {
-     req.session.destroy(function(req,res) {
+   router.get('/logout',function(request, response,err) {
+     request.session.destroy(function(req,res,err) {
        if(err) {
-         res.status(500).json({status: 'error in logout'});
+         response.status(500).json({status: 'error in logout'});
        } else {
-         res.status(200).json({status:"success"});
+         response.status(200).json({status:"success"});
        }
      });
    });

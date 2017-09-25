@@ -1,8 +1,7 @@
 .collection {
  border: 0px;
- position: relative;
+ position: fixed;
  float: right;
-
 }
 .msgalign{
   background-color: white;
@@ -10,10 +9,13 @@
   position:relative;
   margin: 10px;
   padding: 5px;
+  display: -webkit-flex;
 }
+
 .textalign{
   line-height:150%;
   position:relative;
+
 }
 .timealign {
   font-weight: bold;

@@ -18,7 +18,6 @@ class ChatInput extends React.Component {
     if (message.length === 0) {
       return;
     }
-
     // Build a message object and send it
     const uid = "Vanitha";
     //const dat = new Date().getTime();
@@ -51,7 +50,6 @@ class ChatInput extends React.Component {
                 value={this.state.userQuery}
                 onChange={(e) => this.setState({userQuery: e.target.value})}
                 />
-
             </div>
             <div className="input-field col s2">
               <button type="submit" className="waves-effect waves-light btn-floating btn-large">
