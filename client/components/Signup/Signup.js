@@ -18,10 +18,6 @@ const styles = {
               textAlign: 'center',
               display: 'inline-block',
             },
-      /*  textfieldstyle : {
-          marginTop:50
-
-        },*/
         buttonstyle : {
           margin: 12,
           width:300,
@@ -47,7 +43,6 @@ class Signup extends Component {
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
-
     this.validationSuccess = this.validationSuccess.bind(this);
   }
   onUsernameChange(event){
@@ -147,9 +142,8 @@ if(this.validationSuccess()){
           <Row center="xs" end = 'sm'>
             <Col xs={11} sm={5}>
             <Paper style={styles.paper} zDepth={3} >
-<h3>Register Here!!!</h3>
+              <h3>Register Here!!!</h3>
                 <TextField
-              //  style={styles.textfieldstyle}
                 hintText="Username"
                 value={this.state.username}
                 errorText={this.state.usernameError}

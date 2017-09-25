@@ -13,16 +13,13 @@ import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import ChatInput from './Chats/ChatInput.js';
 import ChatHistory from './Chats/ChatHistory.js';
+import $ from 'jquery';
 import  './User.css';
 
 
 const styles = {
   appbar : {
     backgroundColor : "black",
-  },
-  badge : {
-    width : '30px',
-    height : '30px'
   },
   title : {
     color : "white",
@@ -39,9 +36,11 @@ export default class User extends React.Component{
 
       this.state = {
         open: false,
-        msgs: []
+        msgs: [],
+        wordarr : []
       };
       this.sendMessage = this.sendMessage.bind(this);
+      this.splitSentence = this.splitSentence.bind(this);
     }
 
 
@@ -53,9 +52,29 @@ export default class User extends React.Component{
     this.setState({
       msgs: msgs
     });
-    console.log('history: ', msgs);
+    this.splitSentence(message);
+    //console.log('history: ', msgs);
     }
+splitSentence(message)
+{
+  let self = this;
+  let words = message.What.split(" ");
+console.log("message",words);
+this.setState({wordarr: words});
+$.ajax({
+  url : '/users/question',
+  type : 'POST',
+  data : {words: words},
+  success : function(response) {
+    console.log("response",response)
 
+  },
+  error : function(err) {
+    console.log(err);
+  }
+})
+
+}
   render()
   {
 
@@ -77,12 +96,6 @@ export default class User extends React.Component{
               <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">
                 <li><a href="#" className="bookmark"><Bookmark  style={styles.title}/></a></li>
-                <li >
-                <Badge
-                  badgeContent={5}
-                  secondary={true}
-                  badgeStyle={{top: 10, right: 10,height:"18px",width:"18px"}}>
-                    <NotificationsIcon style={styles.title}/></Badge></li>
                   <li><a href="#" style = {styles.title}><span><Avatar  color = "white" size = {30} backgroundColor = "purple" onClick={this.handleTouchTap}>U</Avatar></span> User</a></li>
 
                   <Popover

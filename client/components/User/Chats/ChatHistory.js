@@ -22,6 +22,7 @@ class ChatHistory extends React.Component {
                 <i className="prefix mdi-action-alarm" /> {messageTime}
                 </span>&nbsp; &nbsp;
               </li>
+
             )
           })
         }

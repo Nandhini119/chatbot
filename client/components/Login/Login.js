@@ -20,9 +20,6 @@ const styles = {
   svgstyle : {
     marginRight:10
   },
-  /* textfieldstyle : {
-    marginTop:50
-  }, */
   buttonstyle : {
     margin: 12,
     width:300,
@@ -101,21 +98,22 @@ class Login extends Component {
           <Col xs={11} sm={5}>
           <Paper style={styles.paperstyle} zDepth={3} >
             <h3>Login Here!!</h3>
-            <TextField
-              hintText="Username"
-              value={this.state.username}
-              errorText={this.state.usernameError}
-              floatingLabelText={<Accountcircle/>}
-              onChange={this.onUsernameChange} />
-            <br/>
-            <TextField
+
+              <TextField
+                hintText="Username"
+                value={this.state.username}
+                errorText={this.state.usernameError}
+                floatingLabelText={<Accountcircle/>}
+                onChange={this.onUsernameChange} /><br/>
+
+              <TextField
                hintText="Password"
                type="password"
                value={this.state.password}
                errorText={this.state.passwordError}
                floatingLabelText={<Password/>}
-               onChange={this.onPasswordChange} />
-            <br />
+               onChange={this.onPasswordChange} /><br />
+
             <RaisedButton label="Log In" primary={true} style={styles.buttonstyle} onClick = {this.onLogin} />
             <RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />
             <p>New User?<Link to = '/signup'>
@@ -124,8 +122,8 @@ class Login extends Component {
             </Col>
           </Row>
           {
-            this.state.currentUser === 'user' ? <Redirect to='/userhome' push={false} /> :
-            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push={false} /> :''
+            this.state.currentUser === 'user' ? <Redirect to='/userhome' push="{false}" /> :
+            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push /> :''
           }
           </div>
       </div>

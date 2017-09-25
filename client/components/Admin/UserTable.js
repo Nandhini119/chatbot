@@ -50,8 +50,6 @@ export default class UserTable extends React.Component {
       function(err) {
         console.log(err);
       }
-
-
     })
   }
 handleBlock()

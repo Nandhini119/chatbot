@@ -2,6 +2,7 @@ let user = require('../../models/user');
 
 let controls = {
   allUsers : function(req,res){
+    console.log("äll users");
     user.find({type : "user"},function(err,data){
       if(err)
       throw err;

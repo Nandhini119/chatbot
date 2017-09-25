@@ -3,6 +3,27 @@ var router = express.Router();
 let usersController = require('../../controllers/user/usersController.js');
 
 module.exports = function(passport) {
+  router.post('/question',function(req,res){
+    console.log("sfas",req.body);
+    try {
+      usersController.question(req.body, function(result) {
+        res.status(201).json({
+          result: result
+        });
+      }, function(error) {
+        res.status(500).json({
+          error: error
+        });
+      });
+    } catch(e) {
+      console.log('error in signup success route: ', e)
+      res.status(500).json({
+        error: "internal server error"
+      });
+    }
+
+  });
+
 
   /* login action */
   router.post('/login', function(req, res, next) {
@@ -21,7 +42,6 @@ module.exports = function(passport) {
       else return res.status(500).json({status:'username already exsist'});
     })
   }
-
   );
 
   router.post('/adminsignup', function(req, res) {
@@ -44,7 +64,6 @@ module.exports = function(passport) {
     }
   });
 
-
    router.get('/logout',function(req, res) {
      req.session.destroy(function(req,res) {
        if(err) {
@@ -54,6 +73,7 @@ module.exports = function(passport) {
        }
      });
    });
+
 
    return router;
 }
