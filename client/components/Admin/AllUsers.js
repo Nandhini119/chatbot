@@ -38,9 +38,9 @@ constructor(props){
               })
               self.setState({allusers : userdata});
                         },
-                        error: function(err) {
-                          console.log(err)
-                            }
+              error: function(err) {
+                console.log(err)
+                  }
               });
   }
   render(){
@@ -77,7 +77,6 @@ constructor(props){
       </Col>
       </Row>
       </div>
-
       </div>
     );
   }

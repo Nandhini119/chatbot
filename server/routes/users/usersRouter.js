@@ -65,6 +65,7 @@ module.exports = function(passport) {
   });
 
    router.get('/logout',function(request, response) {
+     console.log("in logout");
      request.session.destroy(function(req,res,err) {
        if(err) {
         console.log("status of error in logout" + err);

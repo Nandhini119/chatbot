@@ -8,10 +8,16 @@
   background-image: url('../../assets/images/adminbackground1.png');
   background-repeat: no-repeat;
   background-size: cover;
-
 }
-.logo {
-  margin-top:  -10px;
+.appbar{
+background-color :black;
+}
+
+.title {
+  color:white;
+}
+.logout {
+  padding:5px;
 }
 .ïmagepoint  {
   cursor : pointer;
