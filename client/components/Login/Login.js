@@ -114,6 +114,7 @@ class Login extends Component {
 
               <TextField
                hintText="Password"
+               type="password"
                value={this.state.password}
                errorText={this.state.passwordError}
                floatingLabelText={<Password/>}
@@ -127,8 +128,8 @@ class Login extends Component {
             </Col>
           </Row>
           {
-            this.state.currentUser === 'user' ? <Redirect to='/userhome' /> :
-            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' /> :''
+            this.state.currentUser === 'user' ? <Redirect to='/userhome' push="{false}" /> :
+            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push /> :''
           }
           </div>
       </div>
