@@ -1,0 +1,17 @@
+footer {
+  color: white;
+  position: fixed;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border: 1px solid #fff;
+}
+footer .input-field input,
+button {
+  border-color: #FFFFFF;
+}
+.chip {
+  font-style: italic;
+
+}
