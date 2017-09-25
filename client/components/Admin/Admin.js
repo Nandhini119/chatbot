@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Glyphicon} from 'react-bootstrap';
 import {Avatar} from 'material-ui';
 import './Admin.css';
+import {Redirect} from 'react-router-dom';
 import superagent from 'superagent';
 import UnAnsweredComp from './UnAnswered.js';
 import AllQuestionsComp from './AllQuestions.js';
@@ -58,13 +59,14 @@ logout() {
   let self= this;
   superagent
   .get('/users/logout')
-  .end(function(err,data){
-    if(res.body.message === 'error in logout') {
+  .end(function(err,res){
+    if(res.body.status === 'error in logout') {
       console.log("error in logout");
     } else {
       self.setState({
         logout: res.body.status == "success"
       });
+      localStorage.removeItem('username');
     }
   });
 }

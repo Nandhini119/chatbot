@@ -13,9 +13,9 @@ var isAuthenticated = function(req, res, next) {
 };
 
 module.exports = function(passport) {
-  router.get('/allusers', adminControl.allUsers);
-  router.get('/checkstatus',  adminControl.checkstatus);
-  router.post('/block',  adminControl.blockUsers);
-  router.post('/unblock',  adminControl.unblockUsers);
+  router.get('/allusers', isAuthenticated, adminControl.allUsers);
+  router.get('/checkstatus', isAuthenticated,  adminControl.checkstatus);
+  router.post('/block',isAuthenticated,  adminControl.blockUsers);
+  router.post('/unblock',isAuthenticated,  adminControl.unblockUsers);
   return router;
 }

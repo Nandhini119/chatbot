@@ -69,7 +69,10 @@ class Login extends Component {
           if(res.body.message === 'Invalid User') alert('Invalid User!');
           else alert('Server Error! Try after some time.');
         } else {
+
           self.setState({currentUser: res.body.user.type});
+          // set username to localstorage to protect client routes after logout
+          localStorage.setItem('username', res.body.username);
         }
       });
     }
@@ -123,10 +126,7 @@ class Login extends Component {
           </Row>
           {  this.state.currentUser === 'user' ? <Redirect to='/userhome' push={false} /> :
             this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push={false} /> :''
-
-
-
-          }
+  }
           </div>
       </div>
     );
