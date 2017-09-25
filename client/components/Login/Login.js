@@ -121,9 +121,11 @@ class Login extends Component {
             </Paper>
             </Col>
           </Row>
-          {
-            this.state.currentUser === 'user' ? <Redirect to='/userhome' push="{false}" /> :
-            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push /> :''
+          {  this.state.currentUser === 'user' ? <Redirect to='/userhome' push={false} /> :
+            this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push={false} /> :''
+
+
+
           }
           </div>
       </div>
