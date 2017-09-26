@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {IconButton} from 'material-ui';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
@@ -68,7 +67,7 @@ export default class AllQuestions extends React.Component
   render(){
     return(
       <div className = "container-fluid ">
-      <MuiThemeProvider>
+
       <div>
       <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
       <ArrowBack color = "white"/>
@@ -122,7 +121,7 @@ export default class AllQuestions extends React.Component
 ))}
 </Row>
       </div>
-      </MuiThemeProvider>
+
       </div>
     );
   }

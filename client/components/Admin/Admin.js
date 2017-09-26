@@ -1,9 +1,8 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Glyphicon} from 'react-bootstrap';
 import {Avatar} from 'material-ui';
 import './Admin.css';
-import Redirect from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import superagent from 'superagent';
 import UnAnsweredComp from './UnAnswered.js';
 import AllQuestionsComp from './AllQuestions.js';
@@ -15,7 +14,7 @@ export default class Admin extends React.Component{
     super(props);
     this.state = {
       component: " ",
-      logout: false
+      logout: false,
                   }
   this.setComponent = this.setComponent.bind(this);
   this.getComponent = this.getComponent.bind(this);
@@ -67,7 +66,7 @@ export default class Admin extends React.Component{
   render() {
     return(
       <div className = "backgroundimage">
-        <div>
+
           <nav className="navbar navbar-inverse appbar ">
             <div className="container-fluid">
               <div className="navbar-header">
@@ -87,12 +86,11 @@ export default class Admin extends React.Component{
                   <li><a><span><Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon></span></a></li>
                 </ul>
               </div>
-
             </div>
             {this.state.logout ? <Redirect to='/' push={false} /> : ''}
           </nav>
           {this.getComponent()}
-          </div>
+
         </div>
       );
     }

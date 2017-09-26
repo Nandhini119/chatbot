@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { GridList, GridTile, IconButton, Subheader} from 'material-ui';
 import Navigatenext from 'material-ui/svg-icons/image/navigate-next';
 

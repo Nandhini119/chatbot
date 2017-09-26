@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Row,Col} from 'react-flexbox-grid';
 import {Paper,FlatButton,RaisedButton,TextField} from 'material-ui';
 import {Link, Redirect} from 'react-router-dom';

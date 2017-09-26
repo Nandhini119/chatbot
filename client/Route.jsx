@@ -25,7 +25,7 @@ render(
              path = '/userhome'
              render={ () => localStorage.getItem('username') ? <UserHome /> : <Redirect to='/' />}
        />
-      
+
        <Route path = '/signup' component = {Signup}/>
      </div>
     </Router>
