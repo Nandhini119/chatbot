@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {render} from 'react-dom';
+import render from 'react-dom';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import Login from './components/Login/Login.js';
 import Signup from './components/Signup/Signup.js';
