@@ -132,22 +132,22 @@ logout() {
           <div>
             <nav className="navbar navbar-inverse appbar" >
               <div className="container-fluid">
-                      <div className="navbar-header">
+                      <div className="navbar-header" >
                         <button type="button" className="navbar-toggle"
                           data-toggle="collapse" data-target="#myNavbar">
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand">
-                          <span>
+                        <a className="navbar-brand" style = {styles.title}>
+                          <span >
                             <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-                          </span>Quora</a>
+                          </span> Quora</a>
                       </div>
                 <div className="collapse navbar-collapse" id="myNavbar">
                   <ul className="nav navbar-nav navbar-right">
                     <li><a  className="bookmark title"><Bookmark  /></a></li>
-                    <li onClick={this.handlePopover}><a><span><Avatar  color = "white"
+                    <li onClick={this.handlePopover}><a style = {styles.title}><span><Avatar  color = "white"
                       size = {30} backgroundColor = "purple" >U</Avatar>
                       </span> User</a></li>
                       <Popover

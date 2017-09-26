@@ -9,6 +9,12 @@ import AllQuestionsComp from './AllQuestions.js';
 import AllUsersComp from './AllUsers.js';
 import Home from './Home.js';
 
+const styles = {
+  title : {
+    color : "white",
+  },
+}
+
 export default class Admin extends React.Component{
   constructor(props) {
     super(props);
@@ -73,14 +79,14 @@ export default class Admin extends React.Component{
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand title" >
+                <a className="navbar-brand" style = {styles.title}>
                   <span>
                     <img src='./../../assets/images/Logo.png' className = " logo responsive"
                     alt = "Logo"/></span> Quora</a>
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a><span><Avatar  color = "white" size = {30} backgroundColor = "gray">A</Avatar></span> Admin</a></li>
+                <ul className="nav navbar-nav navbar-right " >
+                  <li ><a style = {styles.title}><span><Avatar  color = "white" size = {30} backgroundColor = "gray">A</Avatar></span> Admin</a></li>
                   <li><a><span><Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon></span></a></li>
                 </ul>
               </div>
