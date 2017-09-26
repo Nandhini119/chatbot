@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {IconButton} from 'material-ui';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {
@@ -38,9 +37,9 @@ constructor(props){
               })
               self.setState({allusers : userdata});
                         },
-                        error: function(err) {
-                          console.log(err)
-                            }
+              error: function(err) {
+                console.log(err)
+                  }
               });
   }
   render(){
@@ -77,7 +76,6 @@ constructor(props){
       </Col>
       </Row>
       </div>
-
       </div>
     );
   }

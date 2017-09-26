@@ -1,4 +1,4 @@
-let user = require('../../models/user');
+let user = require('../user/user.model.js');
 
 let controls = {
   allUsers : function(req,res){

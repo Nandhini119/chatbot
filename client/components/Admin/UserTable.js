@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   Table,
   TableBody,
@@ -29,6 +28,7 @@ export default class UserTable extends React.Component {
     this.handleBlock = this.handleBlock.bind(this);
     this.handleUnblock = this.handleUnblock.bind(this);
   }
+  /*to check the status of the user on rendering this component*/
   componentWillMount() {
     let self = this;
     $.ajax({

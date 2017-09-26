@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let usersController = require('../../controllers/user/usersController.js');
+let usersController = require('./user.controller.js');
 
 module.exports = function(passport) {
   router.post('/question',function(req,res){
@@ -64,12 +64,15 @@ module.exports = function(passport) {
     }
   });
 
-   router.get('/logout',function(request, response,err) {
+   router.get('/logout',function(request, response) {
+     console.log("in logout");
      request.session.destroy(function(req,res,err) {
        if(err) {
+        console.log("status of error in logout" + err);
          response.status(500).json({status: 'error in logout'});
        } else {
-         response.status(200).json({status:"success"});
+         console.log("success in logout");
+         response.status(200).json({status:'success'});
        }
      });
    });

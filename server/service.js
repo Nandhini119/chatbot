@@ -14,8 +14,8 @@ let setupStaticRoutes = function(app) {
 };
 
 let setupAppRoutes = function(app) {
-  let users = require('./routes/users/usersRouter')(passport);
-  let admin = require('./routes/admin/adminRouter')(passport);
+  let users = require('./user/user.route.js')(passport);
+  let admin = require('./admin/admin.route.js');
   app.use('/users',users);
   app.use('/admin',admin);
  return app;
@@ -50,7 +50,7 @@ let setupMiddlewares = function(app) {
   app.use(expressSession({secret: 'mySecretKey'}));
   app.use(passport.initialize());
   app.use(passport.session());
-  let initpassport = require('./controllers/passport/init');
+  let initpassport = require('./passport/init');
   initpassport(passport);
  return app;
 };

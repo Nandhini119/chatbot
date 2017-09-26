@@ -1,7 +1,6 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import  Glyphicon from 'react-bootstrap';
-import Avatar from 'material-ui';
+import { Glyphicon} from 'react-bootstrap';
+import {Avatar} from 'material-ui';
 import './Admin.css';
 import {Redirect} from 'react-router-dom';
 import superagent from 'superagent';
@@ -15,7 +14,8 @@ export default class Admin extends React.Component{
     super(props);
     this.state = {
       component: " ",
-      logout: false}
+      logout: false,
+                  }
   this.setComponent = this.setComponent.bind(this);
   this.getComponent = this.getComponent.bind(this);
   this.nullifyComponent = this.nullifyComponent.bind(this);
@@ -45,23 +45,27 @@ export default class Admin extends React.Component{
   }
   /*handling logout*/
   logout() {
+    alert("hji");
     let self= this;
     superagent
       .get('/users/logout')
       .end(function(err,res){
         if(res.body.message === 'error in logout') {
           console.log("error in logout");
-        } else {
+        } else if(res.body.status == "success") {
             self.setState({
-              logout: res.body.status == "success"
+              logout: true
             });
+            localStorage.removeItem('username');
+          } else {
+            console.log("error in logout function")
           }
         });
   }
   render() {
     return(
       <div className = "backgroundimage">
-        <div>
+
           <nav className="navbar navbar-inverse appbar ">
             <div className="container-fluid">
               <div className="navbar-header">
@@ -70,7 +74,7 @@ export default class Admin extends React.Component{
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand title" href=" ">
+                <a className="navbar-brand title" >
                   <span>
                     <img src='./../../assets/images/Logo.png' className = " logo responsive"
                     alt = "Logo"/></span> Quora</a>
@@ -81,13 +85,11 @@ export default class Admin extends React.Component{
                   <li><a><span><Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon></span></a></li>
                 </ul>
               </div>
-
             </div>
             {this.state.logout ? <Redirect to='/' push={false} /> : ''}
           </nav>
           {this.getComponent()}
 
-          </div>
         </div>
 
       );

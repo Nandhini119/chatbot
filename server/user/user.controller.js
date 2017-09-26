@@ -1,4 +1,4 @@
-let UserModel = require('../../models/user');
+let UserModel = require('./user.model.js');
 
 let adminSignup = function(admin, successCB, errorCB) {
     let newAdmin = new UserModel();
@@ -17,7 +17,7 @@ let adminSignup = function(admin, successCB, errorCB) {
 let question = function(words,success,error){
   for(var key in words['words[]']) {
     var value = words['words[]'][key];
-    
+
 }
 
 }
