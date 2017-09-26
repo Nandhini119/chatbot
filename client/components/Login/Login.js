@@ -34,7 +34,8 @@ class Login extends Component {
       password: '',
       usernameError: '',
       passwordError: '',
-      currentUser: 'none'
+      currentUser: 'none',
+      status : " ",
     }
     this.onLogin = this.onLogin.bind(this);
     this.validationSuccess = this.validationSuccess.bind(this);
@@ -68,8 +69,13 @@ class Login extends Component {
           else alert('Server Error! Try after some time.');
         } else {
           self.setState({currentUser: res.body.user.type});
+          if(res.body.user.status == "blocked")
+          {
+            alert("you have been blocked");
+          } else {
           // set username to localstorage to protect client routes after logout
           localStorage.setItem('username', res.body.user.username);
+        }
         }
       });
     }
