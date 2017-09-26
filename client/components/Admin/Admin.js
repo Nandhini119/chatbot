@@ -45,7 +45,6 @@ export default class Admin extends React.Component{
   }
   /*handling logout*/
   logout() {
-    alert("hji");
     let self= this;
     superagent
       .get('/users/logout')

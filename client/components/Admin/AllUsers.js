@@ -28,7 +28,7 @@ constructor(props){
     let self = this;
     var userdata = " ";
     $.ajax({
-            url: '/admin/allusers',
+            url: '/admin/users',
             type: 'GET',
             data: { },
             success: function(response) {

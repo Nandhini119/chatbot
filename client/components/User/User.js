@@ -37,6 +37,7 @@ export default class User extends React.Component{
     this.splitSentence = this.splitSentence.bind(this);
     this.handlePopover = this.handlePopover.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleAccount = this.handleAccount.bind(this);
     this.logout = this.logout.bind(this);
     }
 /*opens popover menu.Here event is used to make the popover to display in the target*/
@@ -50,6 +51,32 @@ handlePopover(event)
 handleRequestClose()
 {
   this.setState({open:false});
+}
+/*delete the account of user*/
+handleAccount() {
+  var account = localStorage.getItem('username');
+  let self = this;
+   $.ajax({
+     url : '/users/account',
+     type : 'POST',
+     data : {username : account},
+     success : function(response) {
+       console.log("response",response);
+       if(response.result == "success") {
+         alert("Account deleted successfully");
+         self.logout();
+       }
+       else {
+         alert("error in deleting your account");
+       }
+
+     },
+     error : function(err) {
+       console.log("Error",err);
+
+     }
+
+   });
 }
 /*following two function takes the message typed by the user in text box, split into words and send to server*/
 sendMessage(message) {
@@ -69,7 +96,9 @@ splitSentence(message){
     type : 'POST',
     data : {words: words},
     success : function(response) {
+
       console.log("response",response)
+
     },
     error : function(err) {
       console.log(err);
@@ -133,7 +162,7 @@ logout() {
                                 <Badge badgeContent={10}
                                   badgeStyle={{top: 20, right: 0,left:30}}/>
                               </MenuItem>
-                              <MenuItem primaryText="Delete Account" />
+                              <MenuItem primaryText="Delete Account" onClick = {this.handleAccount} />
                               <MenuItem primaryText="Logout"
                               onClick={this.logout} />
                             </Menu>

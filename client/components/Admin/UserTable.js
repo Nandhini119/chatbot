@@ -32,7 +32,7 @@ export default class UserTable extends React.Component {
   componentWillMount() {
     let self = this;
     $.ajax({
-      url : '/admin/checkstatus',
+      url : '/admin/status',
       type : 'GET',
       data : {email : this.props.userdata.email},
       success :  function(response) {

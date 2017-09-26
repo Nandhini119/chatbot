@@ -3,6 +3,7 @@ const path = require('path');
 let passport = require('passport');
 let expressSession = require('express-session');
 
+
 let createApp = function() {
  const app = express();
  return app;
@@ -47,7 +48,9 @@ let setupMiddlewares = function(app) {
  app.use(bodyParser.urlencoded({ extended: false }));
 
    // initializing passport
-  app.use(expressSession({secret: 'mySecretKey'}));
+  app.use(expressSession({secret: 'mySecretKey',
+                          saveUninitialized: true,
+                          resave: true}));
   app.use(passport.initialize());
   app.use(passport.session());
   let initpassport = require('./passport/init');

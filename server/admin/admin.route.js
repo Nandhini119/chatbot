@@ -12,9 +12,9 @@ var isAuthenticated = function(req, res, next) {
   res.status(500).json({status:'Invalid user'});
 };
 
-  router.get('/allusers', adminControl.allUsers);
-  router.get('/checkstatus',  adminControl.checkstatus);
+  router.get('/users', adminControl.allUsers);
+  router.get('/status',  adminControl.checkstatus);
   router.post('/block',  adminControl.blockUsers);
   router.post('/unblock',  adminControl.unblockUsers);
-  
+
 module.exports = router;

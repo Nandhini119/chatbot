@@ -64,14 +64,12 @@ class Login extends Component {
       .send({username: self.state.username, password: self.state.password})
       .end(function(err, res) {
         if(err) {
-          console.log(res)
           if(res.body.message === 'Invalid User') alert('Invalid User!');
           else alert('Server Error! Try after some time.');
         } else {
-
           self.setState({currentUser: res.body.user.type});
           // set username to localstorage to protect client routes after logout
-          localStorage.setItem('username', res.body.username);
+          localStorage.setItem('username', res.body.user.username);
         }
       });
     }

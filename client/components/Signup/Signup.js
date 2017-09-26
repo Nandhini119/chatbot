@@ -119,7 +119,6 @@ if(this.validationSuccess()){
                 self.setState({
                     signupflag:true
                 });
-                 console.log('signup success');
             }
             else if(status === 'username already exsist'){
               self.setState({

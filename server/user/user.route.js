@@ -4,7 +4,6 @@ let usersController = require('./user.controller.js');
 
 module.exports = function(passport) {
   router.post('/question',function(req,res){
-    console.log("sfas",req.body);
     try {
       usersController.question(req.body, function(result) {
         res.status(201).json({
@@ -24,12 +23,27 @@ module.exports = function(passport) {
 
   });
 
+  router.post('/account',function(req,res) {
+    try {
+      usersController.account(req.body,function(result) {
+        res.status(201).json({result : "success"});
+      },function(error) {
+        res.status(500).json({error:"error"});
+      });
+    } catch(e) {
+      console.log("error in deleting account " ,e)
+      res.status(500).json({error : "internal server error"});
+    }
+  });
+
 
   /* login action */
   router.post('/login', function(req, res, next) {
       passport.authenticate('login', function(err, user, info) {
         if(err) return res.status(500).json({message: 'Server Error'});
-        else if(user) return res.status(200).json({user: user});
+        else if(user){
+           return res.status(200).json({user: user});
+         }
         else return res.status(500).json({message: 'Invalid User'});
       })(req, res, next);
     });
@@ -40,9 +54,8 @@ module.exports = function(passport) {
       if(err) return res.status(500).json({status: 'signup failed'});
       else if(newUser) return res.status(200).json({status:'signup success'});
       else return res.status(500).json({status:'username already exsist'});
-    })
-  }
-  );
+    })(req,res,next);
+  });
 
   router.post('/adminsignup', function(req, res) {
     console.log('POST /users/adminsignup');

@@ -8,7 +8,6 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req, username, password, done){
-      console.log("insignup function")
         UserModel.findOne({'username':username},function(err,user){
             if(err){
                 console.log('Error in SignUp: ' + err);
