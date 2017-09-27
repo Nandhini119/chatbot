@@ -16,5 +16,41 @@ var isAuthenticated = function(req, res, next) {
   router.get('/status',  adminControl.checkstatus);
   router.post('/block',  adminControl.blockUsers);
   router.post('/unblock',  adminControl.unblockUsers);
+  router.get('/questions',function(req,res){
+    try {
+      adminControl.questions(req.body, function(result) {
+        res.status(201).json({
+          result: result
+        });
+      }, function(error) {
+        res.status(500).json({
+          error: error
+        });
+      });
+    } catch(e) {
+      console.log('error in getting questions route: ', e)
+      res.status(500).json({
+        error: "internal server error"
+      });
+    }
+  });
+  router.post('/answer',function(req,res){
+    try {
+      adminControl.answer(req.body, function(result) {
+        res.status(201).json({
+          result: result
+        });
+      }, function(error) {
+        res.status(500).json({
+          error: error
+        });
+      });
+    } catch(e) {
+      console.log('error in adding answer route: ', e)
+      res.status(500).json({
+        error: "internal server error"
+      });
+    }
+  });
 
 module.exports = router;

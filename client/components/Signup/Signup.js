@@ -135,7 +135,7 @@ if(this.validationSuccess()){
   render() {
     return (
 
-  <div className="bgimg">
+  <div>
   <div  className="container-fluid ">
           <Row center="xs" end = 'sm'>
             <Col xs={11} sm={5}>

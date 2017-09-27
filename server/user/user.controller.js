@@ -16,17 +16,7 @@ let adminSignup = function(admin, successCB, errorCB) {
     });
 }
 
-let account = function(username ,successCB, errorCB) {
-  UserModel.remove({username : username.username}, function(err,data) {
-    if(err) {
-      errorCB(err);
-    } else {
-      successCB("success")
-    }
-  });
-}
-
-let question = function(words,successCB,errorCB){
+let answer = function(words,successCB,errorCB){
   var wordarr = [];
   for(var key in words['words[]']) {
     wordarr.push(words['words[]'][key]);
@@ -54,6 +44,6 @@ let question = function(words,successCB,errorCB){
 }
 module.exports = {
   adminSignup,
-  question,
-  account
+  answer,
+
 }

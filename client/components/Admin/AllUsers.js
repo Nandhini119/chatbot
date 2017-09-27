@@ -44,7 +44,7 @@ constructor(props){
   }
   render(){
     return(
-      <div className = "container-fluid ">
+      <div className = "container-fluid  background ">
 
       <div >
       <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>

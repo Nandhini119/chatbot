@@ -3,9 +3,9 @@ var router = express.Router();
 let usersController = require('./user.controller.js');
 
 module.exports = function(passport) {
-  router.post('/question',function(req,res){
+  router.get('/answer',function(req,res){
     try {
-      usersController.question(req.body, function(result) {
+      usersController.answer(req.body, function(result) {
         res.status(201).json({
           result: result
         });
@@ -22,20 +22,6 @@ module.exports = function(passport) {
     }
 
   });
-
-  router.post('/account',function(req,res) {
-    try {
-      usersController.account(req.body,function(result) {
-        res.status(201).json({result : "success"});
-      },function(error) {
-        res.status(500).json({error:"error"});
-      });
-    } catch(e) {
-      console.log("error in deleting account " ,e)
-      res.status(500).json({error : "internal server error"});
-    }
-  });
-
 
   /* login action */
   router.post('/login', function(req, res, next) {
@@ -89,7 +75,6 @@ module.exports = function(passport) {
        }
      });
    });
-
 
    return router;
 }

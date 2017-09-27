@@ -37,7 +37,6 @@ export default class User extends React.Component{
     this.splitSentence = this.splitSentence.bind(this);
     this.handlePopover = this.handlePopover.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.handleAccount = this.handleAccount.bind(this);
     this.logout = this.logout.bind(this);
     }
 /*opens popover menu.Here event is used to make the popover to display in the target*/
@@ -52,32 +51,7 @@ handleRequestClose()
 {
   this.setState({open:false});
 }
-/*delete the account of user*/
-handleAccount() {
-  var account = localStorage.getItem('username');
-  let self = this;
-   $.ajax({
-     url : '/users/account',
-     type : 'POST',
-     data : {username : account},
-     success : function(response) {
-       console.log("response",response);
-       if(response.result == "success") {
-         alert("Account deleted successfully");
-         self.logout();
-       }
-       else {
-         alert("error in deleting your account");
-       }
 
-     },
-     error : function(err) {
-       console.log("Error",err);
-
-     }
-
-   });
-}
 /*following two function takes the message typed by the user in text box, split into words and send to server*/
 sendMessage(message) {
     // for now this will let us know things work.  `console` will give us a
@@ -92,8 +66,8 @@ splitSentence(message){
   let words = message.What.split(" ");
   this.setState({wordarr: words});
   $.ajax({
-    url : '/users/question',
-    type : 'POST',
+    url : '/users/answer',
+    type : 'GET',
     data : {words: words},
     success : function(response) {
 
@@ -128,7 +102,7 @@ logout() {
   render()
   {
     return(
-      <div className = "backgroundimage">
+      <div >
           <div>
             <nav className="navbar navbar-inverse appbar" >
               <div className="container-fluid">
@@ -162,7 +136,6 @@ logout() {
                                 <Badge badgeContent={10}
                                   badgeStyle={{top: 20, right: 0,left:30}}/>
                               </MenuItem>
-                              <MenuItem primaryText="Delete Account" onClick = {this.handleAccount} />
                               <MenuItem primaryText="Logout"
                               onClick={this.logout} />
                             </Menu>

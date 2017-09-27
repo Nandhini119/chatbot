@@ -69,7 +69,7 @@ export default class Admin extends React.Component{
   }
   render() {
     return(
-      <div className = "backgroundimage">
+      <div>
 
           <nav className="navbar navbar-inverse appbar ">
             <div className="container-fluid">
