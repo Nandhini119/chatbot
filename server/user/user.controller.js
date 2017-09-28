@@ -18,6 +18,7 @@ let adminSignup = function(admin, successCB, errorCB) {
 
 let answer = function(words,successCB,errorCB){
   var wordarr = [];
+  console.log(words);
   for(var key in words['words[]']) {
     wordarr.push(words['words[]'][key]);
   }
@@ -30,7 +31,7 @@ let answer = function(words,successCB,errorCB){
     session.run(query).then(function(result) {
       console.log("query running");
       for(var key in JSON.stringify(result)){
-        console.log(result.records[key]._fields[0].properties.name);
+      //  console.log(result.records[key]._fields[0].properties.name);
       }
 
       /* making a connection close request */

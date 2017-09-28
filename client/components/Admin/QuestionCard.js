@@ -2,11 +2,14 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import {Row, Col} from 'react-flexbox-grid';
-import {Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Form, FormGroup, FormControl, ControlLabel,Radio} from 'react-bootstrap';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Dialog from 'material-ui/Dialog';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Chip from 'material-ui/Chip';
 import $ from'jquery';
 import CardAnswer from'./CardAnswer.js';
+
 
 const styles = {
   card  : {
@@ -15,7 +18,17 @@ const styles = {
   floatbutton : {
      marginRight: 20,
      float : "right"
-  }
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  block: {
+    maxWidth: 250,
+  },
+  radioButton: {
+    marginBottom: 10,
+  },
 
 }
 
@@ -36,7 +49,6 @@ export default class QuestionCard extends React.Component
     this.addAnswer = this.addAnswer.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleLabel = this.handleLabel.bind(this);
-    this.handleRelation = this.handleRelation.bind(this);
   }
   componentWillMount()
   {
@@ -55,18 +67,15 @@ handleOpen() {
 handleClose() {
   this.setState({open : false});
 }
-handleLabel(event) {
-  var label = event.target.value;
-  this.setState({label : label});
-}
 handleName(event) {
   var name = event.target.value;
   this.setState({name : name});
 }
-handleRelation(event) {
-  var relation = event.target.value;
-  this.setState({relation : relation});
+handleLabel(event) {
+  var label = event.target.value;
+  this.setState({label : label});
 }
+
 addAnswer() {
   console.log(this.state.question);
   $.ajax({
@@ -75,7 +84,7 @@ addAnswer() {
     data : {question : this.state.question,
             label : this.state.label,
             name : this.state.name,
-            relation : this.state.relation},
+            },
     success : function(response) {
       console.log(response);
 
@@ -85,6 +94,7 @@ addAnswer() {
     }
   })
 }
+
   render () {
     return (
       <div>
@@ -94,7 +104,7 @@ addAnswer() {
     <CardTitle title={this.props.question._fields[0].properties.name} subtitle = {"click to see answer"}
     actAsExpander={true}/>
     <Dialog
-          title="Add answer here"
+          title={"Add answer for "+this.state.question}
           actions={<FlatButton
         label="Cancel"
         primary={true}
@@ -102,37 +112,34 @@ addAnswer() {
       />}
           open={this.state.open}
           onRequestClose={this.handleClose}>
+
+
           <Form horizontal onSubmit = {this.addAnswer}>
-          <FormGroup  >
-            <Col componentClass={ControlLabel} sm={2}>
-              Label
-            </Col>
-            <Col sm={6}>
-              <FormControl type="text"  required onChange = {this.handleLabel}/>
-            </Col>
-          </FormGroup>
-               <FormGroup >
-                 <Col componentClass={ControlLabel} sm={2}>
-                   Name
-                 </Col>
-                 <Col sm={6}>
-                   <FormControl type="text"  required  onChange = {this.handleName}/>
-                 </Col>
-               </FormGroup>
-               <FormGroup >
-                 <Col componentClass={ControlLabel} sm={2}>
-                   Relation
-                 </Col>
-                 <Col sm={6}>
-                   <FormControl type="text" required onChange = {this.handleRelation}/>
-                 </Col>
-               </FormGroup>
-               <FormGroup>
-                 <Col smOffset={1} sm={10}>
-                   <FlatButton primary = {true} type = "submit"  label="Add Answer" />
-                 </Col>
-               </FormGroup>
-               </Form>
+                <FormGroup  >
+                  <Col componentClass={ControlLabel} sm={2}>
+                    Label
+                  </Col>
+                  <Col sm={6}>
+                  <FormControl type="text"  required onChange = {this.handleLabel}/>
+
+                  </Col>
+                </FormGroup>
+                     <FormGroup >
+                       <Col componentClass={ControlLabel} sm={2}>
+                        Answer
+                       </Col>
+                       <Col sm={6}>
+                         <FormControl type="text"  required  onChange = {this.handleName}/>
+                       </Col>
+                     </FormGroup>
+                     <FormGroup>
+                       <Col smOffset={1} sm={10}>
+                         <FlatButton primary = {true} type = "submit"  label="Add Answer" />
+                       </Col>
+                     </FormGroup>
+                     </Form>
+
+
         </Dialog>
   <CardText expandable={true}>
     {this.state.answers}
@@ -144,6 +151,7 @@ addAnswer() {
 </Card>
 </Col>
 </Row>
+
 </div>
 
     );

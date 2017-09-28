@@ -39,8 +39,8 @@ const tilesData = [
   },
   {
     img: '../../assets/images/Robotics.jpg',
-    title: "FeedBack",
-    comp: "feedback"
+    title: "Add Questions",
+    comp: "newquestions"
   }
 ]
 

@@ -14,10 +14,7 @@ const styles = {
   card  : {
     margin : "15px"
   },
-  floatbutton : {
-    padding : "5px",
-     float : "right"
-  }
+
 
 }
 
@@ -66,10 +63,13 @@ export default class AllQuestions extends React.Component
       <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
       <ArrowBack color = "white"/>
       </IconButton>
-      <FloatingActionButton mini={true} tooltip = "add new question" style={styles.floatbutton}>
-      <ContentAdd />
-      </FloatingActionButton>
       {this.state.allquestions}
+
+      <ul className = 'pager'>
+      <li className = "previous"><a>&larr;Previous</a></li>
+      <li className = "next"><a>Next&rarr;</a></li>
+      </ul>
+
       </div>
     );
   }

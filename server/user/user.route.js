@@ -5,6 +5,7 @@ let usersController = require('./user.controller.js');
 module.exports = function(passport) {
   router.get('/answer',function(req,res){
     try {
+      console.log("dsfsdf"+req.body.words)
       usersController.answer(req.body, function(result) {
         res.status(201).json({
           result: result

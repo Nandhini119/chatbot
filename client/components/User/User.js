@@ -63,12 +63,13 @@ sendMessage(message) {
     }
 splitSentence(message){
   let self = this;
-  let words = message.What.split(" ");
-  this.setState({wordarr: words});
+  let word = message.What.split(" ");
+  //this.setState({wordarr: word});
+  console.log(word);
   $.ajax({
     url : '/users/answer',
     type : 'GET',
-    data : {words: words},
+    data : {words: word},
     success : function(response) {
 
       console.log("response",response)

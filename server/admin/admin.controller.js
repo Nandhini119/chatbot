@@ -46,7 +46,7 @@ let controls = {
     console.log("in get all questions");
 
      /* building a cypher query */
-     let query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m);`;
+     let query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) limit 3;`;
      /* executing the cypher query */
      session.run(query).then(function(result) {
      console.log("query running");
@@ -57,13 +57,33 @@ let controls = {
 },
 answer : function(user, successCB, errorCB) {
   console.log("in  answer");
-  console.log("user",user)
-   /* building a cypher query */
-   let query = `create (n:text{name:"'+user.name+'"}) with n
-                match (m{name:"'+user.question+'"})
-                create (m)<-[r:"'user.relation'"]-(n) return n,m;`;
+  console.log("user",user);
+  var label;
+  let query = " ";
+  if(user.label == "blog"){
+    /* building a cypher query */
+    query = 'merge (n: blog {name:{name}}) with n\
+                 match (m:question {name:{question}})\
+                 merge (m)<-[r:answer_to]-(n) return n,m';
+  } else if (user.label == "video") {
+    /* building a cypher query */
+    query = 'merge (n: video {name:{name}}) with n\
+                 match (m:question {name:{question}})\
+                 merge (m)<-[r:answer_to]-(n) return n,m';
+  } else if (user.label == "text") {
+    /* building a cypher query */
+    query = 'merge (n: text {name:{name}}) with n\
+                 match (m:question {name:{question}})\
+                 merge (m)<-[r:answer_to]-(n) return n,m';
+  } else {
+    /* building a cypher query */
+    query = 'merge (n: blog {name:{name}}) with n\
+                 match (m:question {name:{question}})\
+                 merge (m)<-[r:answer_to]-(n) return n,m';
+  }
+
    /* executing the cypher query */
-   session.run(query).then(function(result) {
+   session.run(query,user).then(function(result) {
    console.log("query running");
    console.log(result);
 
@@ -71,6 +91,7 @@ answer : function(user, successCB, errorCB) {
    successCB(result);
    }).catch(function(err) {
      errorCB(err);
+
    });
 }
 

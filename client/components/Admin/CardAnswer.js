@@ -3,17 +3,31 @@ import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Ca
 
 
 export default class CardAnswer extends React.Component {
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      flag : false,
+    }
+  }
 
 componentWillMount() {
   console.log(this.props.answer);
+  if(this.props.answer.labels[0] == "blog" || this.props.answer.labels[0] == "video")
+  {
+    console.log()
+    this.setState({flag : true});
+  }
+
 }
 
   render() {
   return (
     <div>
-    if(true)
 
-    <h5>{this.props.answer.labels[0]} </h5>  {this.props.answer.properties.name}
+    <h5>{this.props.answer.labels[0]} </h5>
+    {this.state.flag ? <a href = {this.props.answer.properties.name} target="_blank">{this.props.answer.properties.name}</a> : <p>{this.props.answer.properties.name}</p>}
+
     </div>
 
   );

@@ -8,6 +8,7 @@ import UnAnsweredComp from './UnAnswered.js';
 import AllQuestionsComp from './AllQuestions.js';
 import AllUsersComp from './AllUsers.js';
 import Home from './Home.js';
+import NewQuestions from './newQuestions.js';
 
 const styles = {
   title : {
@@ -41,6 +42,8 @@ export default class Admin extends React.Component{
         return <AllQuestionsComp nullifyComponent = {this.nullifyComponent}/>;
       case "allusers" :
         return <AllUsersComp nullifyComponent = {this.nullifyComponent}/>;
+        case "newquestions" :
+          return <NewQuestions nullifyComponent = {this.nullifyComponent}/>;
       default :
         return <Home setComponent = {this.setComponent}/>
     }
