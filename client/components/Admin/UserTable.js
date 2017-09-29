@@ -33,7 +33,7 @@ export default class UserTable extends React.Component {
     let self = this;
     $.ajax({
       url : '/admin/status',
-      type : 'GET',
+      method : 'GET',
       data : {email : this.props.userdata.email},
       success :  function(response) {
         if(response[0].status == 'blocked')
@@ -57,7 +57,7 @@ handleBlock()
   let self = this;
   $.ajax({
     url : '/admin/block',
-    type : 'POST',
+    method : 'POST',
     data : {email : this.props.userdata.email},
     success :  function(response) {
       self.setState({button : false});
@@ -74,7 +74,7 @@ handleUnblock()
   let self = this;
   $.ajax({
     url : '/admin/unblock',
-    type : 'POST',
+    method : 'POST',
     data : {email : this.props.userdata.email},
     success :  function(response) {
       self.setState({button : true});

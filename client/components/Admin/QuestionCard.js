@@ -78,21 +78,21 @@ handleLabel(event) {
 
 addAnswer() {
   console.log(this.state.question);
-  $.ajax({
-    url : '/admin/answer',
-    type : 'POST',
-    data : {question : this.state.question,
-            label : this.state.label,
-            name : this.state.name,
-            },
-    success : function(response) {
-      console.log(response);
-
-    },
-    error : function(err) {
-      console.log("Error"+err);
-    }
-  })
+  // $.ajax({
+  //   url : '/admin/answer',
+  //   method : 'POST',
+  //   data : {question : this.state.question,
+  //           label : this.state.label,
+  //           name : this.state.name,
+  //           },
+  //   success : function(response) {
+  //     console.log(response);
+  //
+  //   },
+  //   error : function(err) {
+  //     console.log("Error"+err);
+  //   }
+  // })
 }
 
   render () {
@@ -114,14 +114,13 @@ addAnswer() {
           onRequestClose={this.handleClose}>
 
 
-          <Form horizontal onSubmit = {this.addAnswer}>
+            <Form horizontal onSubmit = {this.addAnswer}>
                 <FormGroup  >
                   <Col componentClass={ControlLabel} sm={2}>
-                    Label
+                    Label(blog or text or video)
                   </Col>
                   <Col sm={6}>
                   <FormControl type="text"  required onChange = {this.handleLabel}/>
-
                   </Col>
                 </FormGroup>
                      <FormGroup >

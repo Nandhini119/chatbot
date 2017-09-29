@@ -29,7 +29,7 @@ constructor(props){
     var userdata = " ";
     $.ajax({
             url: '/admin/users',
-            type: 'GET',
+            method: 'GET',
             data: { },
             success: function(response) {
               userdata = response.result.map((row, index) => {
