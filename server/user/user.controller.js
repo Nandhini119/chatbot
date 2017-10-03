@@ -9,42 +9,42 @@ let adminSignup = function(admin, successCB, errorCB) {
     newAdmin.email = admin.email;
     newAdmin.type = 'admin';
     newAdmin.save(function(err) {
-      if(err) {
-        errorCB(err);
-      }
-      successCB(newAdmin);
+        if (err) {
+            errorCB(err);
+        }
+        successCB(newAdmin);
     });
 }
 
-let answer = function(words,successCB,errorCB){
-  var wordarr = [];
-  console.log(words);
-  for(var key in words['words[]']) {
-    wordarr.push(words['words[]'][key]);
-  }
-  console.log("wordarr",wordarr[0]);
-  /* connecting to the db */
-  let session = driver.session();
+let answer = function(words, successCB, errorCB) {
+    var wordarr = [];
+    console.log(words);
+    for (var key in words['words[]']) {
+        wordarr.push(words['words[]'][key]);
+    }
+    console.log("wordarr", wordarr[0]);
+    /* connecting to the db */
+    let session = driver.session();
     /* building a cypher query */
     let query = `MATCH (N:intent) return N`;
     /* executing the cypher query */
     session.run(query).then(function(result) {
-      console.log("query running");
-      for(var key in JSON.stringify(result)){
-      //  console.log(result.records[key]._fields[0].properties.name);
-      }
+        console.log("query running");
+        for (var key in JSON.stringify(result)) {
+            //  console.log(result.records[key]._fields[0].properties.name);
+        }
 
-      /* making a connection close request */
-      session.close();
+        /* making a connection close request */
+        session.close();
 
-      successCB("hi");
+        successCB("hi");
 
     }).catch(function(err) {
-      errorCB(err);
+        errorCB(err);
     });
 }
 module.exports = {
-  adminSignup,
-  answer,
+    adminSignup,
+    answer,
 
 }
