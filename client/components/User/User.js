@@ -34,7 +34,7 @@ export default class User extends React.Component{
         logout:false
                 };
     this.sendMessage = this.sendMessage.bind(this);
-    this.splitSentence = this.splitSentence.bind(this);
+    this.getAnswer = this.getAnswer.bind(this);
     this.handlePopover = this.handlePopover.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.logout = this.logout.bind(this);
@@ -59,17 +59,15 @@ sendMessage(message) {
     let msgs = this.state.msgs;
     msgs.push(message);
     this.setState({msgs: msgs});
-    this.splitSentence(message);
+    this.getAnswer(message);
     }
-splitSentence(message){
+getAnswer(message){
   let self = this;
-  let word = message.What.split(" ");
-  //this.setState({wordarr: word});
-  console.log(word);
+  console.log("message",message.What);
   $.ajax({
     url : '/users/answer',
     type : 'GET',
-    data : {words: word},
+    data : {words: message.What},
     success : function(response) {
 
       console.log("response",response)

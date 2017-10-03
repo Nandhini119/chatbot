@@ -1,3 +1,4 @@
+let stopWord = require('stopword');
 let UserModel = require('./user.model.js');
 let driver = require('../config/neo4j.js');
 
@@ -17,27 +18,24 @@ let adminSignup = function(admin, successCB, errorCB) {
 }
 
 let answer = function(words, successCB, errorCB) {
-    var wordarr = [];
-    console.log(words);
-    for (var key in words['words[]']) {
-        wordarr.push(words['words[]'][key]);
-    }
-    console.log("wordarr", wordarr[0]);
+    let query = " ";
+    console.log("hi get answer");
+    let question = words.words.split(' ');
+    let keyword = stopWord.removeStopwords(question);
+    let params = {
+                        "keywords" : keyword,
+                        "intent" : ['definition_question_for','definition','define','what','example','demo','example_question_for']
+                      }
     /* connecting to the db */
     let session = driver.session();
     /* building a cypher query */
-    let query = `MATCH (N:intent) return N`;
+    query = ``;
     /* executing the cypher query */
-    session.run(query).then(function(result) {
-        console.log("query running");
-        for (var key in JSON.stringify(result)) {
-            //  console.log(result.records[key]._fields[0].properties.name);
-        }
-
+    session.run(query,params).then(function(result) {
         /* making a connection close request */
         session.close();
 
-        successCB("hi");
+        successCB(result);
 
     }).catch(function(err) {
         errorCB(err);
