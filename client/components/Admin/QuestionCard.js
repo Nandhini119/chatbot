@@ -92,6 +92,7 @@ export default class QuestionCard extends React.Component {
 
         addAnswer() {
             console.log(this.state.question);
+            let self = this;
             $.ajax({
                 url: '/admin/answer',
                 method: 'POST',
@@ -101,7 +102,8 @@ export default class QuestionCard extends React.Component {
                     name: this.state.name,
                 },
                 success: function(response) {
-                    console.log(response);
+                    alert("successfully answer added");
+                    self.setState({open: false});
 
                 },
                 error: function(err) {

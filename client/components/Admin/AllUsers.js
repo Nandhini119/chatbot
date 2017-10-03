@@ -38,9 +38,8 @@ export default class AllUsers extends React.Component {
                         success: function(response) {
                             userdata = response.result.map((row, index) => {
                                         return ( < UserTable userdata = {row} key = {index} id = {index}/>);
-                                        }) self.setState({
-                                        allusers: userdata
-                                    });
+                                        });
+                                        self.setState({allusers: userdata});
                                 },
                                 error: function(err) {
                                     console.log(err)
