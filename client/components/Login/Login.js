@@ -119,7 +119,7 @@ class Login extends Component {
           <Row center="xs" end = "sm">
             <Col xs={11} sm={5}>
               <Paper style={styles.paperstyle} zDepth={3} >
-                <h3>Login Here!!</h3>
+                <h4>Login Here!!</h4>
                 <TextField
                   hintText="Username"
                   value={this.state.username}

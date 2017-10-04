@@ -19,25 +19,44 @@ let adminSignup = function(admin, successCB, errorCB) {
 
 let answer = function(words, successCB, errorCB) {
     let query = " ";
+    let intent = " ";
     console.log("hi get answer");
     let question = words.words.split(' ');
+    let intentOne = ["definition_question_for","what","define","definition"];
+    let intentTwo = ["example_question_for","demo","example"];
+    for(var i = 0;i<question.length;i++)
+    {
+      if(intentOne.includes(question[i].toLowerCase())) {
+        intent = "definition_question_for";
+        break;
+      }
+      else if(intentTwo.includes(question[i].toLowerCase())) {
+        intent = "example_question_for";
+        break;
+      }
+      else {
+        intent = "definition_question_for";
+        break;
+      }
+    }
     let keyword = stopWord.removeStopwords(question);
     let params = {
                         "keywords" : keyword,
-                        "intent" : ['definition_question_for','definition','define','what','example','demo','example_question_for']
-                      }
+                        "intent" : intent
+                  }
     /* connecting to the db */
     let session = driver.session();
     /* building a cypher query */
-    query = ``;
+    query = `match (n:domain{name:"react"})<-[:concept_of]-(m:concept)<-[:${params.intent}]-(p)<-[:answer_to]-(o) where m.name in ["${params.keywords}"] return collect(o);`;
     /* executing the cypher query */
-    session.run(query,params).then(function(result) {
+    session.run(query).then(function(result) {
         /* making a connection close request */
         session.close();
-
+        console.log(JSON.stringify(result));
         successCB(result);
 
     }).catch(function(err) {
+      console.log(err);
         errorCB(err);
     });
 }

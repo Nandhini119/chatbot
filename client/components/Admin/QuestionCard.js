@@ -113,7 +113,7 @@ export default class QuestionCard extends React.Component {
         }
 
         render() {
-          return ( 
+          return (
           <div >
             <Row center = 'xs' >
               <Col xs = {11} >
@@ -130,40 +130,40 @@ export default class QuestionCard extends React.Component {
                       <Form horizontal onSubmit = {this.addAnswer} >
                         <FormGroup controlId = "formControlsSelect" >
                           <Col componentClass = {ControlLabel} smOffset = {1} sm = {2} >
-                            Answer type 
+                            Answer type
                           </Col>
                           <Col sm = {6} >
                             <FormControl componentClass = "select" onChange = {this.handleLabel} placeholder = "select" >
-                              <option value = "text" > -- -- - < /option> 
-                              <option value = "text" > text < /option> 
-                              <option value = "video" > video < /option> 
-                              <option value = "blog" > blog < /option> 
-                            < /FormControl > 
+                              <option value = "text" > -- -- - < /option>
+                              <option value = "text" > text < /option>
+                              <option value = "video" > video < /option>
+                              <option value = "blog" > blog < /option>
+                            < /FormControl >
                           </Col>
-                        < /FormGroup > 
+                        < /FormGroup >
                         <FormGroup >
                           <Col componentClass = {ControlLabel} smOffset = {1} sm = {2} >
-                            Answer 
+                            Answer
                           </Col>
                           <Col sm = {6} >
-                            <FormControl type = "text" required onChange = {this.handleName}/> 
+                            <FormControl type = "text" required onChange = {this.handleName}/>
                           < /Col >
-                        </FormGroup> 
+                        </FormGroup>
                         <FormGroup >
                           <Col smOffset = {1} sm = {10} >
                             <FlatButton primary = {true} type = "submit" label = "Add Answer" / >
-                          </Col> 
-                        < /FormGroup > 
+                          </Col>
+                        < /FormGroup >
                       </Form>
-                    </Dialog> 
+                    </Dialog>
                   <CardText expandable = {true} >
-                    {this.state.answers} 
-                  </CardText> 
+                    {this.state.answers}
+                  </CardText>
                   <CardActions >
-                    <FlatButton secondary = {true} label = "Add answer" onClick = {this.handleOpen}/> 
+                    <FlatButton secondary = {true} label = "Add answer" onClick = {this.handleOpen}/>
                   < /CardActions >
-                </Card> 
-              < /Col > 
+                </Card>
+              < /Col >
             </Row>
           </div>);
 

@@ -63,14 +63,19 @@ sendMessage(message) {
     }
 getAnswer(message){
   let self = this;
+  let msgs = this.state.msgs;
   console.log("message",message.What);
   $.ajax({
     url : '/users/answer',
     type : 'GET',
     data : {words: message.What},
     success : function(response) {
-
       console.log("response",response)
+      msgs.push({  Who: "Bot",
+                   What: JSON.stringify(response.result.records[0]),
+                   When: new Date()});
+      self.setState({msgs: msgs});
+      return (<ChatHistory history={ this.state.msgs } />)
 
     },
     error : function(err) {

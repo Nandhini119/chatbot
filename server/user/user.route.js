@@ -16,7 +16,7 @@ module.exports = function(passport) {
                 });
             });
         } catch (e) {
-            console.log('error in signup success route: ', e)
+            console.log('error in getting answer route: ', e)
             res.status(500).json({
                 error: "internal server error"
             });
