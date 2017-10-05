@@ -72,7 +72,7 @@ getAnswer(message){
     success : function(response) {
       console.log("response",response)
       msgs.push({  Who: "Bot",
-                   What: JSON.stringify(response.result.records[0]),
+                   What: "response",
                    When: new Date()});
       self.setState({msgs: msgs});
       return (<ChatHistory history={ this.state.msgs } />)

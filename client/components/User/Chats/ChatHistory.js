@@ -2,7 +2,8 @@ import * as React from 'react';
 import {Avatar} from 'material-ui';
 import * as ReactDOM from 'react-dom';
 import IconButton from 'material-ui/IconButton';
-import Bookmark from 'material-ui/svg-icons/action/bookmark';
+import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
+import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import './ChatHistory.css';
 
 const style1 = {
@@ -39,8 +40,8 @@ class ChatHistory extends React.Component {
                     <i className="prefix mdi-action-alarm" /> {messageTime}
                   </span>&nbsp; &nbsp;
                   <span className="bookalaign">
-                    <a href="#" className="bookmark">
-                       <Bookmark  style={style1.title}/>
+                    <a className="bookmark">
+                       <BookmarkBorder  style={style1.title}/>
                     </a>
                   </span>
                 </li>
