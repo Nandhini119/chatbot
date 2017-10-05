@@ -21,12 +21,10 @@ class ChatInput extends React.Component {
       return;
     }
 
-    const uid = "Vanitha";
-
     // Build a message object and send it
     const messageObj = {
       // Who: this.props.userID,
-      Who: uid,
+      Who: localStorage.getItem('username'),
       What: message,
       When: new Date(),
     };

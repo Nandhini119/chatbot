@@ -139,8 +139,10 @@ render() {
                     <option value="definition_question_for">-----</option>
                     <option value="definition_question_for">definition_question_for</option>
                     <option value="example_question_for">example_question_for</option>
+                    <option value="difference_question_for">difference_question_for</option>
+                    <option value="reason_question_for">reason_question_for</option>
                   </FormControl>
-                </Col>      
+                </Col>
               </FormGroup>
               <FormGroup controlId="formControlsSelect">
                 <Col componentClass={ControlLabel} smOffset={1} sm={2}>
@@ -153,7 +155,7 @@ render() {
                     <option value="video">video</option>
                     <option value="blog">blog</option>
                   </FormControl>
-                </Col>      
+                </Col>
               </FormGroup>
               <FormGroup>
                 <Col smOffset={1} sm={10}>

@@ -75,7 +75,7 @@ getAnswer(message){
                    What: "response",
                    When: new Date()});
       self.setState({msgs: msgs});
-      return (<ChatHistory history={ this.state.msgs } />)
+      return (<ChatHistory history={ self.state.msgs } />)
 
     },
     error : function(err) {
