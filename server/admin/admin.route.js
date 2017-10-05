@@ -18,7 +18,7 @@ router.get('/users', adminControl.allUsers);
 router.get('/status', adminControl.checkstatus);
 router.post('/block', adminControl.blockUsers);
 router.post('/unblock', adminControl.unblockUsers);
-router.get('/questions', function(req, res) {
+router.get('/questions',  function(req, res) {
     try {
         adminControl.questions(req.query, function(result, items) {
             res.status(201).json({

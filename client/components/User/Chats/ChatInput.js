@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
+import superagent from 'superagent';
 import './ChatInput.css';
 
 class ChatInput extends React.Component {
@@ -21,12 +21,12 @@ class ChatInput extends React.Component {
       return;
     }
 
-    const uid = "Vanitha";
+
 
     // Build a message object and send it
     const messageObj = {
       // Who: this.props.userID,
-      Who: uid,
+      Who: localStorage.getItem('username'),
       What: message,
       When: new Date(),
     };
@@ -40,7 +40,11 @@ class ChatInput extends React.Component {
 
   render() {
     const { props, onSubmit } = this;
+    superagent
+    .post('/users/chathistory')
+    .send({
 
+    });
     return (
       <footer>
         <form className="container" onSubmit={ onSubmit }>

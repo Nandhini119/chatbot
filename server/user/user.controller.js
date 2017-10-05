@@ -1,5 +1,6 @@
 let stopWord = require('stopword');
 let UserModel = require('./user.model.js');
+let ChatHistory = require('./userChatHistory.modal.js');
 let driver = require('../config/neo4j.js');
 
 
@@ -17,6 +18,14 @@ let adminSignup = function(admin, successCB, errorCB) {
     });
 }
 
+let chathistory = function(words, successCB, errorCB) {
+ChatHistory.save(function(err) {
+    if (err) {
+        errorCB(err);
+    }
+    successCB(ChatHistory);
+});
+}
 let answer = function(words, successCB, errorCB) {
     let query = " ";
     let intent = " ";

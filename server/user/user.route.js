@@ -24,6 +24,27 @@ module.exports = function(passport) {
 
     });
 
+    /* chathistory router */
+    router.post('/chathistory', function(req, res) {
+      try {
+        usersController.chathistory(req.query, function(result) {
+            res.status(201).json({
+                result: result
+            });
+        }, function(error) {
+            res.status(500).json({
+                error: error
+            });
+        });
+
+      } catch (e) {
+          console.log('error in chathistory route: ', e)
+          res.status(500).json({
+              error: "internal server error"
+          });
+      }
+    });
+
     /* login action */
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {
@@ -43,6 +64,7 @@ module.exports = function(passport) {
     /* user signup action */
     router.post('/signup', function(req, res, next) {
         passport.authenticate('signup', function(err, newUser, info) {
+          console.log("inside signup route");
             if (err) return res.status(500).json({
                 status: 'signup failed'
             });
