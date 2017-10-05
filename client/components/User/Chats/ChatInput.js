@@ -1,4 +1,6 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom';
+
 import './ChatInput.css';
 
 class ChatInput extends React.Component {
@@ -18,9 +20,10 @@ class ChatInput extends React.Component {
     if (message.length === 0) {
       return;
     }
-    // Build a message object and send it
+
     const uid = "Vanitha";
-    //const dat = new Date().getTime();
+
+    // Build a message object and send it
     const messageObj = {
       // Who: this.props.userID,
       Who: uid,
@@ -48,7 +51,7 @@ class ChatInput extends React.Component {
                 type="text"
                 placeholder="Type your message"
                 value={this.state.userQuery}
-                onChange={(e) => this.setState({userQuery: e.target.value})}
+                onChange={(e) => this.setState({ userQuery: e.target.value })}
                 />
             </div>
             <div className="input-field col s2">

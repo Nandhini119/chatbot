@@ -16,6 +16,7 @@
     "jquery": "^3.2.1",
     "material-ui": "^0.19.1",
     "mongoose": "^4.11.11",
+    "neo4j-driver": "^1.4.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
@@ -25,6 +26,7 @@
     "react-flexbox-grid": "^1.1.5",
     "react-router-dom": "^4.2.2",
     "react-tap-event-plugin": "^2.0.1",
+    "stopword": "^0.1.8",
     "superagent": "^3.6.0"
   },
   "devDependencies": {

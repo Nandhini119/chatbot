@@ -1,128 +1,132 @@
 import React from 'react';
-import {IconButton} from 'material-ui';
+import {
+    IconButton
+} from 'material-ui';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import {
+    Card,
+    CardActions,
+    CardHeader,
+    CardText,
+    CardTitle
+} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import {Row, Col} from 'react-flexbox-grid';
-import {Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {
+    Row,
+    Col
+} from 'react-flexbox-grid';
+import {
+    Form,
+    FormGroup,
+    FormControl,
+    ControlLabel,
+    Pagination
+} from 'react-bootstrap';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import QuestionCard from './QuestionCard.js';
+import './Admin.css';
+import $ from 'jquery';
 
-const Questions = [
-  {
-    question: "what is react??",
-    answer : "sfefeafgererfdgrsgfdvrwtgfdweadsc"
-  },
-  {
-    question: "what is props?",
-    answer : "sfefaersdfolikmjkhngbvfsdazmj"
-  },
-  {
-    question: "what is state?",
-    answer : "sfefppoiuytrewadfghjkl;,mnbvcx"
 
-  },
-  {
-    question: "what are lifecycle methods?",
-    answer : "sfepliojuyhnvtgbjmsyrudt ugjif"
-  },
-  {
-    question: "what are lifecycle methods?",
-    answer : "sfefvr7eioiooooooooooZ$RikoikZAWEiko"
-  },
-  {
-    question: "what are lifecycle methods?",
-    answer : "sfefsezr oik0restrkuortesa"
-  },
-  {
-    question: "what are lifecycle methods?",
-    answer : "sfefrvf4eiowaaaaaaaaaaaaaaaaaaaaa"
-  },
-  {
-    question: "what are lifecycle methods?",
-    answer : "sfeferjyyerkoaswkke"
-  }
-]
 const styles = {
-  card  : {
-    margin : "15px"
-  },
-  floatbutton : {
-     marginRight: 20,
-     float : "right"
-  }
+    card: {
+        margin: "15px"
+    },
+
 
 }
 
-export default class AllQuestions extends React.Component
-{
-  constructor(props){
-    super(props);
-    this.viewAnswer = this.viewAnswer.bind(this);
-  }
-  viewAnswer(){
-    alert("view answer");
-  }
+export default class AllQuestions extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Questions: [],
+            Answers: [],
+            allquestions: "",
+            activePage: 1,
+            items: 0,
+            end  :false,
 
-  render(){
-    return(
-      <div className = "container-fluid ">
-
-      <div>
-      <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-      <ArrowBack color = "white"/>
-      </IconButton>
-      <FloatingActionButton mini={true} tooltip = "add new question" style={styles.floatbutton}>
-      <ContentAdd />
-      </FloatingActionButton>
-      <Row center='xs'>
-    {Questions.map((ques)=>(
-      <Col xs = {10} sm = {6} lg = {4}>
-    <Card style={styles.card}>
-    <CardTitle title={ques.question} subtitle = {"click to see answer"}
-    actAsExpander={true}
-    />
-  <CardText expandable={true}>
-    {ques.answer}
-  <CardHeader>
+        }
+        this.handlePagination = this.handlePagination.bind(this);
 
 
-    <Form horizontal onSubmit = {this.viewAnswer}>
-       <FormGroup controlId="formHorizontalEmail">
-         <Col componentClass={ControlLabel} sm={2}>
-           Answer
-         </Col>
-         <Col sm={6}>
-           <FormControl type="text"  required/>
-         </Col>
-       </FormGroup>
+    }
 
-       <FormGroup controlId="formHorizontalPassword">
-         <Col componentClass={ControlLabel} sm={2}>
-           Relation
-         </Col>
-         <Col sm={6}>
-           <FormControl type="text" required/>
-         </Col>
-       </FormGroup>
-       <FormGroup>
-         <Col smOffset={1} sm={10}>
-           <FlatButton primary = {true} type = "submit"  label="update Answer" />
-         </Col>
-       </FormGroup>
-       </Form></CardHeader>
-  </CardText>
-  <CardActions>
-    <FlatButton secondary = {true} label="Discard" />
-  </CardActions>
-</Card>
-</Col>
+    componentWillMount() {
+        var allQuestions = "";
+        let self = this;
+        $.ajax({
+            url: '/admin/questions',
+            method: 'GET',
+            data: {
+                skip: 0
+            },
+            success: function(response) {
+                self.setState({
+                    items: response.items / 2
+                })
+                allQuestions = response.result.records.map((row, index) => {
+                    return <QuestionCard question = {row} key = {index} id = {index}/>
+                })
+                self.setState({
+                    allquestions: allQuestions
+                });
 
-))}
-</Row>
-      </div>
+            },
+            error: function(err) {
+                console.log("Error", err);
+            }
+        })
 
-      </div>
-    );
-  }
+    }
+    handlePagination(eventKey) {
+        this.setState({
+            activePage: eventKey
+        });
+        var allQuestions = "";
+        let self = this;
+        $.ajax({
+            url: '/admin/questions',
+            method: 'GET',
+            data: {
+                skip: eventKey
+            },
+            success: function(response) {
+                if(response.result.records.length > 0) {
+                  self.setState({end : false});
+                allQuestions = response.result.records.map((row, index) => {
+                    return <QuestionCard question = {row} key = {index + eventKey} id = {index}/>
+                })
+                self.setState({
+                    allquestions: allQuestions
+                });
+              } else {
+                self.setState({end : true});
+              }
+
+            },
+            error: function(err) {
+                console.log("Error", err);
+            }
+        })
+    }
+
+    render() {
+        return (
+          <div className = "container-fluid background" >
+            <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
+              <ArrowBack color = "white" / >
+            </IconButton>
+            {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+            <Row center = 'xs' >
+              <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
+                  items = {10} maxButtons = {3}
+                  activePage = {this.state.activePage}
+                  onSelect = {this.handlePagination}/>
+            </Row>
+          </div>
+        );
+    }
 }

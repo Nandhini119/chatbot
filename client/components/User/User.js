@@ -34,7 +34,7 @@ export default class User extends React.Component{
         logout:false
                 };
     this.sendMessage = this.sendMessage.bind(this);
-    this.splitSentence = this.splitSentence.bind(this);
+    this.getAnswer = this.getAnswer.bind(this);
     this.handlePopover = this.handlePopover.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.logout = this.logout.bind(this);
@@ -51,6 +51,7 @@ handleRequestClose()
 {
   this.setState({open:false});
 }
+
 /*following two function takes the message typed by the user in text box, split into words and send to server*/
 sendMessage(message) {
     // for now this will let us know things work.  `console` will give us a
@@ -58,18 +59,24 @@ sendMessage(message) {
     let msgs = this.state.msgs;
     msgs.push(message);
     this.setState({msgs: msgs});
-    this.splitSentence(message);
+    this.getAnswer(message);
     }
-splitSentence(message){
+getAnswer(message){
   let self = this;
-  let words = message.What.split(" ");
-  this.setState({wordarr: words});
+  let msgs = this.state.msgs;
+  console.log("message",message.What);
   $.ajax({
-    url : '/users/question',
-    type : 'POST',
-    data : {words: words},
+    url : '/users/answer',
+    type : 'GET',
+    data : {words: message.What},
     success : function(response) {
       console.log("response",response)
+      msgs.push({  Who: "Bot",
+                   What: "response",
+                   When: new Date()});
+      self.setState({msgs: msgs});
+      return (<ChatHistory history={ this.state.msgs } />)
+
     },
     error : function(err) {
       console.log(err);
@@ -99,26 +106,26 @@ logout() {
   render()
   {
     return(
-      <div className = "backgroundimage">
+      <div >
           <div>
             <nav className="navbar navbar-inverse appbar" >
               <div className="container-fluid">
-                      <div className="navbar-header">
+                      <div className="navbar-header" >
                         <button type="button" className="navbar-toggle"
                           data-toggle="collapse" data-target="#myNavbar">
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand">
-                          <span>
+                        <a className="navbar-brand" style = {styles.title}>
+                          <span >
                             <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-                          </span>Quora</a>
+                          </span> Quora</a>
                       </div>
                 <div className="collapse navbar-collapse" id="myNavbar">
                   <ul className="nav navbar-nav navbar-right">
                     <li><a  className="bookmark title"><Bookmark  /></a></li>
-                    <li onClick={this.handlePopover}><a><span><Avatar  color = "white"
+                    <li onClick={this.handlePopover}><a style = {styles.title}><span><Avatar  color = "white"
                       size = {30} backgroundColor = "purple" >U</Avatar>
                       </span> User</a></li>
                       <Popover
@@ -133,7 +140,6 @@ logout() {
                                 <Badge badgeContent={10}
                                   badgeStyle={{top: 20, right: 0,left:30}}/>
                               </MenuItem>
-                              <MenuItem primaryText="Delete Account" />
                               <MenuItem primaryText="Logout"
                               onClick={this.logout} />
                             </Menu>

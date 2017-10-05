@@ -4,8 +4,8 @@ footer {
   padding: 0;
   bottom: 0;
   left: 0;
-  width: 100%;
-  border: 1px solid #fff;
+  height: 15vh;
+  width: 97%;
 }
 footer .input-field input,
 button {

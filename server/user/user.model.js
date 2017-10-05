@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
- let Schema = new mongoose.Schema({
+let Schema = new mongoose.Schema({
     username: String,
-    email:{
+    email: {
         type: String,
         unique: true
     },
