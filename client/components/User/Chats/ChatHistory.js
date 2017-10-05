@@ -26,7 +26,6 @@ class ChatHistory extends React.Component {
             )
           })
         }
-
       </ul>
 
     );

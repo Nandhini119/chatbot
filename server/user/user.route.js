@@ -40,9 +40,8 @@ module.exports = function(passport) {
       if(err) return res.status(500).json({status: 'signup failed'});
       else if(newUser) return res.status(200).json({status:'signup success'});
       else return res.status(500).json({status:'username already exsist'});
-    })
-  }
-  );
+    })(req)
+  });
 
   router.post('/adminsignup', function(req, res) {
     console.log('POST /users/adminsignup');
