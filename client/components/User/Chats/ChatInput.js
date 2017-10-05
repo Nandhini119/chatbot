@@ -21,8 +21,6 @@ class ChatInput extends React.Component {
       return;
     }
 
-
-
     // Build a message object and send it
     const messageObj = {
       // Who: this.props.userID,
