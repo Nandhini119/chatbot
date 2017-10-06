@@ -27,11 +27,14 @@ module.exports = function(passport) {
     /* chathistory router */
     router.post('/chathistory', function(req, res) {
       try {
-        usersController.chathistory(req.query, function(result) {
+        console.log("inside chathistory route ", req.body);
+        usersController.chathistory(req.body, function(result) {
+          console.log('success')
             res.status(201).json({
                 result: result
             });
         }, function(error) {
+          console.log("err")
             res.status(500).json({
                 error: error
             });

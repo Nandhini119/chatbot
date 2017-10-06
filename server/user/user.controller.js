@@ -1,6 +1,6 @@
 let stopWord = require('stopword');
 let UserModel = require('./user.model.js');
-let ChatHistory = require('./userChatHistory.modal.js');
+let ChatHistory = require('./userChatHistory.model.js');
 let driver = require('../config/neo4j.js');
 
 
@@ -18,12 +18,13 @@ let adminSignup = function(admin, successCB, errorCB) {
     });
 }
 
-let chathistory = function(words, successCB, errorCB) {
-ChatHistory.update(function(err) {
+let chathistory = function(history, successCB, errorCB) {
+ChatHistory.findOneAndUpdate({username:history.username},{$push: {messages: history.messages[0]}}, {upsert: true},function(err) {
     if (err) {
+        console.log('err: ', err)
         errorCB(err);
     }
-    successCB(ChatHistory);
+    successCB("successfully saved");
 });
 }
 let answer = function(words, successCB, errorCB) {
@@ -91,5 +92,5 @@ let answer = function(words, successCB, errorCB) {
 module.exports = {
     adminSignup,
     answer,
-
+    chathistory,
 }

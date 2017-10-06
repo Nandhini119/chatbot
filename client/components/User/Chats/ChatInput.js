@@ -10,9 +10,11 @@ class ChatInput extends React.Component {
       userQuery: ''
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.pushHistory = this.pushHistory.bind(this);
   }
 
   onSubmit(e) {
+
     e.preventDefault();
 
     // Check if the message is empty
@@ -21,28 +23,44 @@ class ChatInput extends React.Component {
       return;
     }
 
-    // Build a message object and send it
-    const messageObj = {
+    let when = new Date();
+
+    this.props.sendMessage({
       // Who: this.props.userID,
       Who: localStorage.getItem('username'),
       What: message,
-      When: new Date(),
-    };
+      When: when
+    });
 
-    this.props.sendMessage(messageObj);
+    this.pushHistory({
+      username: localStorage.getItem('username'),
+      messages: [{
+        type: 'question',
+        value: message,
+        timestamp: when.getTime()
+      }]
+    });
 
     this.setState({
       userQuery: ''
     });
-  };
+  }
 
+pushHistory(history){
+   superagent
+   .post('/users/chathistory')
+   .send(history)
+   .end(function(err, res) {
+       if (err) {
+           console.log('error: ', err)
+       }
+       else{
+         console.log("succesfully saved");
+       }
+    });
+}
   render() {
     const { props, onSubmit } = this;
-    superagent
-    .post('/users/chathistory')
-    .send({
-
-    });
     return (
       <footer>
         <form className="container" onSubmit={ onSubmit }>
