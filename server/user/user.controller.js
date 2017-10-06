@@ -24,11 +24,10 @@ let answer = function(words, successCB, errorCB) {
     let intentArray = [];
     let intent = " ";
     let relation = " ";
+    let resultobj = [];
     let question = words.words.split(' ');
     /* connecting to the db */
     let session = driver.session();
-    let session2 = driver.session();
-    let session3 = driver.session();
     /* building a cypher query */
     query2 = ` match (n:intent) return {intents : collect(n.name)};`;
     /* executing the cypher query */
@@ -44,13 +43,14 @@ let answer = function(words, successCB, errorCB) {
           }
         }
         /**closing session for first query*/
-        session.close();
+        //session.close();
         let keyword = stopWord.removeStopwords(question);
+        console.log("inent",intent)
         /* building a cypher query */
         query = `MATCH (intent:intent {name: "${intent}"}) WITH intent AS c\
                MATCH (c) -[:same_as]->(q) with q.name as d return d`;
                /* executing the cypher query */
-               session2.run(query).then(function(result) {
+               session.run(query).then(function(result) {
                  relation = result.records[0]._fields[0];
                  let params = {
                                "keywords" : keyword,
@@ -58,19 +58,33 @@ let answer = function(words, successCB, errorCB) {
                              }
                              console.log("keyword", params.keywords);
                  /*closing session for second query*/
-                 session2.close();
+                // session2.close();
                  /* building a cypher query */
                  query3 = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\
-                          match (o:question)-[:${params.intent}]->(m)\
-                          match (q)-[:answer_to]->(o) return collect(q),o;`;
+                           match (o:question)-[rel:${params.intent}]->(m)\
+                          match (q)-[:answer_to]->(o) return collect(distinct q) ,o,count(rel) order by count(rel) desc;`;
                  /* executing the cypher query */
-                 session3.run(query3,params).then(function(result) {
-                   console.log(JSON.stringify(result.records[0]));
+                 session.run(query3,params).then(function(result) {
+
+                    // console.log("map",result.records[index]);
+                     result.records[0]._fields[0].map((data2,index2)=> {
+                       //console.log("label",result.records[index]._fields[0][index2].labels[0],"ans",result.records[index]._fields[0][index2].properties.name);
+                       let label = result.records[0]._fields[0][index2].labels[0];
+                         resultobj.push(
+                           {label :  result.records[0]._fields[0][index2].labels[0],
+                            value :  result.records[0]._fields[0][index2].properties.name }
+                         )
+
+                     })
+
+                   console.log(resultobj);
                    /*closing session for third query*/
-                   session3.close();
+                   //session3.close();
+                   successCB(resultobj);
               }).catch(function(err) {
                 console.log(err);
+                errorCB(err);
               });/*end of third query*/
          }).catch(function(err) {
            console.log(err);

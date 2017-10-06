@@ -70,10 +70,50 @@ getAnswer(message){
     type : 'GET',
     data : {words: message.What},
     success : function(response) {
-      console.log("response",response)
-      msgs.push({  Who: "Bot",
-                   What: "response",
-                   When: new Date()});
+      console.log(response);
+      response.result.map(function(item, index) {
+        switch(item.label) {
+          case 'text':
+          {
+            msgs.push({
+              Who : "Bot",
+              What : item.value,
+              When : new Date(),
+              label : "text"
+            });
+            break;
+          }
+          case 'blog':
+          {
+          msgs.push({
+            Who : "Bot",
+            What : item.value,
+            When : new Date(),
+            label : "blog"
+          });
+          break;
+        }
+          case 'video':
+          {
+          msgs.push({
+            Who : "Bot",
+            What :item.value,
+            When : new Date(),
+            label : "video"
+          });
+          break;
+        }
+          default:
+          {
+          msgs.push({
+            Who : "Bot",
+            What : "item.value",
+            When : new Date()
+          });
+          break;
+        }
+        }
+      })
       self.setState({msgs: msgs});
       return (<ChatHistory history={ self.state.msgs } />)
 

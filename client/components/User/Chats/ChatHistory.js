@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import IconButton from 'material-ui/IconButton';
 import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
+import Embedly from 'react-embedly';
 import './ChatHistory.css';
 
 const style1 = {
@@ -20,7 +21,13 @@ class ChatHistory extends React.Component {
     const maxScrollTop = scrollHeight - height;
     ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   }
-
+constructor()
+{
+  super();
+  this.state = {
+    flag : false,
+  }
+}
   render() {
     console.log('history rendered: ', this.props.history)
     const { props } = this;
@@ -33,13 +40,20 @@ class ChatHistory extends React.Component {
               const messageDate = messageObj.When.toLocaleDateString();
               return (
                 <li className="msgalign" key={index}>
-                  <div className="textalign">{messageObj.What}
+                <div className="titlealign">
+                {messageObj.Who}
+                </div><br/>
+                  <div className="textalign">
+                  {messageObj.label == 'video'  || messageObj.label == 'blog'?<div> <a href = {messageObj.What} target="_blank">{messageObj.What}</a>
+                                      <Embedly url={messageObj.What} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
+                                     <p>{messageObj.What}</p>}
+
                   </div> <br/>
                   <span className = "timealign">
                     {messageDate} &nbsp; &nbsp;
                     <i className="prefix mdi-action-alarm" /> {messageTime}
-                  </span>&nbsp; &nbsp;
-                  <span className="bookalaign">
+                    </span>&nbsp; &nbsp;
+                    <span className="bookalaign">
                     <a className="bookmark">
                        <BookmarkBorder  style={style1.title}/>
                     </a>
@@ -50,7 +64,6 @@ class ChatHistory extends React.Component {
           }
 
         </ul>
-
      </div>
 
     );

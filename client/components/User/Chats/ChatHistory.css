@@ -21,7 +21,9 @@
   padding: 5px;
   overflow: auto;
 }
-
+.titlealign {
+  font-weight : bold;
+}
 .textalign {
   line-height: 150%;
   position: relative;
