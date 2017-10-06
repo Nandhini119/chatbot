@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import IconButton from 'material-ui/IconButton';
 import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
+import { Row, Col } from 'react-flexbox-grid';
 import './ChatHistory.css';
 
 const style1 = {
@@ -32,7 +33,8 @@ class ChatHistory extends React.Component {
               const messageTime = messageObj.When.toLocaleTimeString();
               const messageDate = messageObj.When.toLocaleDateString();
               return (
-                <li className="msgalign" key={index}>
+                <Row>
+                 <Col xsOffset={5} xs={7}> <li className="msgalign" key={index}>
                   <div className="textalign">{messageObj.What}
                   </div> <br/>
                   <span className = "timealign">
@@ -45,6 +47,8 @@ class ChatHistory extends React.Component {
                     </a>
                   </span>
                 </li>
+                </Col>
+                </Row>
               )
             })
           }

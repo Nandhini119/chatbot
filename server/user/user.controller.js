@@ -27,6 +27,17 @@ ChatHistory.findOneAndUpdate({username:history.username},{$push: {messages: hist
     successCB("successfully saved");
 });
 }
+
+let getchathistory = function(username, successCB, errorCB) {
+  ChatHistory.findOne({username:username},function(err, data) {
+    if(err) {
+      console.log('err:', err)
+      errorCB(err);
+    }
+    successCB(data);
+  });
+}
+
 let answer = function(words, successCB, errorCB) {
     let query = " ";
     let query2 = " ";
@@ -93,4 +104,5 @@ module.exports = {
     adminSignup,
     answer,
     chathistory,
+    getchathistory,
 }

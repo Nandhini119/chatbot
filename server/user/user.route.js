@@ -48,6 +48,32 @@ module.exports = function(passport) {
       }
     });
 
+    router.get('/getchathistory', function(req,res){
+      try {
+        var username = req.query.username;
+        console.log("username", req.query.username);
+        usersController.getchathistory(username,function(result){
+          console.log('inside getchathistory route')
+            res.status(201).json({
+                result: result
+
+        })
+        console.log('result:', result);
+      },function(error) {
+        console.log("err")
+          res.status(500).json({
+              error: error
+          });
+      });
+
+    } catch (e) {
+        console.log('error in getchathistory route: ', e)
+        res.status(500).json({
+            error: "internal server error"
+        });
+    }
+  });
+
     /* login action */
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {
