@@ -5,6 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
+import { Row, Col } from 'react-flexbox-grid';
 import './ChatHistory.css';
 
 const style1 = {
@@ -39,15 +40,13 @@ constructor()
               const messageTime = messageObj.When.toLocaleTimeString();
               const messageDate = messageObj.When.toLocaleDateString();
               return (
-                <li className="msgalign" key={index}>
-                <div className="titlealign">
-                {messageObj.Who}
-                </div><br/>
+                <Row >
+                 <Col xsOffset = {4} xs = {8}> <li className="msgalign" key={index}>
+                 <div className = "titlealign">{messageObj.Who}</div>
                   <div className="textalign">
                   {messageObj.label == 'video'  || messageObj.label == 'blog'?<div> <a href = {messageObj.What} target="_blank">{messageObj.What}</a>
                                       <Embedly url={messageObj.What} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
                                      <p>{messageObj.What}</p>}
-
                   </div> <br/>
                   <span className = "timealign">
                     {messageDate} &nbsp; &nbsp;
@@ -59,6 +58,8 @@ constructor()
                     </a>
                   </span>
                 </li>
+                </Col>
+                </Row>
               )
             })
           }

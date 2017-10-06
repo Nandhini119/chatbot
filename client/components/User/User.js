@@ -38,6 +38,7 @@ export default class User extends React.Component{
     this.handlePopover = this.handlePopover.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.logout = this.logout.bind(this);
+    this.getChatHistory = this.getChatHistory.bind(this);
     }
 /*opens popover menu.Here event is used to make the popover to display in the target*/
 handlePopover(event)
@@ -143,6 +144,36 @@ logout() {
 
   });
 }
+
+  getChatHistory() {
+    let msgs=[];
+    let self = this;
+    superagent
+        .get('/users/getchathistory')
+        .query({username:localStorage.getItem('username')})
+        .end(function(err, res) {
+          if(err){
+            console.log("error in retrieving chathistory");
+          } else{
+            res.body.result.messages.map(function(message){
+              msgs.push({
+
+                             What: message.value,
+                             When:new Date(message.timestamp),
+              });
+              self.setState({msgs: msgs});
+              
+            });
+          }
+
+        });
+  }
+
+
+  componentWillMount() {
+    this.getChatHistory();
+  }
+
   render()
   {
     return(
