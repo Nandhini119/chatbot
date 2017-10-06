@@ -19,7 +19,7 @@ let adminSignup = function(admin, successCB, errorCB) {
 }
 
 let chathistory = function(words, successCB, errorCB) {
-ChatHistory.save(function(err) {
+ChatHistory.update(function(err) {
     if (err) {
         errorCB(err);
     }
