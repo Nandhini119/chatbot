@@ -14,7 +14,6 @@ class ChatInput extends React.Component {
   }
 
   onSubmit(e) {
-
     e.preventDefault();
 
     // Check if the message is empty
@@ -85,5 +84,4 @@ pushHistory(history){
     );
   }
 }
-
 export default ChatInput;
