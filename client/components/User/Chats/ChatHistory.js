@@ -8,7 +8,7 @@ import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
 import './ChatHistory.css';
 
-const style1 = {
+const style = {
   title : {
   color : "#8593e5",
   },
@@ -40,7 +40,7 @@ constructor()
               const messageTime = messageObj.When.toLocaleTimeString();
               const messageDate = messageObj.When.toLocaleDateString();
               return (
-                <Row >
+                <Row key={index}>
                  <Col xsOffset = {4} xs = {8}> <li className="msgalign" key={index}>
                  <div className = "titlealign">{messageObj.Who}</div>
                   <div className="textalign">
@@ -49,12 +49,12 @@ constructor()
                                      <p>{messageObj.What}</p>}
                   </div> <br/>
                   <span className = "timealign">
-                    {messageDate} &nbsp; &nbsp;
-                    <i className="prefix mdi-action-alarm" /> {messageTime}
+                    {messageDate} &nbsp; &nbsp; &nbsp;
+                    <i className="prefix mdi-action-alarm"> {messageTime} </i>
                     </span>&nbsp; &nbsp;
                     <span className="bookalaign">
                     <a className="bookmark">
-                       <BookmarkBorder  style={style1.title}/>
+                       <BookmarkBorder  style={style.title}/>
                     </a>
                   </span>
                 </li>

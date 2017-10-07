@@ -4,22 +4,34 @@ import {Avatar} from 'material-ui';
 import Logo from '../../assets/images/Logo.png';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 import Bookmark from 'material-ui/svg-icons/action/bookmark';
 import Popover from 'material-ui/Popover';
-import {Redirect} from 'react-router-dom';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import ChatInput from './Chats/ChatInput.js';
-import ChatHistory from './Chats/ChatHistory.js';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import {indigo500} from 'material-ui/styles/colors';
+import {Redirect} from 'react-router-dom';
 import $ from 'jquery';
 import superagent from 'superagent';
+import ChatInput from './Chats/ChatInput.js';
+import ChatHistory from './Chats/ChatHistory.js';
 import  './User.css';
 
 const styles = {
   title : {
     color : "white",
+  },
+}
+const toolbarStyle = {
+  color : {
+    bgcolor : "black",
   },
 }
 
@@ -162,7 +174,7 @@ logout() {
                              When:new Date(message.timestamp),
               });
               self.setState({msgs: msgs});
-              
+
             });
           }
 
@@ -177,55 +189,87 @@ logout() {
   render()
   {
     return(
-      <div >
-          <div>
-            <nav className="navbar navbar-inverse appbar" >
-              <div className="container-fluid">
-                      <div className="navbar-header" >
-                        <button type="button" className="navbar-toggle"
-                          data-toggle="collapse" data-target="#myNavbar">
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                        </button>
-                        <a className="navbar-brand" style = {styles.title}>
-                          <span >
-                            <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-                          </span> Quora</a>
-                      </div>
-                <div className="collapse navbar-collapse" id="myNavbar">
-                  <ul className="nav navbar-nav navbar-right">
-                    <li><a  className="bookmark title"><Bookmark  /></a></li>
-                    <li onClick={this.handlePopover}><a style = {styles.title}><span><Avatar  color = "white"
-                      size = {30} backgroundColor = "purple" >U</Avatar>
-                      </span> User</a></li>
-                      <Popover
-                            open={this.state.open}
-                            anchorEl={this.state.anchorEl}
-                            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                            onRequestClose={this.handleRequestClose}>
-                            <Menu>
-                              <MenuItem >
-                              Notifications
-                                <Badge badgeContent={10}
-                                  badgeStyle={{top: 20, right: 0,left:30}}/>
-                              </MenuItem>
-                              <MenuItem primaryText="Logout"
-                              onClick={this.logout} />
-                            </Menu>
-                      </Popover>
-                  </ul>
-                </div>
-              </div>
-              {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+      <Toolbar>
+        <ToolbarGroup style={toolbarStyle} firstChild={true}>
+          <img src = {Logo} className = " logo responsive" alt = "Logo"/>
+          <ToolbarTitle text="Quora" />
+        </ToolbarGroup>
 
-          </nav>
-          </div>
+        <ToolbarGroup className="toolbaar" lastChild={true}>
+
+          <IconMenu
+            iconButtonElement={
+              <IconButton touch={true}>
+                <FontIcon className="muidocs-icon-custom-github"> </FontIcon>
+              </IconButton>
+            }
+          >
+          <MenuItem >
+           Notifications
+          <Badge badgeContent={10}
+           badgeStyle={{top: 20, right: 0,left:30}}/>
+           </MenuItem>
+            <MenuItem primaryText="Logout"
+             onClick={this.logout} />
+          </IconMenu>
+          { this.state.logout ? <Redirect to='/' push={false} /> : ''}
+          
+        </ToolbarGroup>
+
         <ChatHistory history={ this.state.msgs } />
         <ChatInput sendMessage={ this.sendMessage } />
-      </div>
+      </Toolbar>
     );
+    // return(
+    //   <div >
+    //       <div>
+    //         <nav className="navbar navbar-inverse appbar" >
+    //           <div className="container-fluid">
+    //                   <div className="navbar-header" >
+    //                     <button type="button" className="navbar-toggle"
+    //                       data-toggle="collapse" data-target="#myNavbar">
+    //                     <span className="icon-bar"></span>
+    //                     <span className="icon-bar"></span>
+    //                     <span className="icon-bar"></span>
+    //                     </button>
+    //                     <a className="navbar-brand" style = {styles.title}>
+    //                       <span >
+    //                         <img src = {Logo} className = " logo responsive" alt = "Logo"/>
+    //                       </span> Quora</a>
+    //                   </div>
+    //             <div className="collapse navbar-collapse" id="myNavbar">
+    //               <ul className="nav navbar-nav navbar-right">
+    //                 <li><a  className="bookmark title"><Bookmark  /></a></li>
+    //                 <li onClick={this.handlePopover}><a style = {styles.title}><span><Avatar  color = "white"
+    //                   size = {30} backgroundColor = "purple" >U</Avatar>
+    //                   </span> User</a></li>
+    //                   <Popover
+    //                         open={this.state.open}
+    //                         anchorEl={this.state.anchorEl}
+    //                         anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+    //                         targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    //                         onRequestClose={this.handleRequestClose}>
+    //                         <Menu>
+    //                           <MenuItem >
+    //                           Notifications
+    //                             <Badge badgeContent={10}
+    //                               badgeStyle={{top: 20, right: 0,left:30}}/>
+    //                           </MenuItem>
+    //                           <MenuItem primaryText="Logout"
+    //                           onClick={this.logout} />
+    //                         </Menu>
+    //                   </Popover>
+    //               </ul>
+    //             </div>
+    //           </div>
+    //           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+    //
+    //       </nav>
+    //       </div>
+    //     <ChatHistory history={ this.state.msgs } />
+    //     <ChatInput sendMessage={ this.sendMessage } />
+    //   </div>
+    // );
   }
 
 }
