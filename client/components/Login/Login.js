@@ -28,6 +28,7 @@ const styles = {
         marginTop: 100,
         textAlign: 'center',
         display: 'inline-block',
+        
     },
     svgstyle: {
         marginRight: 10

@@ -30,7 +30,7 @@ constructor()
   }
 }
   render() {
-    console.log('history rendered: ', this.props.history)
+    //console.log('history rendered: ', this.props.history)
     const { props } = this;
     return (
       <div className="MessageDiv"  ref="messageList" >
@@ -42,7 +42,7 @@ constructor()
               return (
                 <Row >
                  <Col xsOffset = {4} xs = {8}> <li className="msgalign" key={index}>
-                 <div className = "titlealign">{messageObj.Who}</div>
+                 {/*}<div className = "titlealign">{messageObj.Who}</div>*/}
                   <div className="textalign">
                   {messageObj.label == 'video'  || messageObj.label == 'blog'?<div> <a href = {messageObj.What} target="_blank">{messageObj.What}</a>
                                       <Embedly url={messageObj.What} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
