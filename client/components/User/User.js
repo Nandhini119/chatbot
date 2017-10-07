@@ -28,12 +28,12 @@ const styles = {
   title : {
     color : "white",
   },
+  toolbarStyle : {
+    backgroundColor : "black",
+    height : "7%",
+  }
 }
-const toolbarStyle = {
-  color : {
-    bgcolor : "black",
-  },
-}
+
 
 export default class User extends React.Component{
 
@@ -239,31 +239,23 @@ logout() {
   render()
   {
     return(
-      <Toolbar>
-        <ToolbarGroup style={toolbarStyle} firstChild={true}>
+      <Toolbar  style={styles.toolbarStyle}>
+        <ToolbarGroup firstChild={true}>
           <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-          <ToolbarTitle text="Quora" />
+          <ToolbarTitle style={styles.title} text="Quora" />
         </ToolbarGroup>
 
         <ToolbarGroup className="toolbaar" lastChild={true}>
 
-          <IconMenu
-            iconButtonElement={
-              <IconButton touch={true}>
-                <FontIcon className="muidocs-icon-custom-github"> </FontIcon>
-              </IconButton>
-            }
-          >
+        {  /*<Menu>
           <MenuItem >
-           Notifications
-          <Badge badgeContent={10}
-           badgeStyle={{top: 20, right: 0,left:30}}/>
+          Bookmark
            </MenuItem>
             <MenuItem primaryText="Logout"
              onClick={this.logout} />
-          </IconMenu>
+          </Menu>*/}
           { this.state.logout ? <Redirect to='/' push={false} /> : ''}
-          
+
         </ToolbarGroup>
 
         <ChatHistory history={ this.state.msgs } />
