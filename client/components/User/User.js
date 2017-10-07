@@ -30,7 +30,8 @@ export default class User extends React.Component{
         open: false,
         msgs: [],
         wordarr : [],
-        logout:false
+        logout:false,
+        answers:[]
                 };
     this.sendMessage = this.sendMessage.bind(this);
     this.getAnswer = this.getAnswer.bind(this);
@@ -38,7 +39,12 @@ export default class User extends React.Component{
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.logout = this.logout.bind(this);
     this.getChatHistory = this.getChatHistory.bind(this);
+    this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
     }
+    componentWillMount() {
+      this.getChatHistory();
+    }
+
 /*opens popover menu.Here event is used to make the popover to display in the target*/
 handlePopover(event)
 {
@@ -60,10 +66,30 @@ sendMessage(message) {
     msgs.push(message);
     this.setState({msgs: msgs});
     this.getAnswer(message);
+
     }
+
+chatHistoryAnswers(history){
+  superagent
+  .post('/users/chathistory')
+  .send(history)
+  .end(function(err, res) {
+      if (err) {
+          console.log('error: ', err)
+      }
+      else{
+        console.log("succesfully saved");
+      }
+   });
+}
 getAnswer(message){
+  let when = new Date();
+  this.state.answers=[];
   let self = this;
   let msgs = this.state.msgs;
+  let answers = this.state.answers;
+
+  console.log("message",message.What);
   $.ajax({
     url : '/users/answer',
     type : 'GET',
@@ -97,49 +123,74 @@ getAnswer(message){
         switch(item.label) {
           case 'text':
           {
-            msgs.push({
-              Who : "Bot",
-              What : item.value,
-              When : new Date(),
-              label : "text"
-            });
-            break;
+              msgs.push({
+                Who : "Bot",
+                What : item.value,
+                When : when,
+                label : "text"
+              });
+              answers.push({
+                value: item.value,
+                timestamp:when.getTime(),
+                type: 'answer'
+                });
+              break;
           }
           case 'blog':
           {
-          msgs.push({
-            Who : "Bot",
-            What : item.value,
-            When : new Date(),
-            label : "blog"
-          });
-          break;
+            msgs.push({
+              Who : "Bot",
+              What : item.value,
+              When : when,
+              label : "blog"
+            });
+
+            answers.push({
+              value: item.value,
+              timestamp:when.getTime(),
+              type: 'answer'
+            });
+
+            break;
         }
           case 'video':
           {
-          msgs.push({
-            Who : "Bot",
-            What :item.value,
-            When : new Date(),
-            label : "video"
-          });
-          break;
+            msgs.push({
+              Who : "Bot",
+              What :item.value,
+              When : when,
+              label : "video"
+            });
+
+            answers.push({
+                value :item.value,
+                timestamp:when.getTime(),
+                type: 'answer'
+              });
+            break;
         }
           default:
           {
-          msgs.push({
-            Who : "Bot",
-            What : "item.value",
-            When : new Date()
-          });
-          break;
+            msgs.push({
+              Who : "Bot",
+              What : "item.value",
+              When : when
+            });
+            break;
         }
-        }
-      }) }
-      self.setState({msgs: msgs});
-      return (<ChatHistory history={ self.state.msgs } />)
+      }/*end of switch case*/
+    })/*end of else map*/
+      self.setState({answers: answers});
 
-    },
+      self.chatHistoryAnswers({
+          username: localStorage.getItem('username'),
+          messages:answers
+       });
+      console.log('answersin getanswer', self.state.answers);
+    }/*end of else*/
+      self.setState({msgs: msgs});
+    return (<ChatHistory history={ self.state.msgs } />)
+  },
     error : function(err) {
       console.log(err);
     }
@@ -178,23 +229,14 @@ logout() {
           } else{
             res.body.result.messages.map(function(message){
               msgs.push({
-
                              What: message.value,
                              When:new Date(message.timestamp),
               });
               self.setState({msgs: msgs});
-
             });
           }
-
         });
   }
-
-
-  componentWillMount() {
-    this.getChatHistory();
-  }
-
   render()
   {
     return(

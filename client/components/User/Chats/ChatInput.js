@@ -30,8 +30,7 @@ class ChatInput extends React.Component {
       What: message,
       When: when
     });
-
-    this.pushHistory({
+this.pushHistory({
       username: localStorage.getItem('username'),
       messages: [{
         type: 'question',
@@ -44,7 +43,6 @@ class ChatInput extends React.Component {
       userQuery: ''
     });
   }
-
 pushHistory(history){
    superagent
    .post('/users/chathistory')

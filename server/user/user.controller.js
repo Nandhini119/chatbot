@@ -19,7 +19,7 @@ let adminSignup = function(admin, successCB, errorCB) {
 }
 
 let chathistory = function(history, successCB, errorCB) {
-ChatHistory.findOneAndUpdate({username:history.username},{$push: {messages: history.messages[0]}}, {upsert: true},function(err) {
+ChatHistory.findOneAndUpdate({username:history.username},{$pushAll: {messages: history.messages}}, {upsert: true},function(err) {
     if (err) {
         console.log('err for saving chathistory: ', err)
         errorCB(err);
