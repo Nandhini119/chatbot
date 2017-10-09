@@ -6,6 +6,7 @@ import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
+import superagent from 'superagent';
 import './ChatHistory.css';
 
 const style1 = {
@@ -27,11 +28,34 @@ constructor()
   super();
   this.state = {
     flag : false,
-  }
+    bookmark:false
+  },
+  this.addingBookmarks = this.addingBookmarks.bind(this);
 }
+
+addingBookmarks(){
+  this.setState({bookmark:true})
+  superagent
+  .post('/users/addingbookmarks')
+  .send()
+  .end(function(err, res) {
+      if (err) {
+          console.log('error: ', err)
+      }
+      else{
+        console.log("succesfully saved");
+      }
+   });
+}
+
+
   render() {
     console.log('history rendered: ', this.props.history)
+    let self = this;
     const { props } = this;
+    // const { props, state } = this;
+    // const props = this.props;
+    // const state = this.state;
     return (
       <div className="MessageDiv"  ref="messageList" >
         <ul className="collection">
@@ -54,7 +78,7 @@ constructor()
                     </span>&nbsp; &nbsp;
                     <span className="bookalaign">
                     <a className="bookmark">
-                       <BookmarkBorder  style={style1.title}/>
+                        {self.state.bookmark ? <BookmarkFilled  style={style1.title} onClick={()=>{self.setState({bookmark:false})}} /> : <BookmarkBorder style={style1.title} onClick={self.addingBookmarks}/>}
                     </a>
                   </span>
                 </li>

@@ -4,35 +4,12 @@ import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import {Row, Col} from 'react-flexbox-grid';
-import {Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {
+    Pagination
+} from 'react-bootstrap';
+import $ from 'jquery';
+import UnAnsweredCard from './UnAnsweredCard.js';
 
-const Questions = [
-  {
-    question: "what is react??"
-  },
-  {
-    question: "what is props?"
-  },
-  {
-    question: "what is state?"
-
-  },
-  {
-    question: "what are lifecycle methods?"
-  },
-  {
-    question: "what are lifecycle methods?"
-  },
-  {
-    question: "what are lifecycle methods?"
-  },
-  {
-    question: "what are lifecycle methods?"
-  },
-  {
-    question: "what are lifecycle methods?"
-  }
-]
 const styles = {
   card  : {
     margin : "15px"
@@ -44,68 +21,81 @@ export default class UnAnswered extends React.Component
 
   constructor(props){
     super(props);
-    this.giveAnswer = this.giveAnswer.bind(this);
+    this.state = {
+      allquestions: "",
+        activePage: 1,
+          end : false,
+    }
+    this.handlePagination = this.handlePagination.bind(this);
   }
-  giveAnswer(){
-    alert("give answer");
+  componentWillMount() {
+    var allQuestions = "";
+    let self = this;
+    $.ajax({
+      url : '/admin/unAnswered',
+      type : 'GET',
+      data : { skip : 0},
+      success : function(response) {
+        //console.log("response",response);
+        allQuestions = response.result.map((data, index) => {
+            return <UnAnsweredCard question = {data} key = {index} id = {index}/>
+        })
+        self.setState({
+            allquestions: allQuestions
+        });
+
+      },
+      error : function(err) {
+        console.log("Error",err);
+      }
+    })
   }
+  handlePagination(eventKey) {
+    this.setState({
+        activePage: eventKey
+    });
+    var allQuestions = "";
+    let self = this;
+    $.ajax({
+        url: '/admin/unAnswered',
+        method: 'GET',
+        data: {
+            skip: eventKey
+        },
+        success: function(response) {
+          console.log("response",response.result);
+            if(response.result.length > 0) {
+              self.setState({end : false});
+            allQuestions = response.result.map((data, index) => {
+                return <UnAnsweredCard question = {data} key = {index + eventKey} id = {index}/>
+            })
+            self.setState({
+                allquestions: allQuestions
+            });
+          } else {
+            self.setState({end : true});
+          }
 
+        },
+        error: function(err) {
+            console.log("Error", err);
+        }
+    })
 
-  handleChange()
-  {
-    alert("HI");
   }
   render(){
     return(
-      <div className = "container-fluid  background">
-      <div>
-      <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-      <ArrowBack color = "white"/>
-      </IconButton>
-        <Row center='xs'>
-      {Questions.map((ques)=>(
-        <Col xs = {10} sm = {6} lg = {4}>
-      <Card style={styles.card}>
-      <CardTitle title={ques.question} subtitle = {"click to give answer"}
-      actAsExpander={true}
-      />
-    <CardText expandable={true}>
-      <Form horizontal onSubmit = {this.giveAnswer}>
-         <FormGroup controlId="formHorizontalEmail">
-           <Col componentClass={ControlLabel} sm={2}>
-             Answer
-           </Col>
-           <Col sm={6}>
-             <FormControl type="text"  required/>
-           </Col>
-         </FormGroup>
-
-         <FormGroup controlId="formHorizontalPassword">
-           <Col componentClass={ControlLabel} sm={2}>
-             Relation
-           </Col>
-           <Col sm={6}>
-             <FormControl type="text" required/>
-           </Col>
-         </FormGroup>
-         <FormGroup>
-           <Col smOffset={1} sm={10}>
-             <FlatButton primary = {true} type = "submit"  label="Give Answer" />
-           </Col>
-         </FormGroup>
-         </Form>
-    </CardText>
-    <CardActions>
-      <FlatButton secondary = {true} label="Discard" />
-    </CardActions>
-  </Card>
-</Col>
-
-))}
-</Row>
-
-      </div>
-
+      <div className = "container-fluid background" >
+        <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
+          <ArrowBack color = "white" / >
+        </IconButton>
+        {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+        <Row center = 'xs' >
+          <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
+              items = {10} maxButtons = {3}
+              activePage = {this.state.activePage}
+              onSelect = {this.handlePagination}/>
+        </Row>
       </div>
     );
   }

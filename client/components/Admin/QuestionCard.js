@@ -18,13 +18,7 @@ import {
     ControlLabel,
     Radio
 } from 'react-bootstrap';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Dialog from 'material-ui/Dialog';
-import {
-    RadioButton,
-    RadioButtonGroup
-} from 'material-ui/RadioButton';
-import Chip from 'material-ui/Chip';
 import $ from 'jquery';
 import CardAnswer from './CardAnswer.js';
 
@@ -32,20 +26,6 @@ import CardAnswer from './CardAnswer.js';
 const styles = {
     card: {
         margin: "15px"
-    },
-    floatbutton: {
-        marginRight: 20,
-        float: "right"
-    },
-    wrapper: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    block: {
-        maxWidth: 250,
-    },
-    radioButton: {
-        marginBottom: 10,
     },
 
 }

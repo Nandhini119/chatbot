@@ -1,9 +1,11 @@
 let user = require('../user/user.model.js');
+let unansweredquestions = require('./admin.unAnswered.model.js');
 let driver = require('../config/neo4j.js');
 /* connecting to the db */
 let session = driver.session();
 let items = 0;
 let skip = 0;
+let skipForUnanswered = 0;
 let controls = {
     allUsers: function(req, res) {
         user.find({
@@ -60,37 +62,32 @@ let controls = {
             }
         })
     },
-    questions: function(data, successCB, errorCB) {
+    getquestions: function(data, successCB, errorCB) {
         let query = " ";
         let q = 'MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m)';
         session.run(q).then(function(res) {
             items = res.records.length;
         }).catch(function(err) {
-            console.log("Error" + err);
+            console.log("Error in getting all questions" + err);
         })
         if (data.skip == 0 || data.skip == 1) {
             skip = 0
-                /* building a cypher query */
-            query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 2;`;
+
         } else {
             skip = 2 * (parseInt(data.skip) - 1);
-            /* building a cypher query */
-            query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 2;`;
         }
-
+          /* building a cypher query */
+        query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 2;`;
         /* executing the cypher query */
         session.run(query).then(function(result) {
-            console.log("query for displaying questions running");
             successCB(result, items);
         }).catch(function(err) {
             errorCB(err);
         });
     },
     answer: function(data, successCB, errorCB) {
-        console.log("in  answer");
         var label;
         let query = " ";
-        console.log(data);
         /* building a cypher query */
         query = `merge (n:${data.label}{name:"${data.name}"}) with n\
              match (m:question{name:"${data.question}"})\
@@ -98,7 +95,6 @@ let controls = {
 
         /* executing the cypher query */
         session.run(query).then(function(result) {
-            console.log("query for adding answer running");
             successCB(result);
         }).catch(function(err) {
             errorCB(err);
@@ -107,8 +103,6 @@ let controls = {
     },
     newQuestions: function(data, successCB, errorCB) {
         let query = " ";
-        console.log("in adding new questions");
-        console.log(data);
         query = `match (n:domain{name:"react"})\
                 merge (m:concept{name:"${data.concept}"})-[r:concept_of]->(n) with n,m\
                 merge (o:question{name:"${data.question}"})-[q:${data.relation}]->(m) with m,o\
@@ -116,15 +110,63 @@ let controls = {
 
         /* executing the cypher query */
         session.run(query).then(function(result) {
-            console.log("query for adding new question running");
-
-
             successCB(result);
         }).catch(function(err) {
             errorCB(err);
 
         });
+    },
+    notify_UnAnswered: function(data,successCB,errorCB) {
+      let unanswered = new unansweredquestions();
+      unanswered.question = data.question;
+      unansweredquestions.findOne({'question' : data.question},function(err,question) {
+        if(err) {
+          console.log(err);
+            errorCB(err);
+        }
+        if(question) {
+          successCB("question already notified");
+        }
+        else {
+          unanswered.save(function(err) {
+              if (err) {
+                console.log(err);
+                  errorCB(err);
+              }
+              successCB(unanswered);
+          });
+        }
+      })
+
+    },
+    answer_unAnswered:function(data,successCB,errorCB) {
+      if (data.skip == 0 || data.skip == 1) {
+          skipForUnanswered = 0
+
+      } else {
+          skipForUnanswered = 2 * (parseInt(data.skip) - 1);
+      }
+      unansweredquestions.find(function(err,questions) {
+        if(questions) {
+          successCB(questions);
+        } else {
+          errorCB(err);
+        }
+      }).skip(skipForUnanswered).limit(2);
+
+    },
+    unAnswered_delete : function(data,successCB,errorCb) {
+      unansweredquestions.remove({ 'question' : data.question},function(err,result) {
+        if(err) {
+          errorCB(err);
+        }
+        else {
+          successCB("successfully deleted");
+        }
+      })
+
     }
+
 
 
 }

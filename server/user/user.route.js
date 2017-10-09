@@ -27,14 +27,14 @@ module.exports = function(passport) {
     /* chathistory router */
     router.post('/chathistory', function(req, res) {
       try {
-        console.log("inside chathistory route ", req.body);
+        //console.log("inside chathistory route ", req.body);
         usersController.chathistory(req.body, function(result) {
-          console.log('success')
+          //console.log('success')
             res.status(201).json({
                 result: result
             });
         }, function(error) {
-          console.log("err")
+          //console.log("err")
             res.status(500).json({
                 error: error
             });
@@ -48,19 +48,20 @@ module.exports = function(passport) {
       }
     });
 
+/* Retrieving chathistory from DB */
     router.get('/getchathistory', function(req,res){
       try {
         var username = req.query.username;
-        console.log("username", req.query.username);
+        //console.log("username", req.query.username);
         usersController.getchathistory(username,function(result){
-          console.log('inside getchathistory route')
+          //console.log('inside getchathistory route')
             res.status(201).json({
                 result: result
 
         })
-        console.log('result:', result);
+      //  console.log('result:', result);
       },function(error) {
-        console.log("err")
+        //console.log("err")
           res.status(500).json({
               error: error
           });
@@ -73,6 +74,30 @@ module.exports = function(passport) {
         });
     }
   });
+
+/* adding bookmarks to db */
+  router.post('/addingbookmarks', function(req, res){
+    try {
+      //console.log("inside chathistory route ", req.body);
+      usersController.addingbookmarks(req.body, function(result) {
+        //console.log('success')
+          res.status(201).json({
+              result: result
+          });
+      }, function(error) {
+        //console.log("err")
+          res.status(500).json({
+              error: error
+          });
+      });
+
+    } catch (e) {
+        console.log('error in addingbookmarks route: ', e)
+        res.status(500).json({
+            error: "internal server error"
+        });
+    }
+  })
 
     /* login action */
     router.post('/login', function(req, res, next) {
