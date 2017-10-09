@@ -25,7 +25,6 @@ class ChatInput extends React.Component {
     let when = new Date();
 
     this.props.sendMessage({
-      // Who: this.props.userID,
       Who: localStorage.getItem('username'),
       What: message,
       When: when

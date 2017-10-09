@@ -9,6 +9,9 @@ import './Admin.css';
 import {
     Redirect
 } from 'react-router-dom';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import Logo from '../../assets/images/Logo.png';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import superagent from 'superagent';
 import UnAnsweredComp from './UnAnswered.js';
 import AllQuestionsComp from './AllQuestions.js';
@@ -20,6 +23,14 @@ const styles = {
     title: {
         color: "white",
     },
+    toolbarStyle : {
+      backgroundColor : "black",
+      height : "7%",
+    },
+    account : {
+      height : "50px",
+      width : "40px",
+    }
 }
 
 export default class Admin extends React.Component {
@@ -98,30 +109,23 @@ export default class Admin extends React.Component {
   render() {
     return(
       <div>
-          <nav className="navbar navbar-inverse appbar ">
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                </button>
-                <a className="navbar-brand" style = {styles.title}>
-                  <span>
-                    <img src='./../../assets/images/Logo.png' className = " logo responsive"
-                    alt = "Logo"/></span> Quora</a>
-              </div>
-              <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right " >
-                  <li ><a style = {styles.title}><span><Avatar  color = "white" size = {30} backgroundColor = "gray">A</Avatar></span> Admin</a></li>
-                  <li><a><span><Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon></span></a></li>
-                </ul>
-              </div>
-            </div>
-            {this.state.logout ? <Redirect to='/' push={false} /> : ''}
-          </nav>
-          {this.getComponent()}
-        </div>
-      );
+        <Toolbar  style={ styles.toolbarStyle }>
+          <ToolbarGroup style={styles.title}>
+              <ToolbarTitle text="Quora" style={styles.title}/>
+          </ToolbarGroup>
+          <ToolbarGroup lastChild={true}>
+            <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
+              &nbsp;
+            <ToolbarTitle text="Admin" style={styles.title} onClick={this.handlePopover}/>
+
+          <Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon>
+          {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+            &nbsp;
+          </ToolbarGroup>
+        </Toolbar>
+        {this.getComponent()}
+      </div>
+    );
+
     }
 }

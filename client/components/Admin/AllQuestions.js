@@ -16,10 +16,6 @@ import {
     Col
 } from 'react-flexbox-grid';
 import {
-    Form,
-    FormGroup,
-    FormControl,
-    ControlLabel,
     Pagination
 } from 'react-bootstrap';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -45,7 +41,6 @@ export default class AllQuestions extends React.Component {
             Answers: [],
             allquestions: "",
             activePage: 1,
-            items: 0,
             end  :false,
 
         }
@@ -64,9 +59,6 @@ export default class AllQuestions extends React.Component {
                 skip: 0
             },
             success: function(response) {
-                self.setState({
-                    items: response.items / 2
-                })
                 allQuestions = response.result.records.map((row, index) => {
                     return <QuestionCard question = {row} key = {index} id = {index}/>
                 })

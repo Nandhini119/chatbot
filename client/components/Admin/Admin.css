@@ -1,13 +1,15 @@
 .background {
-  margin-top:-20px;
-  background-image: url('../../assets/images/react.png');
+  margin-top: 20px;
+  /*//background-image: url('../../assets/images/react.png');*/
+  background-color : #F2D7B;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 .appbar{
 background-color :black;
 }
-
+.homejs{
+  margin-top: 50px;
+}
 h3, .title {
   color:white;
 }
@@ -19,6 +21,10 @@ h3, .title {
 }
 .pager li>a {
   cursor : pointer;
+}
+.acc-circle{
+  height: 50px;
+  width: 50px;
 }
 
 @media (max-width : 768px)

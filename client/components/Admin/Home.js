@@ -49,7 +49,7 @@ export default class Home extends React.Component {
 render()
 {
   return(
-    <div className = "container-fluid">
+    <div className = "container-fluid homejs" >
       <div style={styles.root}>
         <GridList cellHeight={180} style={styles.gridList}>
           <Subheader style = {styles.title}>Navigate Here</Subheader>

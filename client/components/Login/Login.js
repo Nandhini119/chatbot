@@ -28,6 +28,7 @@ const styles = {
         marginTop: 100,
         textAlign: 'center',
         display: 'inline-block',
+
     },
     svgstyle: {
         marginRight: 10
@@ -119,7 +120,7 @@ class Login extends Component {
           <Row center="xs" end = "sm">
             <Col xs={11} sm={5}>
               <Paper style={styles.paperstyle} zDepth={3} >
-                <h4>Login Here!!</h4>
+                <h4>Login</h4>
                 <TextField
                   hintText="Username"
                   value={this.state.username}

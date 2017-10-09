@@ -1,23 +1,23 @@
 import React from 'react';
 import { Glyphicon} from 'react-bootstrap';
 import {Avatar} from 'material-ui';
+import {
+    Redirect
+} from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
-import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton'
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 import Bookmark from 'material-ui/svg-icons/action/bookmark';
 import Popover from 'material-ui/Popover';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import {indigo500} from 'material-ui/styles/colors';
-import {Redirect} from 'react-router-dom';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import $ from 'jquery';
 import superagent from 'superagent';
 import ChatInput from './Chats/ChatInput.js';
@@ -31,7 +31,13 @@ const styles = {
   toolbarStyle : {
     backgroundColor : "black",
     height : "7%",
-  }
+  },
+
+  account : {
+    height : "50px",
+    width : "40px",
+
+}
 }
 
 
@@ -40,6 +46,7 @@ export default class User extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+        //value: 3,
         open: false,
         msgs: [],
         wordarr : [],
@@ -54,6 +61,10 @@ export default class User extends React.Component{
     this.getChatHistory = this.getChatHistory.bind(this);
     this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
     }
+    componentWillMount() {
+      this.getChatHistory();
+    }
+
 /*opens popover menu.Here event is used to make the popover to display in the target*/
 handlePopover(event)
 {
@@ -77,8 +88,6 @@ sendMessage(message) {
     this.getAnswer(message);
 
     }
-
-
 
 chatHistoryAnswers(history){
   superagent
@@ -106,8 +115,31 @@ getAnswer(message){
     type : 'GET',
     data : {words: message.What},
     success : function(response) {
-      console.log(response);
-        response.result.map(function(item, index) {
+      if(response.result == "no answer found") {
+        console.log(response.result);
+          console.log("message",message.What);
+          $.ajax({
+            url : '/admin/unAnswered',
+            type : 'POST',
+            data : {question : message.What},
+            success : function(response) {
+                console.log("Question notified to be answered");
+            },
+            error : function(err) {
+              console.log(err);
+            }
+
+          })
+          msgs.push({
+            Who : "Bot",
+            What : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+            When : new Date(),
+
+          });
+      }
+      else {
+          console.log("response",response.result);
+      response.result.map(function(item, index) {
         switch(item.label) {
           case 'text':
           {
@@ -164,11 +196,10 @@ getAnswer(message){
               What : "item.value",
               When : when
             });
-
             break;
         }
-        }
-      })
+      }/*end of switch case*/
+    })/*end of else map*/
       self.setState({answers: answers});
 
       self.chatHistoryAnswers({
@@ -176,11 +207,10 @@ getAnswer(message){
           messages:answers
        });
       console.log('answersin getanswer', self.state.answers);
+    }/*end of else*/
       self.setState({msgs: msgs});
-
-      return (<ChatHistory history={ self.state.msgs } />)
-
-    },
+    return (<ChatHistory history={ self.state.msgs } />)
+  },
     error : function(err) {
       console.log(err);
     }
@@ -219,99 +249,51 @@ logout() {
           } else{
             res.body.result.messages.map(function(message){
               msgs.push({
-
                              What: message.value,
                              When:new Date(message.timestamp),
               });
               self.setState({msgs: msgs});
-
             });
           }
-
         });
-  }
-
-
-  componentWillMount() {
-    this.getChatHistory();
   }
 
   render()
   {
     return(
-      <Toolbar  style={styles.toolbarStyle}>
-        <ToolbarGroup firstChild={true}>
-          <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-          <ToolbarTitle style={styles.title} text="Quora" />
-        </ToolbarGroup>
+      <div>
+        <Toolbar  style={ styles.toolbarStyle }>
+          <ToolbarGroup style={styles.title} >
 
-        <ToolbarGroup className="toolbaar" lastChild={true}>
-
-        {  /*<Menu>
-          <MenuItem >
-          Bookmark
-           </MenuItem>
-            <MenuItem primaryText="Logout"
-             onClick={this.logout} />
-          </Menu>*/}
-          { this.state.logout ? <Redirect to='/' push={false} /> : ''}
-
-        </ToolbarGroup>
-
+              <ToolbarTitle text="Quora" style={styles.title}/>
+          </ToolbarGroup>
+          <ToolbarGroup lastChild={true}>
+            <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
+            &nbsp;
+            <ToolbarTitle text="User" style={styles.title} onClick={this.handlePopover}/>
+            <Popover
+                style = {styles.title}
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}>
+                <Menu>
+                  <MenuItem >
+                    Bookmarks
+                  </MenuItem>
+                  <MenuItem primaryText="Logout"
+                  onClick={this.logout} />
+                </Menu>
+          </Popover>
+          {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+          </ToolbarGroup>
+        </Toolbar>
         <ChatHistory history={ this.state.msgs } />
         <ChatInput sendMessage={ this.sendMessage } />
-      </Toolbar>
+      </div>
     );
-    // return(
-    //   <div >
-    //       <div>
-    //         <nav className="navbar navbar-inverse appbar" >
-    //           <div className="container-fluid">
-    //                   <div className="navbar-header" >
-    //                     <button type="button" className="navbar-toggle"
-    //                       data-toggle="collapse" data-target="#myNavbar">
-    //                     <span className="icon-bar"></span>
-    //                     <span className="icon-bar"></span>
-    //                     <span className="icon-bar"></span>
-    //                     </button>
-    //                     <a className="navbar-brand" style = {styles.title}>
-    //                       <span >
-    //                         <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-    //                       </span> Quora</a>
-    //                   </div>
-    //             <div className="collapse navbar-collapse" id="myNavbar">
-    //               <ul className="nav navbar-nav navbar-right">
-    //                 <li><a  className="bookmark title"><Bookmark  /></a></li>
-    //                 <li onClick={this.handlePopover}><a style = {styles.title}><span><Avatar  color = "white"
-    //                   size = {30} backgroundColor = "purple" >U</Avatar>
-    //                   </span> User</a></li>
-    //                   <Popover
-    //                         open={this.state.open}
-    //                         anchorEl={this.state.anchorEl}
-    //                         anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-    //                         targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    //                         onRequestClose={this.handleRequestClose}>
-    //                         <Menu>
-    //                           <MenuItem >
-    //                           Notifications
-    //                             <Badge badgeContent={10}
-    //                               badgeStyle={{top: 20, right: 0,left:30}}/>
-    //                           </MenuItem>
-    //                           <MenuItem primaryText="Logout"
-    //                           onClick={this.logout} />
-    //                         </Menu>
-    //                   </Popover>
-    //               </ul>
-    //             </div>
-    //           </div>
-    //           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
-    //
-    //       </nav>
-    //       </div>
-    //     <ChatHistory history={ this.state.msgs } />
-    //     <ChatInput sendMessage={ this.sendMessage } />
-    //   </div>
-    // );
+
   }
 
 }
