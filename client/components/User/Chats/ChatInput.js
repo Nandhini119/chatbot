@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import superagent from 'superagent';
+import { Row, Col } from 'react-flexbox-grid';
 import './ChatInput.css';
 
 class ChatInput extends React.Component {
@@ -32,6 +33,7 @@ class ChatInput extends React.Component {
 this.pushHistory({
       username: localStorage.getItem('username'),
       messages: [{
+        username : localStorage.getItem('username'),
         type: 'question',
         value: message,
         timestamp: when.getTime()
@@ -58,24 +60,30 @@ pushHistory(history){
   render() {
     const { props, onSubmit } = this;
     return (
+
       <footer>
-        <form className="container" onSubmit={ onSubmit }>
-          <div className="row">
-            <div className="input-field col s10">
-              <i className="prefix mdi-communication-chat" />
-              <input
-                type="text"
-                placeholder="Type your message"
-                value={this.state.userQuery}
-                onChange={(e) => this.setState({ userQuery: e.target.value })}
-                />
-            </div>
-            <div className="input-field col s2">
-              <button type="submit" className="waves-effect waves-light btn-floating btn-large">
-                <i className="mdi-content-send" />
-              </button>
-            </div>
-          </div>
+        <form  onSubmit={ onSubmit }>
+          <Row end = 'xs'>
+
+          <Col xs = {9}>
+              <div className="input-field textfield">
+                <i className="prefix mdi-communication-chat" />
+                <input
+                  type="text"
+                  placeholder="Type your message"
+                  value={this.state.userQuery}
+                  onChange={(e) => this.setState({ userQuery: e.target.value })}
+                  />
+              </div>
+              </Col>
+              <Col xs = {2}>
+              <div className="input-field">
+                <button type="submit" className="waves-effect waves-light btn-floating btn-large">
+                  <i className="mdi-content-send" />
+                </button>
+              </div>
+              </Col>
+          </Row>
         </form>
       </footer>
     );

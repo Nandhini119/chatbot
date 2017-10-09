@@ -19,6 +19,7 @@ import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import $ from 'jquery';
+import { Row, Col } from 'react-flexbox-grid';
 import superagent from 'superagent';
 import ChatInput from './Chats/ChatInput.js';
 import ChatHistory from './Chats/ChatHistory.js';
@@ -29,7 +30,7 @@ const styles = {
     color : "white",
   },
   toolbarStyle : {
-    backgroundColor : "black",
+    backgroundColor : "#3B3B3A",
     height : "7%",
   },
 
@@ -82,6 +83,7 @@ handleRequestClose()
 sendMessage(message) {
     // for now this will let us know things work.  `console` will give us a
     // warning though
+    console.log("messageeeee",message);
     let msgs = this.state.msgs;
     msgs.push(message);
     this.setState({msgs: msgs});
@@ -132,7 +134,7 @@ getAnswer(message){
           })
           msgs.push({
             Who : "Bot",
-            What : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+            Answer : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
             When : new Date(),
 
           });
@@ -145,14 +147,16 @@ getAnswer(message){
           {
               msgs.push({
                 Who : "Bot",
-                What : item.value,
+                Answer : item.value,
                 When : when,
                 label : "text"
               });
               answers.push({
+                username : "Bot",
                 value: item.value,
                 timestamp:when.getTime(),
-                type: 'answer'
+                type: 'answer',
+                  label : "text"
                 });
               break;
           }
@@ -160,15 +164,17 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What : item.value,
+              Answer : item.value,
               When : when,
               label : "blog"
             });
 
             answers.push({
+              username : "Bot",
               value: item.value,
               timestamp:when.getTime(),
-              type: 'answer'
+              type: 'answer',
+              label : "blog"
             });
 
             break;
@@ -177,15 +183,17 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What :item.value,
+              Answer :item.value,
               When : when,
               label : "video"
             });
 
             answers.push({
+                username : "Bot",
                 value :item.value,
                 timestamp:when.getTime(),
-                type: 'answer'
+                type: 'answer',
+                  label : "video"
               });
             break;
         }
@@ -193,7 +201,7 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What : "item.value",
+              Answer : "item.value",
               When : when
             });
             break;
@@ -247,10 +255,13 @@ logout() {
           if(err){
             console.log("error in retrieving chathistory");
           } else{
+            console.log(res,"response");
             res.body.result.messages.map(function(message){
               msgs.push({
+                            Who : message.username,
                              What: message.value,
                              When:new Date(message.timestamp),
+                             label : message.label,
               });
               self.setState({msgs: msgs});
             });
@@ -270,7 +281,7 @@ logout() {
           <ToolbarGroup lastChild={true}>
             <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
             &nbsp;
-            <ToolbarTitle text="User" style={styles.title} onClick={this.handlePopover}/>
+            <ToolbarTitle text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
             <Popover
                 style = {styles.title}
                 open={this.state.open}
@@ -289,8 +300,17 @@ logout() {
           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
           </ToolbarGroup>
         </Toolbar>
+        <Row>
+        <Col xs = {4}>
+        <h3>Bookmarks</h3>
+        </Col>
+        <Col xs = {8}>
         <ChatHistory history={ this.state.msgs } />
         <ChatInput sendMessage={ this.sendMessage } />
+        </Col>
+        </Row>
+
+
       </div>
     );
 

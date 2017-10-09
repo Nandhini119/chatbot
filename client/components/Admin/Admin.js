@@ -24,7 +24,7 @@ const styles = {
         color: "white",
     },
     toolbarStyle : {
-      backgroundColor : "black",
+      backgroundColor : "#3B3B3A",
       height : "7%",
     },
     account : {
