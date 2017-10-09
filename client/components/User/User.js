@@ -1,32 +1,54 @@
 import React from 'react';
 import { Glyphicon} from 'react-bootstrap';
 import {Avatar} from 'material-ui';
+import {
+    Redirect
+} from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
-import IconButton from 'material-ui/IconButton';
 import Bookmark from 'material-ui/svg-icons/action/bookmark';
 import Popover from 'material-ui/Popover';
-import {Redirect} from 'react-router-dom';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
+import $ from 'jquery';
+import { Row, Col } from 'react-flexbox-grid';
+import superagent from 'superagent';
 import ChatInput from './Chats/ChatInput.js';
 import ChatHistory from './Chats/ChatHistory.js';
-import $ from 'jquery';
-import superagent from 'superagent';
+import Bookmarks from './Bookmarks.js';
 import  './User.css';
 
 const styles = {
   title : {
     color : "white",
   },
+  toolbarStyle : {
+    backgroundColor : "#3B3B3A",
+    height : "7%",
+  },
+
+  account : {
+    height : "50px",
+    width : "40px",
+
 }
+}
+
 
 export default class User extends React.Component{
 
   constructor(props) {
     super(props);
     this.state = {
+        //value: 3,
         open: false,
         msgs: [],
         wordarr : [],
@@ -62,6 +84,7 @@ handleRequestClose()
 sendMessage(message) {
     // for now this will let us know things work.  `console` will give us a
     // warning though
+    console.log("messageeeee",message);
     let msgs = this.state.msgs;
     msgs.push(message);
     this.setState({msgs: msgs});
@@ -112,7 +135,7 @@ getAnswer(message){
           })
           msgs.push({
             Who : "Bot",
-            What : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+            Answer : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
             When : new Date(),
 
           });
@@ -125,15 +148,16 @@ getAnswer(message){
           {
               msgs.push({
                 Who : "Bot",
-                What : item.value,
+                Answer : item.value,
                 When : when,
                 label : "text"
               });
               answers.push({
-
+                username : "Bot",
                 value: item.value,
                 timestamp:when.getTime(),
-                type: 'answer'
+                type: 'answer',
+                  label : "text"
                 });
               break;
           }
@@ -141,16 +165,17 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What : item.value,
+              Answer : item.value,
               When : when,
               label : "blog"
             });
 
             answers.push({
-
+              username : "Bot",
               value: item.value,
               timestamp:when.getTime(),
-              type: 'answer'
+              type: 'answer',
+              label : "blog"
             });
 
             break;
@@ -159,16 +184,17 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What :item.value,
+              Answer :item.value,
               When : when,
               label : "video"
             });
 
             answers.push({
-
+                username : "Bot",
                 value :item.value,
                 timestamp:when.getTime(),
-                type: 'answer'
+                type: 'answer',
+                  label : "video"
               });
             break;
         }
@@ -176,7 +202,7 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              What : "item.value",
+              Answer : "item.value",
               When : when
             });
 
@@ -230,89 +256,75 @@ logout() {
   });
 }
 
-  getChatHistory() {
-    let msgs=[];
-    let self = this;
-    superagent
-        .get('/users/getchathistory')
-        .query({username:localStorage.getItem('username')})
-        .end(function(err, res) {
-          if(err){
-            console.log("error in retrieving chathistory");
-          } else{
-            res.body.result.messages.map(function(message){
-              if(message.type == "question"){
-                msgs.push({
+getChatHistory() {
+   let msgs=[];
+   let self = this;
+   superagent
+       .get('/users/getchathistory')
+       .query({username:localStorage.getItem('username')})
+       .end(function(err, res) {
+         if(err){
+           console.log("error in retrieving chathistory");
+         } else{
+           console.log(res,"response");
+           res.body.result.messages.map(function(message){
+             msgs.push({
+                           Who : message.username,
+                            What: message.value,
+                            When:new Date(message.timestamp),
+                            label : message.label,
+             });
+             self.setState({msgs: msgs});
+           });
+         }
+       });
+ }
 
-                              who:res.body.result.username
-                              What: message.value,
-                              When:new Date(message.timestamp),
-
-              })
-            }  else {
-              msgs.push({
-                              who:"bot",
-                              What: message.value,
-                              When:new Date(message.timestamp),
-                            })
-                            }
-
-
-              });
-              self.setState({msgs: msgs});
-
-          }
-        });
-  }
   render()
   {
     return(
-      <div >
-          <div>
-            <nav className="navbar navbar-inverse appbar" >
-              <div className="container-fluid">
-                      <div className="navbar-header" >
-                        <button type="button" className="navbar-toggle"
-                          data-toggle="collapse" data-target="#myNavbar">
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                        </button>
-                        <a className="navbar-brand" style = {styles.title}>
-                          <span >
-                            <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-                          </span> Quora</a>
-                      </div>
-                <div className="collapse navbar-collapse" id="myNavbar">
-                  <ul className="nav navbar-nav navbar-right">
-                    <li onClick={this.handlePopover}><a style = {styles.title}><span>
-                    <AccountCircle className = "acc-cirlce" color = "white"/>
-                      </span> User</a></li>
-                      <Popover
-                            open={this.state.open}
-                            anchorEl={this.state.anchorEl}
-                            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                            onRequestClose={this.handleRequestClose}>
-                            <Menu>
-                              <MenuItem >
-                                Bookmarks
-                              </MenuItem>
-                              <MenuItem primaryText="Logout"
-                              onClick={this.logout} />
-                            </Menu>
-                      </Popover>
-                  </ul>
-                </div>
-              </div>
-              {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+      <div>
+        <Toolbar  style={ styles.toolbarStyle }>
+          <ToolbarGroup style={styles.title} >
 
-          </nav>
-          </div>
+              <ToolbarTitle text="Quora" style={styles.title}/>
+          </ToolbarGroup>
+          <ToolbarGroup lastChild={true}>
+            <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
+            &nbsp;
+            <ToolbarTitle text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
+            <Popover
+                style = {styles.title}
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}>
+                <Menu>
+                  <MenuItem >
+                    Bookmarks
+                  </MenuItem>
+                  <MenuItem primaryText="Logout"
+                  onClick={this.logout} />
+                </Menu>
+          </Popover>
+          {this.state.logout ? <Redirect to='/' push={false} /> : ''}
+          </ToolbarGroup>
+        </Toolbar>
+        <Row>
+        <Col xs = {4}>
+          <Bookmarks />
+        </Col>
+        <Col xs = {8}>
         <ChatHistory history={ this.state.msgs } />
         <ChatInput sendMessage={ this.sendMessage } />
+        </Col>
+        </Row>
+
+
       </div>
     );
+
   }
 
 }

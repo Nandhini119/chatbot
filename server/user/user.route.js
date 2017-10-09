@@ -99,6 +99,30 @@ module.exports = function(passport) {
     }
   })
 
+  router.get('/bookmarks', function(req, res){
+    try {
+      console.log("inside bookmmark route");
+      var username = req.query.username;
+      //console.log("inside chathistory route ", req.body);
+      usersController.getBookmarks(username, function(result) {
+        //console.log('success')
+          res.status(201).json({
+              result: result
+          });
+      }, function(error) {
+        //console.log("err")
+          res.status(500).json({
+              error: error
+          });
+      });
+
+    } catch (e) {
+        console.log('error in getbookmarks route: ', e)
+        res.status(500).json({
+            error: "internal server error"
+        });
+    }
+  })
     /* login action */
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {

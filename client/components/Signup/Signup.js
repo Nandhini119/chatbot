@@ -148,7 +148,7 @@ class Signup extends Component {
           <Row center="xs" end = 'sm'>
             <Col xs={11} sm={5}>
               <Paper style={styles.paper} zDepth={3} >
-                <h4>Register Here!!!</h4>
+                <h4>Create your Account</h4>
                   <TextField
                     hintText="Username"
                     value={this.state.username}

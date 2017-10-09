@@ -6,14 +6,10 @@ import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
-import superagent from 'superagent';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import './ChatHistory.css';
+import ChatHistoryCard from './ChatHistoryCard.js';
 
-const style1 = {
-  title : {
-  color : "#8593e5",
-  },
-}
 
 class ChatHistory extends React.Component {
   scrollToBottom() {
@@ -28,67 +24,30 @@ constructor()
   super();
   this.state = {
     flag : false,
-    bookmark:false
-  },
-  this.addingBookmarks = this.addingBookmarks.bind(this);
+
+  }
 }
 
-addingBookmarks(){
-  this.setState({bookmark:true})
-  superagent
-  .post('/users/addingbookmarks')
-  .send()
-  .end(function(err, res) {
-      if (err) {
-          console.log('error: ', err)
-      }
-      else{
-        console.log("succesfully saved");
-      }
-   });
-}
-
-
-  render() {
+render() {
     console.log('history rendered: ', this.props.history)
-    let self = this;
+
     const { props } = this;
     // const { props, state } = this;
     // const props = this.props;
     // const state = this.state;
     return (
-      <div className="MessageDiv"  ref="messageList" >
-        <ul className="collection">
+      <div className="MessageDiv collection"  ref="messageList" >
           {
             props.history.map(function(messageObj, index) {
-              const messageTime = messageObj.When.toLocaleTimeString();
-              const messageDate = messageObj.When.toLocaleDateString();
+              // const messageTime = messageObj.When.toLocaleTimeString();
+              // const messageDate = messageObj.When.toLocaleDateString();
+              // const messageDateTime = messageDate +" "+ messageTime
               return (
-                <Row >
-                 <Col xsOffset = {4} xs = {8}> <li className="msgalign" key={index}>
-                 <div className = "titlealign">{messageObj.Who}</div>
-                  <div className="textalign">
-                  {messageObj.label == 'video'  || messageObj.label == 'blog'?<div> <a href = {messageObj.What} target="_blank">{messageObj.What}</a>
-                                      <Embedly url={messageObj.What} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
-                                     <p>{messageObj.What}</p>}
-                  </div> <br/>
-                  <span className = "timealign">
-                    {messageDate} &nbsp; &nbsp;
-                    <i className="prefix mdi-action-alarm" /> {messageTime}
-                    </span>&nbsp; &nbsp;
-                    <span className="bookalaign">
-                    <a className="bookmark">
-                        {self.state.bookmark ? <BookmarkFilled  style={style1.title} onClick={()=>{self.setState({bookmark:false})}} /> : <BookmarkBorder style={style1.title} onClick={self.addingBookmarks}/>}
-                    </a>
-                  </span>
-                </li>
-                </Col>
-                </Row>
+                <ChatHistoryCard messageObj = {messageObj} />
+
               )
             })
           }
-
-        </ul>
      </div>
 
     );

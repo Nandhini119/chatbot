@@ -1,6 +1,9 @@
 .appbar {
   background-color: black;
 }
+.toolbaar{
+  float: right;
+}
 .title {
   color:white;
 }

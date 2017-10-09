@@ -39,13 +39,23 @@ let getchathistory = function(username, successCB, errorCB) {
   });
 }
 
-let addingbookmarks = function(messages, successCB, errorCB){
-  Bookmarks.findOneAndUpdate({username:bookmarks.username},{$pushAll: {bookmarks:messages.bookmarks}}, {upsert:true}, function(err){
+let addingbookmarks = function(bookmarks, successCB, errorCB){
+  Bookmarks.findOneAndUpdate({username:bookmarks.username},{$pushAll: {bookmarks:bookmarks.bookmarks}}, {upsert:true}, function(err){
     if (err) {
-        console.log('err for saving bookmarks messages: ', err)
+        console.log('err for saving bookmarks: ', err)
         errorCB(err);
     }
     successCB("successfully saved");
+  })
+}
+
+let getBookmarks = function(username, successCB, errorCB){
+  Bookmarks.findOne({username:username}, function(err,data){
+    if (err) {
+        console.log('err for getting bookmarks: ', err)
+        errorCB(err);
+    }
+    successCB(data);
   })
 }
 let answer = function(words, successCB, errorCB) {
@@ -130,4 +140,6 @@ module.exports = {
     answer,
     chathistory,
     getchathistory,
+    addingbookmarks,
+    getBookmarks
 }
