@@ -23,6 +23,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import superagent from 'superagent';
 import ChatInput from './Chats/ChatInput.js';
 import ChatHistory from './Chats/ChatHistory.js';
+import Bookmarks from './Bookmarks.js';
 import  './User.css';
 
 const styles = {
@@ -204,11 +205,21 @@ getAnswer(message){
               Answer : "item.value",
               When : when
             });
+
             break;
         }
-      }/*end of switch case*/
-    })/*end of else map*/
+        }
+      })
       self.setState({answers: answers});
+
+      self.chatHistoryAnswers({
+          username: localStorage.getItem('username'),
+          messages:answers
+       });
+      console.log('answersin getanswer', self.state.answers);
+      self.setState({msgs: msgs});
+
+      return (<ChatHistory history={ self.state.msgs } />)
 
       self.chatHistoryAnswers({
           username: localStorage.getItem('username'),
@@ -217,7 +228,7 @@ getAnswer(message){
       console.log('answersin getanswer', self.state.answers);
     }/*end of else*/
       self.setState({msgs: msgs});
-    return (<ChatHistory history={ self.state.msgs } />)
+
   },
     error : function(err) {
       console.log(err);
@@ -255,7 +266,6 @@ logout() {
           if(err){
             console.log("error in retrieving chathistory");
           } else{
-
             res.body.result.messages.map(function(message){
               console.log("label",message.label)
               msgs.push({
@@ -301,9 +311,10 @@ logout() {
           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
           </ToolbarGroup>
         </Toolbar>
-        <Row >
-        <Col xs = {4} className = "bookmark">
-        <h3>Bookmarks</h3>
+        <Row>
+        <Col xs = {4} className = "bookmark" style = {styles.title}>
+        <h4>Bookmarks</h4>
+          <Bookmarks />
         </Col>
         <Col xs = {8}>
         {/*}<Row  start = "xs" className = "chatWindow">

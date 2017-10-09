@@ -30,6 +30,7 @@ class ChatInput extends React.Component {
       What: message,
       When: when
     });
+
 this.pushHistory({
       username: localStorage.getItem('username'),
       messages: [{

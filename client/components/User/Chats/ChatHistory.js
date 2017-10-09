@@ -19,10 +19,22 @@ class ChatHistory extends React.Component {
     const maxScrollTop = scrollHeight - height;
     ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   }
+constructor()
+{
+  super();
+  this.state = {
+    flag : false,
 
-  render() {
+  }
+}
+
+render() {
+    console.log('history rendered: ', this.props.history)
+
     const { props } = this;
-    console.log(props.history);
+    // const { props, state } = this;
+    // const props = this.props;
+    // const state = this.state;
     return (
       <div className =  "collection">
       <div className="MessageDiv"  ref="messageList" >

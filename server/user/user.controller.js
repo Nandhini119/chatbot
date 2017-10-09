@@ -1,6 +1,7 @@
 let stopWord = require('stopword');
 let UserModel = require('./user.model.js');
 let ChatHistory = require('./userChatHistory.model.js');
+let Bookmarks = require('./userBookmark.model.js');
 let driver = require('../config/neo4j.js');
 
 
@@ -38,6 +39,25 @@ let getchathistory = function(username, successCB, errorCB) {
   });
 }
 
+let addingbookmarks = function(bookmarks, successCB, errorCB){
+  Bookmarks.findOneAndUpdate({username:bookmarks.username},{$pushAll: {bookmarks:bookmarks.bookmarks}}, {upsert:true}, function(err){
+    if (err) {
+        console.log('err for saving bookmarks: ', err)
+        errorCB(err);
+    }
+    successCB("successfully saved");
+  })
+}
+
+let getBookmarks = function(username, successCB, errorCB){
+  Bookmarks.findOne({username:username}, function(err,data){
+    if (err) {
+        console.log('err for getting bookmarks: ', err)
+        errorCB(err);
+    }
+    successCB(data);
+  })
+}
 let answer = function(words, successCB, errorCB) {
     let queryToFindRelation = " ";
     let queryToGetIntents = " ";
@@ -120,4 +140,6 @@ module.exports = {
     answer,
     chathistory,
     getchathistory,
+    addingbookmarks,
+    getBookmarks
 }
