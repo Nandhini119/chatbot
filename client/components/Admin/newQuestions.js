@@ -98,7 +98,7 @@ render() {
   return(
     <div className = "container-fluid">
       <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-        <ArrowBack color = "white"/>
+        <ArrowBack color = "black"/>
       </IconButton>
       <Row center = 'xs'>
         <Col xs = {12} sm = {10}>

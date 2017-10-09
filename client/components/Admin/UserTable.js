@@ -8,6 +8,7 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import $ from 'jquery';
 
@@ -94,6 +95,7 @@ export default class UserTable extends React.Component {
 render()
 {
   return(
+
       <TableRow>
         <TableRowColumn>{this.props.id}</TableRowColumn>
         <TableRowColumn>{this.props.userdata.username}</TableRowColumn>

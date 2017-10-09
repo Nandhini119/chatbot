@@ -17,6 +17,7 @@ import {
     Col
 } from 'react-flexbox-grid';
 import $ from 'jquery';
+
 import UserTable from './UserTable.js';
 
 export default class AllUsers extends React.Component {
@@ -50,7 +51,7 @@ export default class AllUsers extends React.Component {
     return(
      <div className = "container-fluid  background ">
         <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-          <ArrowBack color = "white"/>
+          <ArrowBack color = "black"/>
            </IconButton>
            <Row center='xs'>
             <Col xs={10}>

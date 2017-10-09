@@ -1,16 +1,15 @@
 .MessageDiv{
-  margin-top: 20px;
   overflow-y: scroll;
-  height: 75vh;
+  overflow-x: hidden;
+  height: 80vh;
 }
 .collection {
-  margin-top: 10;
+  margin-top: 10px;;
   border: 0px;
   position: relative;
   float: right;
 
 }
-
 .msgalign {
   background-color: white;
   top: -5px;

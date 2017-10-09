@@ -1,7 +1,7 @@
 .App {
  height: 100%;
   /*background-image: url('./../assets/images/react.png');*/
-  background-color: #B0A084;
+  background-color: transparent;
   background-size: cover;
   background-repeat: no-repeat;
 }

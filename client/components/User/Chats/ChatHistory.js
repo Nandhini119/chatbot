@@ -22,19 +22,18 @@ class ChatHistory extends React.Component {
 
   render() {
     const { props } = this;
+    console.log(props.history);
     return (
-      <div className="MessageDiv collection"  ref="messageList" >
+      <div className =  "collection">
+      <div className="MessageDiv"  ref="messageList" >
           {
             props.history.map(function(messageObj, index) {
-              // const messageTime = messageObj.When.toLocaleTimeString();
-              // const messageDate = messageObj.When.toLocaleDateString();
-              // const messageDateTime = messageDate +" "+ messageTime
               return (
                 <ChatHistoryCard messageObj = {messageObj} />
-
               )
             })
           }
+     </div>
      </div>
 
     );

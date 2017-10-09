@@ -255,8 +255,9 @@ logout() {
           if(err){
             console.log("error in retrieving chathistory");
           } else{
-            console.log(res,"response");
+
             res.body.result.messages.map(function(message){
+              console.log("label",message.label)
               msgs.push({
                             Who : message.username,
                              What: message.value,
@@ -300,11 +301,14 @@ logout() {
           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
           </ToolbarGroup>
         </Toolbar>
-        <Row>
-        <Col xs = {4}>
+        <Row >
+        <Col xs = {4} className = "bookmark">
         <h3>Bookmarks</h3>
         </Col>
         <Col xs = {8}>
+        {/*}<Row  start = "xs" className = "chatWindow">
+        <h5 >To : GoT BoT</h5>
+        </Row>*/}
         <ChatHistory history={ this.state.msgs } />
         <ChatInput sendMessage={ this.sendMessage } />
         </Col>

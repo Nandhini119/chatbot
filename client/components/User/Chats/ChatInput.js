@@ -61,30 +61,36 @@ pushHistory(history){
     const { props, onSubmit } = this;
     return (
 
-      <footer>
+      <footer >
+      <Row className = "footer">
+      <Col xs = {4} >
+      </Col>
+      <Col xs = {8}>
         <form  onSubmit={ onSubmit }>
-          <Row end = 'xs'>
-
-          <Col xs = {9}>
-              <div className="input-field textfield">
+        <Row end = "xs">
+        <Col xs = {1}/>
+        <Col xs = {7}>
+              <div className="input-field">
                 <i className="prefix mdi-communication-chat" />
                 <input
                   type="text"
-                  placeholder="Type your message"
+                  placeholder="Ask me anything..."
                   value={this.state.userQuery}
                   onChange={(e) => this.setState({ userQuery: e.target.value })}
                   />
               </div>
               </Col>
-              <Col xs = {2}>
+              <Col xs = {4}>
               <div className="input-field">
                 <button type="submit" className="waves-effect waves-light btn-floating btn-large">
                   <i className="mdi-content-send" />
                 </button>
               </div>
               </Col>
-          </Row>
+              </Row>
         </form>
+        </Col>
+        </Row>
       </footer>
     );
   }

@@ -109,7 +109,7 @@ export default class AllQuestions extends React.Component {
         return (
           <div className = "container-fluid background" >
             <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
-              <ArrowBack color = "white" / >
+              <ArrowBack color = "black" / >
             </IconButton>
             {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
             <Row center = 'xs' >

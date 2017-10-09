@@ -13,6 +13,7 @@ const style = {
   },
   alignmentRight : {
     marginLeft : "2%",
+    marginRight : "2%",
   },
   alignmentLeft : {
     marginLeft : "58%",
@@ -35,20 +36,18 @@ export default class ChatHistoryCard extends React.Component {
     const messageDate = this.props.messageObj.When.toLocaleDateString();
     const messageDateTime = messageDate +" "+ messageTime;
     return(
-
       <div>
-      {this.props.messageObj.Who == 'Bot'  ?
-      <Row  style = {style.alignmentRight}>
+      <Row  style = {this.props.messageObj.Who == 'Bot'  ? style.alignmentRight : style.alignmentLeft }>
       <Col>
        <div>
       <Card style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
         <CardHeader
           title={this.props.messageObj.Who}
             subtitle={messageDateTime}/>
-        <CardText className = "question">
+        <CardText className = "cardText">
         {this.props.messageObj.What}
         </CardText>
-        <CardText className = "answer">
+        <CardText className = "cardText">
         {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
                             <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="65e045b599124726a05d7ac0cc57dbb1"/></div>:
                            <p>{this.props.messageObj.Answer}</p>}
@@ -58,28 +57,7 @@ export default class ChatHistoryCard extends React.Component {
         </CardActions>
       </Card>
       </div></Col>
-      </Row>:<Row style = {style.alignmentLeft}>
-      <Col>
-       <div>
-      <Card style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
-        <CardHeader
-          title={this.props.messageObj.Who}
-            subtitle={messageDateTime}/>
-        <CardText className = "question">
-        {this.props.messageObj.What}
-        </CardText>
-        <CardText className = "answer">
-        {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
-                            <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
-                           <p>{this.props.messageObj.Answer}</p>}
-        </CardText>
-        <CardActions >
-           <BookmarkBorder  style={style.title}/>
-        </CardActions>
-      </Card>
-      </div>
-      </Col>
-      </Row>}
+      </Row>
       </div>
     );
   }

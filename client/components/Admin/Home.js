@@ -10,7 +10,7 @@ import Navigatenext from 'material-ui/svg-icons/image/navigate-next';
 
 const styles = {
     title: {
-        color: "white",
+        color: "black",
     },
     root: {
         display: 'flex',

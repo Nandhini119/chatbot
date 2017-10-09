@@ -1,15 +1,24 @@
-.appbar {
-  background-color: black;
-}
+
 .toolbaar{
   float: right;
+}
+.botname{
+  float: center;
 }
 .title {
   color:white;
 }
-/*.acc-cirlce {
-    margin-top:  -50px;
-}*/
+.bookmark {
+  background-color: #059C75;
+
+
+
+
+}
+.chatWindow {
+background-color : red;
+opacity :0.5;
+}
 .logo {
   margin-top:  -10px;
 }
