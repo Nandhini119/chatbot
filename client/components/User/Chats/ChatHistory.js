@@ -42,6 +42,8 @@ render() {
     // const { props, state } = this;
     // const props = this.props;
     // const state = this.state;
+
+
     return (
 
       <div className =  "collection">
@@ -52,7 +54,7 @@ render() {
             props.history.map(function(messageObj, index) {
               console.log(props.history.length);
               return (
-                <ChatHistoryCard key = {index} messageObj = {messageObj} />
+                <ChatHistoryCard messageObj = {messageObj} index={index}/>
               )
             })
 
@@ -60,6 +62,7 @@ render() {
      </div>
 
      </div>
+
 
     );
   }

@@ -6,7 +6,7 @@ import {
     Subheader
 } from 'material-ui';
 import Navigatenext from 'material-ui/svg-icons/image/navigate-next';
-
+import './Admin.css';
 
 const styles = {
     title: {

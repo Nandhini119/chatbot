@@ -176,7 +176,8 @@ getAnswer(message){
                 value: item.value,
                 timestamp:when.getTime(),
                 type: 'answer',
-                  label : "text"
+                label : "text",
+                bookmark:'false'
                 });
               break;
           }
@@ -194,7 +195,8 @@ getAnswer(message){
               value: item.value,
               timestamp:when.getTime(),
               type: 'answer',
-              label : "blog"
+              label : "blog",
+              bookmark:'false'
             });
 
             break;
@@ -213,7 +215,8 @@ getAnswer(message){
                 value :item.value,
                 timestamp:when.getTime(),
                 type: 'answer',
-                  label : "video"
+                  label : "video",
+                  bookmark:'false'
               });
             break;
         }
@@ -290,6 +293,7 @@ logout() {
             if(res.body.result == null) {
               self.setState({msgs : []});
             } else {
+            console.log('getchathistory', res.body.result);
             res.body.result.messages.map(function(message){
               console.log("label",message.label)
               msgs.push({
@@ -297,6 +301,7 @@ logout() {
                              What: message.value,
                              When:new Date(message.timestamp),
                              label : message.label,
+                             bookmark:message.bookmark
               });
               self.setState({msgs: msgs});
             });
@@ -348,7 +353,6 @@ logout() {
         <ChatInput sendMessage={ this.sendMessage } />
         </Col>
         </Row>
-
 
       </div>
     );

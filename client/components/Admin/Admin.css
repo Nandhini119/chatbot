@@ -1,4 +1,6 @@
-
+body{
+  overflow-y: scroll;
+}
 .homejs{
   margin-top: 50px;
 }

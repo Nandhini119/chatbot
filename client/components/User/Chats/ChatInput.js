@@ -37,7 +37,8 @@ this.pushHistory({
         username : localStorage.getItem('username'),
         type: 'question',
         value: message,
-        timestamp: when.getTime()
+        timestamp: when.getTime(),
+        bookmark:'false'
       }]
     });
 

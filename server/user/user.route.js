@@ -123,6 +123,30 @@ module.exports = function(passport) {
         });
     }
   })
+
+  router.post('/deletebookmark', function(req, res, next){
+    console.log("inside deletebookmark router");
+    try{
+      var username = req.body.username;
+      var value = req.body.value;
+      usersController.deleteBookmark(username, value, function(result){
+        console.log("inside deletebookmark controller");
+        res.status(201).json({
+          result:result
+        });
+      }, function(error) {
+        res.status(500).json({
+          error:error
+        });
+      });
+    } catch(e) {
+      console.log('error in deletebookmar route: ', e)
+      res.status(500).json({
+        error:"internal server error"
+      });
+    }
+})
+
     /* login action */
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {

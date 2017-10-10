@@ -18,6 +18,7 @@ import AllQuestionsComp from './AllQuestions.js';
 import AllUsersComp from './AllUsers.js';
 import Home from './Home.js';
 import NewQuestions from './newQuestions.js';
+import './Admin.css';
 
 const styles = {
     title: {
