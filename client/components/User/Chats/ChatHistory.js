@@ -7,6 +7,7 @@ import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import ScrollBar from 'react-scrollbar-js';
 import './ChatHistory.css';
 import ChatHistoryCard from './ChatHistoryCard.js';
 
@@ -35,18 +36,22 @@ render() {
     // const { props, state } = this;
     // const props = this.props;
     // const state = this.state;
+
+
     return (
+
       <div className =  "collection">
-      <div className="MessageDiv"  ref="messageList" >
-          {
-            props.history.map(function(messageObj, index) {
-              return (
-                <ChatHistoryCard messageObj = {messageObj} />
-              )
-            })
-          }
+        <div className="MessageDiv"  ref="messageList" >
+            {
+              props.history.map(function(messageObj, index) {
+                return (
+                  <ChatHistoryCard messageObj = {messageObj} />
+                )
+              })
+            }
+       </div>
      </div>
-     </div>
+
 
     );
   }

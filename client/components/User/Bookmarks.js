@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import superagent from 'superagent';
+import './Chats/ChatHistory.css';
 
 class Bookmarks extends React.Component {
 
@@ -56,7 +57,8 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     return (
-      <div className="MessageDiv collection"  ref="messageList" >
+      <div className="collection">
+      <div className="MessageDiv"  ref="messageList" >
         {
           this.state.bookmarks.map(function(bookmark, index) {
             return (
@@ -76,6 +78,7 @@ class Bookmarks extends React.Component {
             )
           })
         }
+     </div>
      </div>
     );
   }

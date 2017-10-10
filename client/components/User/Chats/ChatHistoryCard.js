@@ -6,6 +6,7 @@ import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import superagent from 'superagent';
+import ScrollBar from 'react-scrollbar-js';
 import './ChatHistory.css';
 
 const style = {
@@ -63,11 +64,14 @@ this.setState({bookmark:true})
   }
 
   render() {
+  
       let self = this;
     const messageTime = this.props.messageObj.When.toLocaleTimeString();
     const messageDate = this.props.messageObj.When.toLocaleDateString();
-    const messageDateTime = messageDate +" "+ messageTime;
+    const messageDateTime = messageDate +"   "+ messageTime;
+
     return(
+
       <div>
       <Row style = {this.props.messageObj.Who == 'Bot'  ? style.alignmentRight : style.alignmentLeft}>
       <Col>

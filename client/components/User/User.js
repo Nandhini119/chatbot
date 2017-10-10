@@ -325,7 +325,6 @@ logout() {
         </Col>
         </Row>
 
-
       </div>
     );
 

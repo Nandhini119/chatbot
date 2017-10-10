@@ -26,12 +26,20 @@ import $ from 'jquery';
 
 
 const styles = {
-    card: {
-        margin: "15px"
+    body : {
+    overflowY : "scroll",
+    overflowX : "hidden",
+    height : "800px",
+
     },
-
-
+    marginTop : {
+      marginTop : "60px",
+    },
+    arrow : {
+      position : "fixed",
+    },
 }
+
 
 export default class AllQuestions extends React.Component {
     constructor(props) {
@@ -107,17 +115,20 @@ export default class AllQuestions extends React.Component {
 
     render() {
         return (
-          <div className = "container-fluid background" >
-            <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
+          <div style={styles.body}>
+            <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
               <ArrowBack color = "black" / >
             </IconButton>
-            {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
-            <Row center = 'xs' >
-              <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
-                  items = {10} maxButtons = {3}
-                  activePage = {this.state.activePage}
-                  onSelect = {this.handlePagination}/>
-            </Row>
+            <div className = "container-fluid background" style={styles.marginTop}>
+
+              {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+              <Row center = 'xs' >
+                <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
+                    items = {10} maxButtons = {3}
+                    activePage = {this.state.activePage}
+                    onSelect = {this.handlePagination}/>
+              </Row>
+            </div>
           </div>
         );
     }

@@ -13,7 +13,13 @@ import UnAnsweredCard from './UnAnsweredCard.js';
 const styles = {
   card  : {
     margin : "15px"
-  }
+  },
+  arrow : {
+    position : "fixed",
+  },
+  marginTop : {
+    marginTop : "80px",
+  },
 }
 
 export default class UnAnswered extends React.Component
@@ -86,16 +92,18 @@ export default class UnAnswered extends React.Component
   render(){
     return(
       <div className = "container-fluid background" >
-        <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
-          <ArrowBack color = "black" / >
-        </IconButton>
-        {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
-        <Row center = 'xs' >
-          <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
-              items = {10} maxButtons = {3}
-              activePage = {this.state.activePage}
-              onSelect = {this.handlePagination}/>
-        </Row>
+      <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
+        <ArrowBack color = "black" / >
+      </IconButton>
+        <div style={styles.marginTop}>
+          {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+          <Row center = 'xs'>
+            <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
+                items = {10} maxButtons = {3}
+                activePage = {this.state.activePage}
+                onSelect = {this.handlePagination}/>
+          </Row>
+        </div>
       </div>
     );
   }
