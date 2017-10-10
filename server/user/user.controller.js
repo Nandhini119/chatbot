@@ -40,6 +40,16 @@ let getchathistory = function(username, successCB, errorCB) {
 }
 
 let addingbookmarks = function(bookmarks, successCB, errorCB){
+  console.log('bookmarkvalue::', bookmarks[0].value);
+  ChatHistory.update({'username':bookmarks.username,'messages.value':bookmarks.value},{'$set': {'messages.$.bookmark': true}}, function(err){
+    console.log("inside updatebookmark controller");
+    if (err) {
+        console.log('err for saving bookmarkflag: ', err)
+        errorCB(err);
+    }
+    //successCB("successfully saved");
+  })
+
   Bookmarks.findOneAndUpdate({username:bookmarks.username},{$pushAll: {bookmarks:bookmarks.bookmarks}}, {upsert:true}, function(err){
     if (err) {
         console.log('err for saving bookmarks: ', err)
@@ -57,6 +67,17 @@ let getBookmarks = function(username, successCB, errorCB){
     }
     successCB(data);
   })
+}
+
+let deleteBookmark = function(username, answer,successCB, errorCB){
+  console.log('value in deletebookmark', answer)
+  Bookmarks.update({username:username},{$pull:{bookmarks:{value:answer}}}, function(err){
+    if(err){
+      console.log('err for deleting bookmarks: ', err)
+      errorCB(err);
+    }
+    successCB("successfully deleted");
+  });
 }
 let answer = function(words, successCB, errorCB) {
     let queryToFindRelation = " ";
@@ -141,5 +162,6 @@ module.exports = {
     chathistory,
     getchathistory,
     addingbookmarks,
-    getBookmarks
+    getBookmarks,
+    deleteBookmark
 }

@@ -41,7 +41,7 @@ render() {
           {
             props.history.map(function(messageObj, index) {
               return (
-                <ChatHistoryCard messageObj = {messageObj} />
+                <ChatHistoryCard messageObj = {messageObj} index={index}/>
               )
             })
           }
