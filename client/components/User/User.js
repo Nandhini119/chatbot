@@ -24,6 +24,7 @@ import superagent from 'superagent';
 import ChatInput from './Chats/ChatInput.js';
 import ChatHistory from './Chats/ChatHistory.js';
 import Bookmarks from './Bookmarks.js';
+import Scrollbar from 'react-scrollbar';
 import  './User.css';
 
 const styles = {
@@ -48,7 +49,6 @@ export default class User extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-        //value: 3,
         open: false,
         msgs: [],
         wordarr : [],
@@ -62,9 +62,10 @@ export default class User extends React.Component{
     this.logout = this.logout.bind(this);
     this.getChatHistory = this.getChatHistory.bind(this);
     this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
+    this.handleClearChat = this.handleClearChat.bind(this);
     }
     componentWillMount() {
-      this.getChatHistory();
+      this.getChatHistory({count : 1});
     }
 
 /*opens popover menu.Here event is used to make the popover to display in the target*/
@@ -105,6 +106,24 @@ chatHistoryAnswers(history){
       }
    });
 }
+
+handleClearChat() {
+  let self = this;
+  $.ajax({
+    url : '/users/clear',
+    type : 'post',
+    data : {username : localStorage.getItem('username')},
+    success : function(response) {
+      console.log("deleted successfully",response);
+      self.setState({msgs : [] });
+      self.setState({open:false});
+    },
+    error : function(err) {
+      console.log("Error",err);
+    }
+  })
+}
+
 getAnswer(message){
   let when = new Date();
   this.state.answers=[];
@@ -135,7 +154,7 @@ getAnswer(message){
           })
           msgs.push({
             Who : "Bot",
-            Answer : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+            What : "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
             When : new Date(),
 
           });
@@ -148,7 +167,7 @@ getAnswer(message){
           {
               msgs.push({
                 Who : "Bot",
-                Answer : item.value,
+                What : item.value,
                 When : when,
                 label : "text"
               });
@@ -165,7 +184,7 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              Answer : item.value,
+              What : item.value,
               When : when,
               label : "blog"
             });
@@ -184,7 +203,7 @@ getAnswer(message){
           {
             msgs.push({
               Who : "Bot",
-              Answer :item.value,
+              What :item.value,
               When : when,
               label : "video"
             });
@@ -256,16 +275,21 @@ logout() {
   });
 }
 
-  getChatHistory() {
+  getChatHistory(data) {
     let msgs=[];
     let self = this;
+    alert(data.count);
     superagent
         .get('/users/getchathistory')
-        .query({username:localStorage.getItem('username')})
+        .query({username:localStorage.getItem('username'),
+                  skip : data.count})
         .end(function(err, res) {
           if(err){
             console.log("error in retrieving chathistory");
           } else{
+            if(res.body.result == null) {
+              self.setState({msgs : []});
+            } else {
             res.body.result.messages.map(function(message){
               console.log("label",message.label)
               msgs.push({
@@ -276,6 +300,7 @@ logout() {
               });
               self.setState({msgs: msgs});
             });
+          }
           }
         });
   }
@@ -301,8 +326,8 @@ logout() {
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 onRequestClose={this.handleRequestClose}>
                 <Menu>
-                  <MenuItem >
-                    Bookmarks
+                  <MenuItem onClick = {this.handleClearChat}>
+                    Clear ChatHistory
                   </MenuItem>
                   <MenuItem primaryText="Logout"
                   onClick={this.logout} />
@@ -313,14 +338,13 @@ logout() {
         </Toolbar>
         <Row>
         <Col xs = {4} className = "bookmark" style = {styles.title}>
-        <h4>Bookmarks</h4>
+        <center><h4>Bookmarks</h4></center>
           <Bookmarks />
         </Col>
         <Col xs = {8}>
-        {/*}<Row  start = "xs" className = "chatWindow">
-        <h5 >To : GoT BoT</h5>
-        </Row>*/}
-        <ChatHistory history={ this.state.msgs } />
+
+        <ChatHistory history={ this.state.msgs } getChatHistory = {this.getChatHistory.bind(this)}/>
+
         <ChatInput sendMessage={ this.sendMessage } />
         </Col>
         </Row>

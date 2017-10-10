@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import superagent from 'superagent';
-
+import './User.css';
 class Bookmarks extends React.Component {
 
   constructor() {
@@ -27,27 +27,31 @@ class Bookmarks extends React.Component {
         if (err) {
           console.log('error: ', err);
         } else {
+          if(res.body.result == null) {
+            self.setState({bookmarks : []});
+          } else {
           self.setState({bookmarks: res.body.result.bookmarks})
           console.log("succesfully saved");
+        }
         }
      });
   }
 
   deleteBookmark(index) {
     let { bookmarks } = this.state;
-    // superagent
-    // .post('/users/deletebookmark')
-    // .send({
-    //   username: localStorage.get('username'),
-    //   timestamp: bookmarks[index].timestamp
-    // })
-    // .end(function(err, res) {
-    //     if (err) {
-    //       console.log('error: ', err);
-    //     } else {
-    //       console.log('delete bookmark response', res);
-    //     }
-    //  });
+    superagent
+    .post('/users/deletebookmark')
+    .send({
+      username: localStorage.get('username'),
+      timestamp: bookmarks[index].timestamp
+    })
+    .end(function(err, res) {
+        if (err) {
+          console.log('error: ', err);
+        } else {
+          console.log('delete bookmark response', res);
+        }
+     });
     this.setState({
       bookmarks: bookmarks.splice(index, 1)
     });
@@ -57,11 +61,12 @@ class Bookmarks extends React.Component {
     let self = this;
     return (
       <div className="MessageDiv collection"  ref="messageList" >
-        {
+      {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
           this.state.bookmarks.map(function(bookmark, index) {
             return (
               <div>
-                <Row><Col><div><Card>
+                <Row><Col><div>
+                <Card className = "bookCard">
                   <CardHeader
                     title={bookmark.username}
                     subtitle={bookmark.timestamp}/>

@@ -7,6 +7,8 @@ import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import Scrollbar from 'react-scrollbar';
+import Chip from 'material-ui/Chip';
 import './ChatHistory.css';
 import ChatHistoryCard from './ChatHistoryCard.js';
 
@@ -24,28 +26,39 @@ constructor()
   super();
   this.state = {
     flag : false,
-
+    count : 0,
   }
+  this.handleLoadMore = this.handleLoadMore.bind(this);
+}
+
+handleLoadMore() {
+  let count = this.state.count + 1;
+  this.setState({count : count});
+  this.props.getChatHistory({count : count});
 }
 
 render() {
-    console.log('history rendered: ', this.props.history)
-
     const { props } = this;
     // const { props, state } = this;
     // const props = this.props;
     // const state = this.state;
     return (
+
       <div className =  "collection">
-      <div className="MessageDiv"  ref="messageList" >
-          {
+      <div className="MessageDiv "  ref="messageList" >
+      {props.history.length >2 ? <Chip onClick = {this.handleLoadMore}>Load more..</Chip>  : " "}
+      { props.history.length == 0 ?<div className = "message">This is the beginning of your chat..</div>:
+
             props.history.map(function(messageObj, index) {
+              console.log(props.history.length);
               return (
-                <ChatHistoryCard messageObj = {messageObj} />
+                <ChatHistoryCard key = {index} messageObj = {messageObj} />
               )
             })
-          }
+
+        }
      </div>
+
      </div>
 
     );

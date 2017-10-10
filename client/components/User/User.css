@@ -11,6 +11,11 @@
 .bookmark {
   background-color: #059C75;
 }
+.bookCard {
+margin-left: 6%;
+margin-right : 1%;
+max-width : 90%;
+}
 .chatWindow {
 background-color : red;
 opacity :0.5;

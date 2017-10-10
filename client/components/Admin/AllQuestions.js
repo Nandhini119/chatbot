@@ -45,33 +45,36 @@ export default class AllQuestions extends React.Component {
 
         }
         this.handlePagination = this.handlePagination.bind(this);
-
+        this.updateComponent = this.updateComponent.bind(this);
 
     }
 
     componentWillMount() {
-        var allQuestions = "";
-        let self = this;
-        $.ajax({
-            url: '/admin/questions',
-            method: 'GET',
-            data: {
-                skip: 0
-            },
-            success: function(response) {
-                allQuestions = response.result.records.map((row, index) => {
-                    return <QuestionCard question = {row} key = {index} id = {index}/>
-                })
-                self.setState({
-                    allquestions: allQuestions
-                });
+      this.updateComponent();
 
-            },
-            error: function(err) {
-                console.log("Error", err);
-            }
-        })
+    }
+    updateComponent() {
+      var allQuestions = "";
+      let self = this;
+      $.ajax({
+          url: '/admin/questions',
+          method: 'GET',
+          data: {
+              skip: 0
+          },
+          success: function(response) {
+              allQuestions = response.result.records.map((row, index) => {
+                  return <QuestionCard question = {row} key = {index} id = {index} updateComponent = {this.updateComponent}/>
+              })
+              self.setState({
+                  allquestions: allQuestions
+              });
 
+          },
+          error: function(err) {
+              console.log("Error", err);
+          }
+      })
     }
     handlePagination(eventKey) {
         this.setState({

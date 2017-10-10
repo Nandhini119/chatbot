@@ -84,6 +84,7 @@ export default class QuestionCard extends React.Component {
                 success: function(response) {
                     alert("successfully answer added");
                     self.setState({open: false});
+                    self.props.updateComponent();
 
                 },
                 error: function(err) {

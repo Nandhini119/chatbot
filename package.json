@@ -27,6 +27,7 @@
     "react-flexbox-grid": "^1.1.5",
     "react-gemini-scrollbar": "^2.3.2",
     "react-router-dom": "^4.2.2",
+    "react-scrollbar": "^0.5.1",
     "react-tap-event-plugin": "^2.0.1",
     "stopword": "^0.1.8",
     "superagent": "^3.6.0"

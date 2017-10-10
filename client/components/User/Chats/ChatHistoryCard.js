@@ -6,6 +6,7 @@ import Embedly from 'react-embedly';
 import { Row, Col } from 'react-flexbox-grid';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import superagent from 'superagent';
+import Scrollbar from 'react-scrollbar';
 import './ChatHistory.css';
 
 const style = {
@@ -68,30 +69,32 @@ this.setState({bookmark:true})
     const messageDate = this.props.messageObj.When.toLocaleDateString();
     const messageDateTime = messageDate +" "+ messageTime;
     return(
+
       <div>
       <Row style = {this.props.messageObj.Who == 'Bot'  ? style.alignmentRight : style.alignmentLeft}>
-      <Col>
+      <Col xs = {12}>
        <div>
-      <Card style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
+
+      <Card className = "card" style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
         <CardHeader
           title={this.props.messageObj.Who}
             subtitle={messageDateTime}/>
-        <CardText className = "question">
-        {this.props.messageObj.What}
-        </CardText>
-        <CardText className = "answer">
-        {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
-                            <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
-                           <p>{this.props.messageObj.Answer}</p>}
+        <CardText className = "answer cardText">
+        {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
+              <Embedly url={this.props.messageObj.What} target="_blank" apiKey="83a36ed51a5c4702ac93b438ff42dfe8"/></div>:
+                           <p>{this.props.messageObj.What}</p>}
         </CardText>
         <CardActions >
-          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={()=>{self.setState({bookmark:false})}} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
+          <span>{self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={()=>{self.setState({bookmark:false})}} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}</span>
         </CardActions>
       </Card>
+
       </div>
+
       </Col>
       </Row>
       </div>
+
     );
   }
 }

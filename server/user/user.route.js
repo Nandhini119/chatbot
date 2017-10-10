@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 let usersController = require('./user.controller.js');
 
+
 module.exports = function(passport) {
     router.get('/answer', function(req, res) {
         try {
-            console.log(req.query.words)
             usersController.answer(req.query, function(result) {
                 res.status(201).json({
                     result: result
@@ -52,8 +52,9 @@ module.exports = function(passport) {
     router.get('/getchathistory', function(req,res){
       try {
         var username = req.query.username;
+        var skip = req.query.skip;
         //console.log("username", req.query.username);
-        usersController.getchathistory(username,function(result){
+        usersController.getchathistory(username,skip,function(result){
           //console.log('inside getchathistory route')
             res.status(201).json({
                 result: result
@@ -101,7 +102,6 @@ module.exports = function(passport) {
 
   router.get('/bookmarks', function(req, res){
     try {
-      console.log("inside bookmmark route");
       var username = req.query.username;
       //console.log("inside chathistory route ", req.body);
       usersController.getBookmarks(username, function(result) {
@@ -156,7 +156,6 @@ module.exports = function(passport) {
     });
 
     router.post('/adminsignup', function(req, res) {
-        console.log('POST /users/adminsignup');
         try {
             usersController.adminSignup(req.body, function(result) {
                 res.status(201).json({
@@ -175,8 +174,22 @@ module.exports = function(passport) {
         }
     });
 
+    router.post('/clear',function(req,res) {
+      try {
+          usersController.clear(req.body,function(result) {
+            res.status(201).json({result : result});
+          }, function(error) {
+            res.status(500).json({ error : error});
+          });
+      } catch (e) {
+        console.log('error in deleting chathistory route',e);
+        res.status(500).json({
+          error : "internal server error"
+        });
+      }
+    });
+
     router.get('/logout', function(request, response) {
-        console.log("in logout");
         request.session.destroy(function(req, res, err) {
             if (err) {
                 console.log("status of error in logout" + err);

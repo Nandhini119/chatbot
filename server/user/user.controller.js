@@ -3,7 +3,7 @@ let UserModel = require('./user.model.js');
 let ChatHistory = require('./userChatHistory.model.js');
 let Bookmarks = require('./userBookmark.model.js');
 let driver = require('../config/neo4j.js');
-
+let skipLimit = 0;
 
 let adminSignup = function(admin, successCB, errorCB) {
     let newAdmin = new UserModel();
@@ -29,14 +29,22 @@ ChatHistory.findOneAndUpdate({username:history.username},{$pushAll: {messages: h
 });
 }
 
-let getchathistory = function(username, successCB, errorCB) {
+let getchathistory = function(username,skip, successCB, errorCB) {
+  console.log(skip,"skip")
+  if(skip == 1) {
+    skipLimit = 0
+  }
+  else {
+   skipLimit = 5*skip;
+}
+console.log(skipLimit,"skip")
   ChatHistory.findOne({username:username},function(err, data) {
     if(err) {
       console.log('err in chathistory:', err)
       errorCB(err);
     }
     successCB(data);
-  });
+  }).skip(skipLimit).limit(5);
 }
 
 let addingbookmarks = function(bookmarks, successCB, errorCB){
@@ -66,7 +74,12 @@ let answer = function(words, successCB, errorCB) {
     let intent = " ";
     let relation = " ";
     let resultobj = [];
-    let question = words.words.split(' ');
+    let answer_label = " ";
+    var punctuationless = words.words.replace(/[^\w\s]|_/g, "");
+    //console.log(punctuationless);
+    var finalString = punctuationless.replace(/\s+/g, " ");
+    //console.log(finalString);
+    let question = finalString.split(' ');
     /* connecting to the db */
     let session = driver.session();
     /* building a cypher query */
@@ -84,7 +97,6 @@ let answer = function(words, successCB, errorCB) {
           }
         }
         let keyword = stopWord.removeStopwords(question);
-        //console.log("inent",intent)
         /* building a cypher query */
         queryToFindRelation = `MATCH (intent:intent {name: "${intent}"}) WITH intent AS c\
                MATCH (c) -[:same_as]->(q) with q.name as d return d`;
@@ -98,9 +110,9 @@ let answer = function(words, successCB, errorCB) {
                    }/*end of else queryToFindRelation*/
                  let params = {
                                "keywords" : keyword,
-                               "intent" : relation
+                               "intent" : relation,
                              }
-                             //console.log("keyword", params.keywords);
+                             console.log("keyword", params.answer_label);
                  /* building a cypher query */
                  queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\
@@ -111,9 +123,7 @@ let answer = function(words, successCB, errorCB) {
                    if(result.records.length == 0) {
                      successCB("no answer found")
                    } else {
-                    // console.log("map",result.records[index]);
                      result.records[0]._fields[0].map((data2,index2)=> {
-                       //console.log("label",result.records[index]._fields[0][index2].labels[0],"ans",result.records[index]._fields[0][index2].properties.name);
                        let label = result.records[0]._fields[0][index2].labels[0];
                          resultobj.push(
                            {label :  result.records[0]._fields[0][index2].labels[0],
@@ -135,11 +145,23 @@ let answer = function(words, successCB, errorCB) {
       console.log(err);
     });/*end of first query*/
 }
+
+let clear = function(username,successCB,errorCB) {
+  ChatHistory.remove({ 'username' : username.username},function(err,result) {
+    if(err) {
+      errorCB(err);
+    }
+    else {
+      successCB("successfully deleted");
+    }
+  })
+}
 module.exports = {
     adminSignup,
     answer,
     chathistory,
     getchathistory,
     addingbookmarks,
-    getBookmarks
+    getBookmarks,
+    clear
 }
