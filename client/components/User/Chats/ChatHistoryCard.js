@@ -37,9 +37,12 @@ export default class ChatHistoryCard extends React.Component {
       bookmark:false
     }
     this.addingBookmarks = this.addingBookmarks.bind(this);
+    this.deleteBookmark = this.deleteBookmark.bind(this);
   }
 
 addingBookmarks(){
+
+
   let bookmark = {
         username: localStorage.getItem('username'),
         bookmarks: [{
@@ -49,7 +52,11 @@ addingBookmarks(){
         }]
       };
   console.log("inside bookmark");
+//  console.log('bookmark value', this.props.messageObj.What);
+let self = this;
+
 this.setState({bookmark:true})
+console.log("bookmark", bookmark);
     superagent
     .post('/users/addingbookmarks')
     .send(bookmark)
@@ -58,13 +65,37 @@ this.setState({bookmark:true})
             console.log('error: ', err)
         }
         else{
-          console.log("succesfully saved");
+
+          console.log("succesfully saved: ",res);
         }
      });
   }
 
+ deleteBookmark(answer) {
+ console.log('VALUE OF', answer);
+  this.setState({bookmark:false});
+    let { bookmarks } = this.state;
+    superagent
+     .post('/users/deletebookmark')
+     .send({
+       username: localStorage.getItem('username'),
+       value:answer,
+     })
+     .end(function(err, res) {
+         if (err) {
+           console.log('error: ', err);
+        } else {
+           console.log('delete bookmark response', res);
+         }
+      });
+    //  console.log('bookmarks index',  bookmarks.splice(index, 1))
+
+  }
+
+
   render() {
-  
+  //  let index = this.props.index;
+    let answer = this.props.messageObj.What;
       let self = this;
     const messageTime = this.props.messageObj.When.toLocaleTimeString();
     const messageDate = this.props.messageObj.When.toLocaleDateString();
@@ -87,9 +118,11 @@ this.setState({bookmark:true})
         {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
                             <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
                            <p>{this.props.messageObj.Answer}</p>}
+                           {self.state.bookmark}
         </CardText>
         <CardActions >
-          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={()=>{self.setState({bookmark:false})}} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
+
+          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
         </CardActions>
       </Card>
       </div>

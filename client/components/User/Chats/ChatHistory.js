@@ -41,15 +41,15 @@ render() {
     return (
 
       <div className =  "collection">
-        <div className="MessageDiv"  ref="messageList" >
-            {
-              props.history.map(function(messageObj, index) {
-                return (
-                  <ChatHistoryCard messageObj = {messageObj} />
-                )
-              })
-            }
-       </div>
+      <div className="MessageDiv"  ref="messageList" >
+          {
+            props.history.map(function(messageObj, index) {
+              return (
+                <ChatHistoryCard messageObj = {messageObj} index={index}/>
+              )
+            })
+          }
+     </div>
      </div>
 
 
