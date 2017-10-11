@@ -36,11 +36,11 @@ class ChatHistory extends React.Component {
             super();
             this.state = {
                 flag: false,
-                count: 0,
+                count: 1,
             }
             this.handleLoadMore = this.handleLoadMore.bind(this);
             this.getBookmark = this.getBookmark.bind(this);
-            
+
         }
 
         handleLoadMore() {

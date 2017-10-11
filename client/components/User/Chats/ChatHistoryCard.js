@@ -10,20 +10,13 @@ import Bookmarks from '../Bookmarks.js';
 import './ChatHistory.css';
 
 const style = {
-  title : {
-    color : "#8593e5"
-  },
-  alignmentRight : {
-    marginLeft : "2%",
-    marginRight : "2%",
-  },
-  alignmentLeft : {
-    marginLeft : "58%",
-  },
-  bookmark: {
-    color : "#8593e5",
-    cursor: 'pointer'
-  }
+    title: {
+        color: "#8593e5"
+    },
+    bookmark: {
+        color: "#8593e5",
+        cursor: 'pointer'
+    }
 }
 
 
@@ -108,38 +101,29 @@ this.setState({bookmark:true})
   render() {
     let answer = this.props.messageObj.What;
       let self = this;
-    const messageTime = this.props.messageObj.When.toLocaleTimeString();
     const messageDate = this.props.messageObj.When.toLocaleDateString();
-    const messageDateTime = messageDate +" "+ messageTime;
+    const messageDateTime = messageDate +" "+this.props.messageObj.When.getHours() +":"+ this.props.messageObj.When.getMinutes();
     return(
       <div>
-
-      <Row style = {this.props.messageObj.Who == 'Bot'  ? style.alignmentRight : style.alignmentLeft}>
-      <Col>
-       <div>
-      <Card style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
-        <CardHeader
-          title={this.props.messageObj.Who}
-            subtitle={messageDateTime}/>
-        <CardText className = "question">
-        {this.props.messageObj.What}
-        </CardText>
-        <CardText className = "answer">
-        {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
-                            <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
-                           <p>{this.props.messageObj.Answer}</p>}
-
-        </CardText>
-        <CardActions >
-
-          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> :
-                                 <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
-        </CardActions>
-
-      </Card>
-      </div>
-      </Col>
-      </Row>
+        <Row className = {this.props.messageObj.Who == 'Bot'  ? "alignmentRight" : "alignmentLeft"}>
+          <Col>
+            <div>
+            <Card className = {this.props.messageObj.Who == 'Bot'  ? "cardBot" : "cardUser"} style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
+              <CardHeader
+                  title={this.props.messageObj.Who}
+                  subtitle={messageDateTime}/>
+              <CardText className = "answer cardText textalign">
+                {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
+                    <Embedly url={this.props.messageObj.What} target="_blank" apiKey="72fec89ac6014af6a46956b950a374d6"/></div>:
+                                 <p>{this.props.messageObj.What}</p>}
+              </CardText>
+              <CardActions >
+                {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
+              </CardActions>
+            </Card>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }

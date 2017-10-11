@@ -189,6 +189,15 @@ export default class User extends React.Component {
                                     When: new Date(),
 
                                 });
+                                answers.push({
+                                    username: "Bot",
+                                    value: "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+                                    timestamp: when,
+                                    type: 'answer',
+                                    label: "text",
+                                    bookmark:false
+                                });console.log('answers',answers);
+
                             } else {
                                 console.log("response", response.result);
                                 response.result.map(function(item, index) {
@@ -262,22 +271,18 @@ export default class User extends React.Component {
                                             }
                                     }
                                 })
+                                } /*end of else*/
+                                self.setState({ msgs: msgs});
                                 self.setState({ answers: answers });
-
+                                console.log('answers in chat', answers);
                                 self.chatHistoryAnswers({
                                     username: localStorage.getItem('username'),
                                     messages: answers
                                 });
-                                self.setState({ msgs: msgs });
+                              //  self.setState({ msgs: msgs });
 
                                 return ( < ChatHistory history = { self.state.msgs } />)
 
-                                    self.chatHistoryAnswers({
-                                        username: localStorage.getItem('username'),
-                                        messages: answers
-                                    }); console.log('answersin getanswer', self.state.answers);
-                                } /*end of else*/
-                                self.setState({ msgs: msgs});
 
                             },
                             error: function(err) {
@@ -379,10 +384,10 @@ export default class User extends React.Component {
          <div>
             <Toolbar  style={ styles.toolbarStyle }>
               <ToolbarGroup style={styles.title} >
-                  <ToolbarTitle text="Quora" style={styles.title}/>
+                  <ToolbarTitle text="..." style={styles.title}/>
               </ToolbarGroup>
               <ToolbarGroup lastChild={true}>
-                <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
+                <AccountCircle className = "acc-circle" style={styles.account} color = "white" onClick={this.handlePopover}/>
                 &nbsp;
                 <ToolbarTitle text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
                 <Popover

@@ -38,22 +38,16 @@ let chathistory = function(history, successCB, errorCB) {
 }
 
 let getchathistory = function(username, skip, successCB, errorCB) {
-    console.log(skip, "skip")
-    if (skip == 1) {
-        skipLimit = 0
-    } else {
-        skipLimit = 5 * skip;
-    }
-    console.log(skipLimit, "skip")
+    skipLimit = (-10* parseInt(skip));
     ChatHistory.findOne({
         username: username
-    }, function(err, data) {
+    },{"messages" : {$slice : skipLimit}}, function(err, data) {
         if (err) {
             console.log('err in chathistory:', err)
             errorCB(err);
         }
         successCB(data);
-    }).skip(skipLimit).limit(5);
+    });
 }
 
 let addingbookmarks = function(bookmarks,data, successCB, errorCB) {
@@ -183,7 +177,6 @@ let answer = function(words, successCB, errorCB) {
                 "keywords": keyword,
                 "intent": relation,
             }
-            console.log("keyword", params.answer_label);
             /* building a cypher query */
             queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\

@@ -9,13 +9,14 @@ import {
     CardHeader,
     CardText
 } from 'material-ui/Card';
+import * as ReactDOM from 'react-dom';
 import superagent from 'superagent';
-import './User.css';
 import {
     ButtonToolbar,
     Button
 } from 'react-bootstrap';
-import './Chats/ChatHistory.css';
+import Close from 'material-ui/svg-icons/navigation/close';
+import './User.css';
 
 class Bookmarks extends React.Component {
 
@@ -24,7 +25,6 @@ class Bookmarks extends React.Component {
             this.state = {
                 bookmarks: []
             }
-            // this.getBookmarks = this.getBookmarks.bind(this);
             this.deleteBookmark = this.deleteBookmark.bind(this);
         }
 
@@ -49,8 +49,6 @@ class Bookmarks extends React.Component {
                         console.log('delete bookmark response', res);
                     }
                 });
-
-            //bookmarks: bookmarks.splice(this.props.keys, 1)
             this.setState({
                 bookmarks: bookmarks
 
@@ -59,24 +57,33 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     let date = new Date(this.props.bookmarks.timestamp)
+    console.log(date)
+    const messageDate =date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+    const messageDateTime = messageDate +" "+date.getHours() +":"+ date.getMinutes();
     return (
                     <div>
                       <Card className = "bookCard">
+                      <Row>
+                      <Col xs = {11}>
                         <CardHeader
                             title={this.props.bookmarks.username}
-                            subtitle={this.props.bookmarks.timestamp} />
+                            subtitle={messageDateTime}>
+                            </CardHeader>
+
                         <CardText>
                             {this.props.bookmarks.value}
                         </CardText>
-                        <CardActions >
-                          <ButtonToolbar>
-                            <Button bsSize="xs" onClick={()=> {self.deleteBookmark()}}>Delete</Button>
-                          </ButtonToolbar>
-                        </CardActions>
+                        </Col>
+                        <Col xs = {1}>
+                        <Close  className = "close" onClick={()=> {self.deleteBookmark()}}/>
+                        </Col>
+                        </Row>
                       </Card>
             </div>
           )
   }
+
 }
+
 
 export default Bookmarks;
