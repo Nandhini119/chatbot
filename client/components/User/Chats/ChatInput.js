@@ -65,7 +65,7 @@ class ChatInput extends React.Component {
     const { props, onSubmit } = this;
     return (
       <footer >
-        <Row className = "footer">
+        <Row className = "footer" >
           <Col xs = {4} >
           </Col>
           <Col xs = {8}>
