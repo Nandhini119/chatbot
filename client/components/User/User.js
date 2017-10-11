@@ -64,7 +64,8 @@ export default class User extends React.Component {
                 msgs: [],
                 wordarr: [],
                 logout: false,
-                answers: []
+                answers: [],
+                bookmarks: '',
             };
             this.sendMessage = this.sendMessage.bind(this);
             this.getAnswer = this.getAnswer.bind(this);
@@ -74,11 +75,15 @@ export default class User extends React.Component {
             this.getChatHistory = this.getChatHistory.bind(this);
             this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
             this.handleClearChat = this.handleClearChat.bind(this);
+            this.getBookmarks = this.getBookmarks.bind(this);
+            this.reloadBookmark = this.reloadBookmark.bind(this);
+            this.reloadChatHistory = this.reloadChatHistory.bind(this);
         }
         componentWillMount() {
             this.getChatHistory({
                 count: 1
             });
+            this.getBookmarks();
         }
 
         /*opens popover menu.Here event is used to make the popover to display in the target*/
@@ -304,7 +309,6 @@ export default class User extends React.Component {
                 getChatHistory(data) {
                     let msgs = [];
                     let self = this;
-                    alert(data.count);
                     superagent
                         .get('/users/getchathistory')
                         .query({
@@ -318,9 +322,7 @@ export default class User extends React.Component {
                                 if (res.body.result == null) {
                                     self.setState({ msgs: [] });
                                 } else {
-                                    console.log('getchathistory', res.body.result);
                                     res.body.result.messages.map(function(message) {
-                                        console.log("label", message.label)
                                         msgs.push({
                                             Who: message.username,
                                             What: message.value,
@@ -334,6 +336,43 @@ export default class User extends React.Component {
                             }
                         });
                 }
+                getBookmarks() {
+                  alert("in user.js");
+                    let self = this;
+                    let bookmarkData = " ";
+                    superagent
+                        .get('/users/bookmarks')
+                        .query({
+                            username: localStorage.getItem('username')
+                        })
+                        .end(function(err, res) {
+                            if (err) {
+                                console.log('error: ', err);
+                            } else {
+
+                              bookmarkData = res.body.result.bookmarks.map((data,index)=> {
+                                  return (<Bookmarks  bookmarks = {data} keys = {index} reloadBookmark = {self.reloadBookmark} reloadChatHistory = {self.reloadChatHistory}/>);
+                              });
+                              console.log('bookmark event...');
+                                self.setState({bookmarks : bookmarkData});
+                            }
+
+                        });
+
+                }
+                reloadBookmark()
+                {
+                  alert("reload");
+                  this.getBookmarks();
+                }
+                reloadChatHistory()
+                {
+                  this.getChatHistory({
+                      count: 1
+                  });
+                }
+
+
   render()
   {
     return(
@@ -367,10 +406,12 @@ export default class User extends React.Component {
             <Row>
                 <Col xs = {4} className = "bookmark" style = {styles.title}>
                     <center><h4>Bookmarks</h4></center>
-                    <Bookmarks />
+                    <div  className = "bookmarkScroll">
+                    {this.state.bookmarks}
+                    </div>
                 </Col>
                 <Col xs = {8}>
-                    <ChatHistory history={ this.state.msgs } getChatHistory = {this.getChatHistory.bind(this)}/>
+                    <ChatHistory history={ this.state.msgs } getBookmarks = {this.getBookmarks.bind(this)} getChatHistory = {this.getChatHistory.bind(this)}/>
                     <ChatInput sendMessage={ this.sendMessage } />
                 </Col>
             </Row>

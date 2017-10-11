@@ -6,6 +6,7 @@ footer {
   left: 0;
   height: 15vh;
   width: 97%;
+  /*z-index : -1;*/
 }
 footer .input-field input,
 button {

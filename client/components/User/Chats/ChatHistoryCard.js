@@ -68,7 +68,7 @@ this.setState({bookmark:true})
             console.log('error: ', err)
         }
         else{
-          
+            self.props.getBookmark();
           console.log("succesfully saved: ",res);
 
         }
@@ -76,6 +76,7 @@ this.setState({bookmark:true})
   }
 
  deleteBookmark(answer) {
+   let self = this;
  console.log('VALUE OF', answer);
   this.setState({bookmark:false});
     let { bookmarks } = this.state;
@@ -89,6 +90,7 @@ this.setState({bookmark:true})
          if (err) {
            console.log('error: ', err);
         } else {
+          self.props.getBookmark();
            console.log('delete bookmark response', res);
          }
       });
@@ -97,13 +99,9 @@ this.setState({bookmark:true})
   }
 
  componentWillMount(){
-   console.log("this.props.messageObj.bookmark",this.props.messageObj.bookmark)
-
    if(this.props.messageObj.bookmark){
-     console.log("ïf");
      this.setState({bookmark:true})
    } else {
-     console.log("else")
      this.setState({bookmark:false})
    }
  }
@@ -128,13 +126,14 @@ this.setState({bookmark:true})
         </CardText>
         <CardText className = "answer">
         {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.Answer} target="_blank">{this.props.messageObj.Answer}</a>
-                            <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="73f538bb83f94560a044bc6f0f33c5f6"/></div>:
+                            <Embedly url={this.props.messageObj.Answer} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
                            <p>{this.props.messageObj.Answer}</p>}
 
         </CardText>
         <CardActions >
 
-          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
+          {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> :
+                                 <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}
         </CardActions>
 
       </Card>
