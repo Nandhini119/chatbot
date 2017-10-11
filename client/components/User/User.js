@@ -64,7 +64,8 @@ export default class User extends React.Component {
                 msgs: [],
                 wordarr: [],
                 logout: false,
-                answers: []
+                answers: [],
+                bookmarks: '',
             };
             this.sendMessage = this.sendMessage.bind(this);
             this.getAnswer = this.getAnswer.bind(this);
@@ -74,11 +75,15 @@ export default class User extends React.Component {
             this.getChatHistory = this.getChatHistory.bind(this);
             this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
             this.handleClearChat = this.handleClearChat.bind(this);
+            this.getBookmarks = this.getBookmarks.bind(this);
+            this.reloadBookmark = this.reloadBookmark.bind(this);
+            this.reloadChatHistory = this.reloadChatHistory.bind(this);
         }
         componentWillMount() {
             this.getChatHistory({
                 count: 1
             });
+            this.getBookmarks();
         }
 
         /*opens popover menu.Here event is used to make the popover to display in the target*/
@@ -184,6 +189,15 @@ export default class User extends React.Component {
                                     When: new Date(),
 
                                 });
+                                answers.push({
+                                    username: "Bot",
+                                    value: "I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.",
+                                    timestamp: when,
+                                    type: 'answer',
+                                    label: "text",
+                                    bookmark:false
+                                });console.log('answers',answers);
+
                             } else {
                                 console.log("response", response.result);
                                 response.result.map(function(item, index) {
@@ -257,22 +271,18 @@ export default class User extends React.Component {
                                             }
                                     }
                                 })
+                                } /*end of else*/
+                                self.setState({ msgs: msgs});
                                 self.setState({ answers: answers });
-
+                                console.log('answers in chat', answers);
                                 self.chatHistoryAnswers({
                                     username: localStorage.getItem('username'),
                                     messages: answers
                                 });
-                                self.setState({ msgs: msgs });
+                              //  self.setState({ msgs: msgs });
 
                                 return ( < ChatHistory history = { self.state.msgs } />)
 
-                                    self.chatHistoryAnswers({
-                                        username: localStorage.getItem('username'),
-                                        messages: answers
-                                    }); console.log('answersin getanswer', self.state.answers);
-                                } /*end of else*/
-                                self.setState({ msgs: msgs});
 
                             },
                             error: function(err) {
@@ -317,9 +327,7 @@ export default class User extends React.Component {
                                 if (res.body.result == null) {
                                     self.setState({ msgs: [] });
                                 } else {
-                                    console.log('getchathistory', res.body.result);
                                     res.body.result.messages.map(function(message) {
-                                        console.log("label", message.label)
                                         msgs.push({
                                             Who: message.username,
                                             What: message.value,
@@ -333,6 +341,41 @@ export default class User extends React.Component {
                             }
                         });
                 }
+                getBookmarks() {
+                    let self = this;
+                    let bookmarkData = " ";
+                    superagent
+                        .get('/users/bookmarks')
+                        .query({
+                            username: localStorage.getItem('username')
+                        })
+                        .end(function(err, res) {
+                            if (err) {
+                                console.log('error: ', err);
+                            } else {
+
+                              bookmarkData = res.body.result.bookmarks.map((data,index)=> {
+                                  return (<Bookmarks  bookmarks = {data} keys = {index} reloadBookmark = {self.reloadBookmark} reloadChatHistory = {self.reloadChatHistory}/>);
+                              });
+                              console.log('bookmark event...');
+                                self.setState({bookmarks : bookmarkData});
+                            }
+
+                        });
+
+                }
+                reloadBookmark()
+                {
+                  this.getBookmarks();
+                }
+                reloadChatHistory()
+                {
+                  this.getChatHistory({
+                      count: 1
+                  });
+                }
+
+
   render()
   {
     return(
@@ -342,7 +385,7 @@ export default class User extends React.Component {
                   <ToolbarTitle text="Get To Know" style={styles.title}/>
               </ToolbarGroup>
               <ToolbarGroup lastChild={true}>
-                <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
+                <AccountCircle className = "acc-circle" style={styles.account} color = "white" onClick={this.handlePopover}/>
                 &nbsp;
                 <ToolbarTitle text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
                 <Popover
@@ -366,10 +409,12 @@ export default class User extends React.Component {
             <Row>
                 <Col xs = {4} className = "bookmark" style = {styles.title}>
                     <center><h4>Bookmarks</h4></center>
-                    <Bookmarks />
+                    <div  className = "bookscroll">
+                    {this.state.bookmarks}
+                    </div>
                 </Col>
                 <Col xs = {8}>
-                    <ChatHistory history={ this.state.msgs } getChatHistory = {this.getChatHistory.bind(this)}/>
+                    <ChatHistory history={ this.state.msgs } getBookmarks = {this.getBookmarks.bind(this)} getChatHistory = {this.getChatHistory.bind(this)}/>
                     <ChatInput sendMessage={ this.sendMessage } />
                 </Col>
             </Row>

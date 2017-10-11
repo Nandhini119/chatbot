@@ -125,7 +125,6 @@ module.exports = function(passport) {
     })
 
     router.post('/deletebookmark', function(req, res, next) {
-        console.log("inside deletebookmark router");
         try {
             var username = req.body.username;
             var value = req.body.value;

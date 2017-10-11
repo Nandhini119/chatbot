@@ -1,12 +1,18 @@
-.MessageDiv{
-  overflow-y: scroll;
+.messageDiv{
+  overflow-x: scroll;
   overflow-x: hidden;
-  height: 75vh;
+  height: 81vh;
+  margin-right: 0.15%;
 }
+.messageDiv::-webkit-scrollbar {
+  background-color: transparent;
+  width: 4px;
+}
+.messageDiv::-webkit-scrollbar-thumb {
+  background: gray;
 
+}
 .collection {
-  /*overflow-x: scroll;
-  overflow-x: hidden;*/
   margin-top: 10px;;
   border: 0px;
   position: relative;
