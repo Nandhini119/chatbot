@@ -61,7 +61,7 @@ this.setState({bookmark:true})
             console.log('error: ', err)
         }
         else{
-
+            self.props.getBookmark();
           console.log("succesfully saved: ",res);
 
         }
@@ -69,6 +69,7 @@ this.setState({bookmark:true})
   }
 
  deleteBookmark(answer) {
+   let self = this;
  console.log('VALUE OF', answer);
   this.setState({bookmark:false});
     let { bookmarks } = this.state;
@@ -82,6 +83,7 @@ this.setState({bookmark:true})
          if (err) {
            console.log('error: ', err);
         } else {
+          self.props.getBookmark();
            console.log('delete bookmark response', res);
          }
       });
@@ -99,9 +101,8 @@ this.setState({bookmark:true})
   render() {
     let answer = this.props.messageObj.What;
       let self = this;
-    const messageTime = this.props.messageObj.When.toLocaleTimeString();
     const messageDate = this.props.messageObj.When.toLocaleDateString();
-    const messageDateTime = messageDate +" "+ messageTime;
+    const messageDateTime = messageDate +" "+this.props.messageObj.When.getHours() +":"+ this.props.messageObj.When.getMinutes();
     return(
       <div>
         <Row className = {this.props.messageObj.Who == 'Bot'  ? "alignmentRight" : "alignmentLeft"}>

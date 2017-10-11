@@ -15,49 +15,22 @@ import {
     ButtonToolbar,
     Button
 } from 'react-bootstrap';
+import Close from 'material-ui/svg-icons/navigation/close';
 import './User.css';
 
 class Bookmarks extends React.Component {
+
         constructor() {
             super();
             this.state = {
                 bookmarks: []
             }
-            this.getBookmarks = this.getBookmarks.bind(this);
             this.deleteBookmark = this.deleteBookmark.bind(this);
         }
 
-        componentWillMount() {
-            this.getBookmarks();
-        }
-
-        getBookmarks() {
-            let self = this;
-            superagent
-                .get('/users/bookmarks')
-                .query({
-                    username: localStorage.getItem('username')
-                })
-                .end(function(err, res) {
-                    if (err) {
-                        console.log('error: ', err);
-                    } else {
-                        if (res.body.result == null) {
-                            self.setState({
-                                bookmarks: []
-                            });
-                        } else {
-                            self.setState({
-                                bookmarks: res.body.result.bookmarks
-                            })
-                            console.log("succesfully saved");
-                        }
-                    }
-                });
-        }
-
-        deleteBookmark(index) {
-            //  console.log("bookmark value", this.state.bookmarks[index].value);
+        deleteBookmark() {
+          let self = this;
+            console.log("bookmark value", this.props.keys);
             let {
                 bookmarks
             } = this.state;
@@ -65,17 +38,17 @@ class Bookmarks extends React.Component {
                 .post('/users/deletebookmark')
                 .send({
                     username: localStorage.getItem('username'),
-                    value: bookmarks[index].value,
+                    value: this.props.bookmarks.value,
                 })
                 .end(function(err, res) {
                     if (err) {
                         console.log('error: ', err);
                     } else {
+                      self.props.reloadBookmark();
+                      self.props.reloadChatHistory();
                         console.log('delete bookmark response', res);
                     }
                 });
-            //  console.log('bookmarks index',  bookmarks.splice(index, 1))
-            bookmarks: bookmarks.splice(index, 1)
             this.setState({
                 bookmarks: bookmarks
 
@@ -83,40 +56,31 @@ class Bookmarks extends React.Component {
         }
   render() {
     let self = this;
+    let date = new Date(this.props.bookmarks.timestamp)
+    console.log(date)
+    const messageDate =date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+    const messageDateTime = messageDate +" "+date.getHours() +":"+ date.getMinutes();
     return (
-      <div>
-        <div className="bookscroll ">
-            {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
-               this.state.bookmarks.map(function(bookmark, index) {
-            let time = bookmark.timestamp;
-              return (
-                <div>
-                  <Row >
-                    <Col cd  = {10}>
-                      <div>
-                        <Card className = "bookCard">
-                          <CardHeader
-                              title={bookmark.username}
-                              subtitle={time} />
-                          <CardText>
-                              {bookmark.value}
-                          </CardText>
-                          <CardActions >
-                            <ButtonToolbar>
-                              <Button bsSize="xs" onClick={()=> {self.deleteBookmark(index)}}>Delete</Button>
-                            </ButtonToolbar>
-                          </CardActions>
-                        </Card>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-              )
-            })
-          }
-       </div>
-      </div>
-    );
+                    <div>
+                      <Card className = "bookCard">
+                      <Row>
+                      <Col xs = {11}>
+                        <CardHeader
+                            title={this.props.bookmarks.username}
+                            subtitle={messageDateTime}>
+                            </CardHeader>
+
+                        <CardText>
+                            {this.props.bookmarks.value}
+                        </CardText>
+                        </Col>
+                        <Col xs = {1}>
+                        <Close  className = "close" onClick={()=> {self.deleteBookmark()}}/>
+                        </Col>
+                        </Row>
+                      </Card>
+            </div>
+          )
   }
 
 }
