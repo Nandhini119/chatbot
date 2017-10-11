@@ -259,7 +259,7 @@ export default class User extends React.Component {
                                 })
                                 self.setState({ answers: answers });
 
-                                self.chatHistoryAnswers({ 
+                                self.chatHistoryAnswers({
                                     username: localStorage.getItem('username'),
                                     messages: answers
                                 });
@@ -305,7 +305,6 @@ export default class User extends React.Component {
                 getChatHistory(data) {
                     let msgs = [];
                     let self = this;
-                    alert(data.count);
                     superagent
                         .get('/users/getchathistory')
                         .query({
@@ -341,7 +340,7 @@ export default class User extends React.Component {
          <div>
             <Toolbar  style={ styles.toolbarStyle }>
               <ToolbarGroup style={styles.title} >
-                  <ToolbarTitle text="Quora" style={styles.title}/>
+                  <ToolbarTitle text="..." style={styles.title}/>
               </ToolbarGroup>
               <ToolbarGroup lastChild={true}>
                 <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>

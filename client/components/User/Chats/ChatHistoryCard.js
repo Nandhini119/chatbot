@@ -25,7 +25,7 @@ const style = {
         marginRight: "2%",
     },
     alignmentLeft: {
-        marginLeft: "58%",
+        marginLeft: "75%",
     },
     bookmark: {
         color: "#8593e5",
@@ -112,14 +112,14 @@ export default class ChatHistoryCard extends React.Component {
       const messageDateTime = messageDate +"   "+ messageTime;
     return(
       <div>
-        <Row style = {this.props.messageObj.Who == 'Bot'  ? style.alignmentRight : style.alignmentLeft}>
-          <Col xs = {12}>
+        <Row className = {this.props.messageObj.Who == 'Bot'  ? "alignmentRight" : "alignmentLeft"}>
+          <Col>
             <div>
-            <Card className = "card" style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
+            <Card className = {this.props.messageObj.Who == 'Bot'  ? "cardBot" : "cardUser"} style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
               <CardHeader
                   title={this.props.messageObj.Who}
                   subtitle={messageDateTime}/>
-              <CardText className = "answer cardText">
+              <CardText className = "answer cardText textalign">
                 {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
                     <Embedly url={this.props.messageObj.What} target="_blank" apiKey="72fec89ac6014af6a46956b950a374d6"/></div>:
                                  <p>{this.props.messageObj.What}</p>}

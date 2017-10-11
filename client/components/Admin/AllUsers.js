@@ -24,7 +24,7 @@ const styles = {
   body : {
   overflowY : "scroll",
   overflowX : "hidden",
-  height : "800px",
+  height : "500px",
   },
   arrow : {
     position : "fixed",

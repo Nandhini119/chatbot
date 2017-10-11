@@ -1,12 +1,12 @@
 .MessageDiv{
-  overflow-x: scroll;
+  overflow-y: scroll;
   overflow-x: hidden;
-  height: 83vh;
+  height: 75vh;
 }
 
 .collection {
-  overflow-x: scroll;
-  overflow-x: hidden;
+  /*overflow-x: scroll;
+  overflow-x: hidden;*/
   margin-top: 10px;;
   border: 0px;
   position: relative;
@@ -29,16 +29,28 @@
 }
 
 .textalign {
-  line-height: 150%;
-  position: relative;
+
   word-wrap: break-word;
-  float: left;
+
 }
 .cardText {
 margin-top : -15px;
 }
-.card {
-  height : 50%;
+.cardBot {
+max-width : 70%;
+min-width : 55%;
+margin-top : 2%;
+}
+.cardUser {
+margin-top : 2%;
+
+}
+.alignmentRight {
+    margin-left: 1%;
+    margin-right: 2%;
+}
+.alignmentLeft {
+    margin-left: 70%;
 }
 .timealign {
   color: gray;
@@ -64,5 +76,82 @@ overflow: hidden;
   .message {
     margin-top : 50%;
     margin-right : 400px;
+  }
+
+}
+@media (max-width : 1060px) and (min-width : 900px)
+{
+  .alignmentRight {
+      margin-left: 1%;
+      margin-right: 2%;
+  }
+  .alignmentLeft {
+      margin-left: 60%;
+  }
+  .cardUser {
+    max-width : 90%
+  }
+
+}
+@media (min-width : 1640px) {
+  .alignmentLeft {
+    margin-left : 100%
+  }
+}
+@media (min-width : 1061px) and(max-width : 1300px){
+  .alignmentLeft {
+      margin-left: 60%;
+  }
+}
+@media (min-width : 1301px) {
+  .alignmentLeft {
+      margin-left: 70%;
+  }
+}
+@media (max-width : 899px) and (min-width : 520px){
+  .alignmentLeft {
+      margin-left: 45%;
+  }
+
+}
+@media (max-width : 519px) and (min-width : 400px){
+  .alignmentRight {
+      margin-left: 10%;
+      margin-right: 0;
+  }
+  .alignmentLeft {
+      margin-left: 10%;
+  }
+  .cardBot {
+    max-width : 90%
+  }
+}
+@media (max-width : 399px) and (min-width : 321px) {
+  .alignmentRight {
+      margin-left: 20%;
+      margin-right: 0;
+  }
+  .alignmentLeft {
+      margin-left: 22%;
+  }
+  .cardBot  {
+    max-width : 90%
+  }
+  .cardUser {
+    max-width :90%;
+  }
+}
+@media (max-width : 320px) {
+  .alignmentLeft {
+    margin-left : 35%
+  }
+  .alignmentRight {
+    margin-left : 35%;
+  }
+  .cardBot {
+    max-width : 90%
+  }
+  .cardUser {
+    max-width : 80%
   }
 }

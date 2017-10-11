@@ -1,3 +1,18 @@
+.MessageDiv{
+  overflow-x: scroll;
+  overflow-x: hidden;
+  height: 83vh;
+}
+
+.collection {
+  overflow-x: scroll;
+  overflow-x: hidden;
+  margin-top: 10px;;
+  border: 0px;
+  position: relative;
+  float: right;
+}
+
 .toolbaar{
   float: right;
 }
