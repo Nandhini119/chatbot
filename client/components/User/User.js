@@ -202,7 +202,7 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "text",
-                                                    bookmark: 'false'
+                                                    bookmark:false
                                                 });
                                                 break;
                                             }
@@ -221,7 +221,7 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "blog",
-                                                    bookmark: 'false'
+                                                    bookmark: false
                                                 });
 
                                                 break;
@@ -241,7 +241,7 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "video",
-                                                    bookmark: 'false'
+                                                    bookmark:false
                                                 });
                                                 break;
                                             }
@@ -259,11 +259,10 @@ export default class User extends React.Component {
                                 })
                                 self.setState({ answers: answers });
 
-                                self.chatHistoryAnswers({ 
+                                self.chatHistoryAnswers({
                                     username: localStorage.getItem('username'),
                                     messages: answers
                                 });
-                                console.log('answersin getanswer', self.state.answers);
                                 self.setState({ msgs: msgs });
 
                                 return ( < ChatHistory history = { self.state.msgs } />)

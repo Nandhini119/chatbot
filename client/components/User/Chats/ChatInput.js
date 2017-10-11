@@ -41,7 +41,7 @@ class ChatInput extends React.Component {
                     type: 'question',
                     value: message,
                     timestamp: when.getTime(),
-                    bookmark: 'false'
+                    bookmark:false
                 }]
             });
 

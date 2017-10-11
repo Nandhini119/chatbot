@@ -29,6 +29,7 @@ class Bookmarks extends React.Component {
         }
 
         componentWillMount() {
+          alert("hi");
             this.getBookmarks();
         }
 
