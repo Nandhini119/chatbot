@@ -8,7 +8,9 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+
 import RaisedButton from 'material-ui/RaisedButton';
+import './Admin.css';
 import $ from 'jquery';
 
 const styles = {
@@ -94,6 +96,7 @@ export default class UserTable extends React.Component {
 render()
 {
   return(
+
       <TableRow>
         <TableRowColumn>{this.props.id}</TableRowColumn>
         <TableRowColumn>{this.props.userdata.username}</TableRowColumn>

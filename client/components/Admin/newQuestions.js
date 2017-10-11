@@ -23,6 +23,13 @@ const styles = {
         margin: 10,
         textAlign: 'center',
     },
+    arrow : {
+      position : "fixed",
+      marginTop : "10px",
+    },
+    marginTop : {
+      marginTop : "80px",
+    }
 
 }
 
@@ -97,10 +104,10 @@ export default class newQuestions extends React.Component {
 render() {
   return(
     <div className = "container-fluid">
-      <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-        <ArrowBack color = "white"/>
+      <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
+        <ArrowBack color = "black"/>
       </IconButton>
-      <Row center = 'xs'>
+      <Row center = 'xs' style={styles.marginTop}>
         <Col xs = {12} sm = {10}>
           <Paper style = {styles.paper} zDepth={3}>
             <br/>

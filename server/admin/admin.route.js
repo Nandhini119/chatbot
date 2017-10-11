@@ -18,7 +18,7 @@ router.get('/users', adminControl.allUsers);
 router.get('/status', adminControl.checkstatus);
 router.post('/block', adminControl.blockUsers);
 router.post('/unblock', adminControl.unblockUsers);
-router.get('/questions',  function(req, res) {
+router.get('/questions', function(req, res) {
     try {
         adminControl.getquestions(req.query, function(result, items) {
             res.status(201).json({
@@ -73,42 +73,60 @@ router.post('/questions', function(req, res) {
         });
     }
 });
-router.post('/unAnswered',function(req,res) {
-  try{
-    adminControl.notify_UnAnswered(req.body,function(result) {
-      res.status(201).json({ result : result});
-    },function(error) {
-    res.status(500).json({error : error});
-  });
-} catch (e) {
-  console.log('error in adding unanswered route',e)
-  res.status(500).json({error : "internal server error"});
-}
+router.post('/unAnswered', function(req, res) {
+    try {
+        adminControl.notify_UnAnswered(req.body, function(result) {
+            res.status(201).json({
+                result: result
+            });
+        }, function(error) {
+            res.status(500).json({
+                error: error
+            });
+        });
+    } catch (e) {
+        console.log('error in adding unanswered route', e)
+        res.status(500).json({
+            error: "internal server error"
+        });
+    }
 });
-router.get('/unAnswered',function(req,res) {
-  try {
-    adminControl.answer_unAnswered(req.query,function(result) {
-      res.status(201).json({result : result});
-    },function(error) {
-      res.status(500).json({error : error});
-    });
-  } catch (e) {
-    console.log('érror in answering unanswered question',e);
-    res.statue(500).json({error : "ïnternal server error"});
-  }
+router.get('/unAnswered', function(req, res) {
+    try {
+        adminControl.answer_unAnswered(req.query, function(result) {
+            res.status(201).json({
+                result: result
+            });
+        }, function(error) {
+            res.status(500).json({
+                error: error
+            });
+        });
+    } catch (e) {
+        console.log('érror in answering unanswered question', e);
+        res.statue(500).json({
+            error: "ïnternal server error"
+        });
+    }
 });
-router.post('/question/:question',function(req,res) {
-  try {
-  console.log("in deleting unanswered question");
-  adminControl.unAnswered_delete(req.params,function(result) {
-    res.status(201).json({result : result});
-  },function(error) {
-    res.status(500).json({error : error});
-  });
-} catch (e) {
-  console.log("error in deleting unanswered question route",e);
-  res.status(500).json({error : "internal server error"});
-}
+router.post('/question/:question', function(req, res) {
+    try {
+        console.log("in deleting unanswered question");
+        adminControl.unAnswered_delete(req.params, function(result) {
+            res.status(201).json({
+                result: result
+            });
+        }, function(error) {
+            res.status(500).json({
+                error: error
+            });
+        });
+    } catch (e) {
+        console.log("error in deleting unanswered question route", e);
+        res.status(500).json({
+            error: "internal server error"
+        });
+    }
 });
 
 module.exports = router;

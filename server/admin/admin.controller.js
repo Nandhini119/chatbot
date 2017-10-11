@@ -76,7 +76,7 @@ let controls = {
         } else {
             skip = 2 * (parseInt(data.skip) - 1);
         }
-          /* building a cypher query */
+        /* building a cypher query */
         query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 2;`;
         /* executing the cypher query */
         session.run(query).then(function(result) {
@@ -116,54 +116,56 @@ let controls = {
 
         });
     },
-    notify_UnAnswered: function(data,successCB,errorCB) {
-      let unanswered = new unansweredquestions();
-      unanswered.question = data.question;
-      unansweredquestions.findOne({'question' : data.question},function(err,question) {
-        if(err) {
-          console.log(err);
-            errorCB(err);
-        }
-        if(question) {
-          successCB("question already notified");
-        }
-        else {
-          unanswered.save(function(err) {
-              if (err) {
+    notify_UnAnswered: function(data, successCB, errorCB) {
+        let unanswered = new unansweredquestions();
+        unanswered.question = data.question;
+        unansweredquestions.findOne({
+            'question': data.question
+        }, function(err, question) {
+            if (err) {
                 console.log(err);
-                  errorCB(err);
-              }
-              successCB(unanswered);
-          });
-        }
-      })
+                errorCB(err);
+            }
+            if (question) {
+                successCB("question already notified");
+            } else {
+                unanswered.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                        errorCB(err);
+                    }
+                    successCB(unanswered);
+                });
+            }
+        })
 
     },
-    answer_unAnswered:function(data,successCB,errorCB) {
-      if (data.skip == 0 || data.skip == 1) {
-          skipForUnanswered = 0
+    answer_unAnswered: function(data, successCB, errorCB) {
+        if (data.skip == 0 || data.skip == 1) {
+            skipForUnanswered = 0
 
-      } else {
-          skipForUnanswered = 2 * (parseInt(data.skip) - 1);
-      }
-      unansweredquestions.find(function(err,questions) {
-        if(questions) {
-          successCB(questions);
         } else {
-          errorCB(err);
+            skipForUnanswered = 2 * (parseInt(data.skip) - 1);
         }
-      }).skip(skipForUnanswered).limit(2);
+        unansweredquestions.find(function(err, questions) {
+            if (questions) {
+                successCB(questions);
+            } else {
+                errorCB(err);
+            }
+        }).skip(skipForUnanswered).limit(2);
 
     },
-    unAnswered_delete : function(data,successCB,errorCb) {
-      unansweredquestions.remove({ 'question' : data.question},function(err,result) {
-        if(err) {
-          errorCB(err);
-        }
-        else {
-          successCB("successfully deleted");
-        }
-      })
+    unAnswered_delete: function(data, successCB, errorCb) {
+        unansweredquestions.remove({
+            'question': data.question
+        }, function(err, result) {
+            if (err) {
+                errorCB(err);
+            } else {
+                successCB("successfully deleted");
+            }
+        })
 
     }
 

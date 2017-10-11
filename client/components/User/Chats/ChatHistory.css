@@ -1,16 +1,15 @@
 .MessageDiv{
-  overflow-y: scroll;
-  overflow-x: auto;
-  height: 73vh;
+  overflow-x: scroll;
+  overflow-x: hidden;
+  height: 83vh;
 }
+
 .collection {
-  margin-top: 0;
+  overflow-x: scroll;
+  overflow-x: hidden;
+  margin-top: 10px;;
   border: 0px;
   position: relative;
-  float: right;
-
-}
-.bookalaign{
   float: right;
 }
 .msgalign {
@@ -20,22 +19,50 @@
   margin: 10px;
   padding: 5px;
   overflow: auto;
-
-
+}
+.message {
+  margin-top : 60%;
+  margin-right : 250px;
 }
 .titlealign {
   font-weight : bold;
 }
+
 .textalign {
   line-height: 150%;
   position: relative;
   word-wrap: break-word;
+  float: left;
 }
-
+.cardText {
+margin-top : -15px;
+}
+.card {
+  height : 50%;
+}
 .timealign {
   color: gray;
 }
 body {
 background: #EEEEEE;
 overflow: hidden;
+}
+
+@media(max-width : 420px) {
+  .message {
+      margin-top : 100%;
+      margin-right : 48px;
+  }
+}
+@media(min-width : 421px) and (max-width : 770px){
+  .message {
+    margin-top : 100%;
+    margin-right :125px;
+  }
+}
+@media (min-width : 1060px) {
+  .message {
+    margin-top : 50%;
+    margin-right : 400px;
+  }
 }

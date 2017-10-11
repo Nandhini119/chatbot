@@ -1,5 +1,5 @@
 footer {
-  color: white;
+  color: gray;
   position: fixed;
   padding: 0;
   bottom: 0;
@@ -9,9 +9,29 @@ footer {
 }
 footer .input-field input,
 button {
-  border-color: #FFFFFF;
+  border-color: gray;
 }
+
 .chip {
   font-style: italic;
 
+}
+.footer {
+  margin-top: 25px;
+}
+
+.mdi-communication-chat:before  {
+padding : 5px;
+}
+
+.input-field .prefix ~ input {
+    width: 86%;
+    width: calc(100%);
+  }
+
+@media(max-width : 600px) {
+.input-field .prefix ~ input {
+  width: 86%;
+  width: calc(100%-1rem);
+}
 }

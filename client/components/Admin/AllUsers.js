@@ -17,7 +17,20 @@ import {
     Col
 } from 'react-flexbox-grid';
 import $ from 'jquery';
+
 import UserTable from './UserTable.js';
+
+const styles = {
+  body : {
+  overflowY : "scroll",
+  overflowX : "hidden",
+  height : "800px",
+  },
+  arrow : {
+    position : "fixed",
+  },
+}
+
 
 export default class AllUsers extends React.Component {
 
@@ -48,9 +61,9 @@ export default class AllUsers extends React.Component {
                 }
   render(){
     return(
-     <div className = "container-fluid  background ">
-        <IconButton tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-          <ArrowBack color = "white"/>
+     <div className = "container-fluid  background " style={styles.body}>
+        <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
+          <ArrowBack color = "black"/>
            </IconButton>
            <Row center='xs'>
             <Col xs={10}>

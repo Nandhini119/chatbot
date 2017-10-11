@@ -1,3 +1,4 @@
+
 .background {
   margin-top:-20px;
   /*//background-image: url('../../assets/images/react.png');*/
@@ -8,6 +9,12 @@ nav {
   background-color: #353D2F;
 }
 
+body{
+  overflow-y: scroll;
+}
+.homejs{
+  margin-top: 50px;
+}
 h3, .title {
   color:white;
 }
@@ -19,6 +26,10 @@ h3, .title {
 }
 .pager li>a {
   cursor : pointer;
+}
+.acc-circle{
+  height: 50px;
+  width: 50px;
 }
 
 @media (max-width : 768px)
