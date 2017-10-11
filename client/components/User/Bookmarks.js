@@ -85,7 +85,8 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     return (
-      <div className="MessageDiv collection"  ref="messageList" >
+      <div className="collection">
+      <div className="messageDiv"  ref="messageList" >
           {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
              this.state.bookmarks.map(function(bookmark, index) {
           let time = bookmark.timestamp;
@@ -114,6 +115,7 @@ class Bookmarks extends React.Component {
             )
           })
         }
+     </div>
      </div>
     );
   }

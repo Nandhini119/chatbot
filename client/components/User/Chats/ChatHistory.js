@@ -54,7 +54,7 @@ render() {
     const { props } = this;
     return (
       <div className =  "collection">
-        <div className="MessageDiv "  ref="messageList" >
+        <div className="messageDiv "  ref="messageList" >
           {props.history.length >2 ? <Chip onClick = {this.handleLoadMore}>Load more..</Chip>  : " "}
           { props.history.length == 0 ?<div className = "message">This is the beginning of your chat..</div>:
             props.history.map(function(messageObj, index) {
@@ -62,7 +62,7 @@ render() {
                 <ChatHistoryCard messageObj = {messageObj} index={index}/>
               )
             })
-          } 
+          }
         </div>
       </div>
     );

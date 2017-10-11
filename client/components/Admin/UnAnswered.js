@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import $ from 'jquery';
 import UnAnsweredCard from './UnAnsweredCard.js';
+import './Admin.css';
 
 const styles = {
   card  : {
@@ -16,6 +17,7 @@ const styles = {
   },
   arrow : {
     position : "fixed",
+    marginTop : "10px",
   },
   marginTop : {
     marginTop : "80px",
@@ -91,7 +93,7 @@ export default class UnAnswered extends React.Component
   }
   render(){
     return(
-      <div className = "container-fluid background" >
+      <div className = "container-fluid background adminscroll" >
       <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
         <ArrowBack color = "black" / >
       </IconButton>

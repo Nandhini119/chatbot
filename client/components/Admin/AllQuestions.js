@@ -26,12 +26,7 @@ import $ from 'jquery';
 
 
 const styles = {
-    body: {
-        overflowY: "scroll",
-        overflowX: "hidden",
-        height: "800px",
 
-    },
     marginTop: {
         marginTop: "60px",
     },
@@ -117,7 +112,7 @@ export default class AllQuestions extends React.Component {
         }
     render() {
         return (
-          <div style={styles.body}>
+          <div className = "adminscroll">
             <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
               <ArrowBack color = "black" / >
             </IconButton>

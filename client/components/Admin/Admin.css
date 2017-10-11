@@ -5,6 +5,18 @@
   background-color :ABE0EA;
   background-size: cover;
 }
+.adminscroll{
+  overflow-x: scroll;
+  overflow-x: hidden;
+  height: 81vh;
+}
+.adminscroll::-webkit-scrollbar{
+  width: 7px;
+}
+.adminscroll::-webkit-scrollbar-thumb {
+  background: #;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
 nav {
   background-color: #353D2F;
 }
