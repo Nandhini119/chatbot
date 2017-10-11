@@ -18,15 +18,6 @@ import {
 import './User.css';
 
 class Bookmarks extends React.Component {
-        scrollToBottom() {
-            const {
-                messageList
-            } = this.refs;
-            const scrollHeight = messageList.scrollHeight;
-            const height = messageList.clientHeight;
-            const maxScrollTop = scrollHeight - height;
-            ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-        }
         constructor() {
             super();
             this.state = {
@@ -37,7 +28,6 @@ class Bookmarks extends React.Component {
         }
 
         componentWillMount() {
-          alert("hi");
             this.getBookmarks();
         }
 
@@ -94,8 +84,8 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     return (
-      <div className = "collection">
-        <div className="messageDiv "  ref="messageList" >
+      <div>
+        <div className="bookscroll ">
             {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
                this.state.bookmarks.map(function(bookmark, index) {
             let time = bookmark.timestamp;
@@ -128,15 +118,6 @@ class Bookmarks extends React.Component {
       </div>
     );
   }
-
-  componentDidMount() {
-      this.scrollToBottom();
-  }
-
-  componentDidUpdate() {
-      this.scrollToBottom();
-  }
-
 
 }
 

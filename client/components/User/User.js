@@ -338,8 +338,8 @@ export default class User extends React.Component {
     return(
          <div>
             <Toolbar  style={ styles.toolbarStyle }>
-              <ToolbarGroup style={styles.title} >
-                  <ToolbarTitle text="..." style={styles.title}/>
+              <ToolbarGroup >
+                  <ToolbarTitle style={styles.title} text="Get2Know"/>
               </ToolbarGroup>
               <ToolbarGroup lastChild={true}>
                 <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>

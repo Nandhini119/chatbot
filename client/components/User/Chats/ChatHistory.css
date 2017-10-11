@@ -2,13 +2,15 @@
   overflow-x: scroll;
   overflow-x: hidden;
   height: 81vh;
+  margin-right: 0.15%;
 }
 .messageDiv::-webkit-scrollbar {
-  width: 5px;
-    }
-.messageDiv::-webkit-scrollbar-thumb {
   background-color: transparent;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+  width: 4px;
+}
+.messageDiv::-webkit-scrollbar-thumb {
+  background: gray;
+
 }
 .collection {
   margin-top: 10px;;

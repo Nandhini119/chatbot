@@ -9,13 +9,16 @@
   overflow-x: scroll;
   overflow-x: hidden;
   height: 81vh;
+  margin-right: 0.15%;
 }
 .adminscroll::-webkit-scrollbar{
-  width: 7px;
+  background-color: transparent;
+  width: 4px;
 }
 .adminscroll::-webkit-scrollbar-thumb {
-  background: #;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  background: gray;
+  /*box-shadow: 0 4px 10px rgba(0,0,0,0.5);*/
+  /*opacity: 0.3;*/
 }
 nav {
   background-color: #353D2F;
