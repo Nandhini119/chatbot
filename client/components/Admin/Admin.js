@@ -5,7 +5,6 @@ import {
 import {
     Avatar
 } from 'material-ui';
-import './Admin.css';
 import {
     Redirect
 } from 'react-router-dom';
@@ -15,6 +14,7 @@ import AllQuestionsComp from './AllQuestions.js';
 import AllUsersComp from './AllUsers.js';
 import Home from './Home.js';
 import NewQuestions from './newQuestions.js';
+import './Admin.css';
 
 const styles = {
     title: {
@@ -98,7 +98,7 @@ export default class Admin extends React.Component {
   render() {
     return(
       <div>
-          <nav className="navbar navbar-inverse appbar ">
+          <nav className="navbar">
             <div className="container-fluid">
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -107,9 +107,7 @@ export default class Admin extends React.Component {
                   <span className="icon-bar"></span>
                 </button>
                 <a className="navbar-brand" style = {styles.title}>
-                  <span>
-                    <img src='./../../assets/images/Logo.png' className = " logo responsive"
-                    alt = "Logo"/></span> Quora</a>
+                  G o T</a>
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right " >

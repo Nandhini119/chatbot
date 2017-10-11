@@ -252,9 +252,7 @@ logout() {
                         <span className="icon-bar"></span>
                         </button>
                         <a className="navbar-brand" style = {styles.title}>
-                          <span >
-                            <img src = {Logo} className = " logo responsive" alt = "Logo"/>
-                          </span> Quora</a>
+                           G o T</a>
                       </div>
                 <div className="collapse navbar-collapse" id="myNavbar">
                   <ul className="nav navbar-nav navbar-right">
