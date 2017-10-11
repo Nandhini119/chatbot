@@ -50,11 +50,12 @@ let getchathistory = function(username, skip, successCB, errorCB) {
     });
 }
 
-let addingbookmarks = function(bookmarks, successCB, errorCB) {
-    console.log('bookmarkvalue::', bookmarks);
+let addingbookmarks = function(bookmarks,data, successCB, errorCB) {
+  console.log('bookmark value',bookmarks);
+  console.log('data', data.bookmarks[0].value);
     ChatHistory.update({
         'username': bookmarks.username,
-        'messages.value': bookmarks.value
+        'messages.value': data.bookmarks[0].value
     }, {
         '$set': {
             'messages.$.bookmark': true
@@ -98,7 +99,22 @@ let getBookmarks = function(username, successCB, errorCB) {
 }
 
 let deleteBookmark = function(username, answer, successCB, errorCB) {
-    console.log('value in deletebookmark', answer)
+    // console.log('value in deletebookmark', answer)
+    ChatHistory.update({
+        'username': username,
+        'messages.value': answer
+    }, {
+        '$set': {
+            'messages.$.bookmark': false
+        }
+    }, function(err) {
+        console.log("inside deletebookmark controller");
+        if (err) {
+            console.log('err for delete bookmarkflag: ', err)
+            errorCB(err);
+        }
+        //successCB("successfully saved");
+    })
     Bookmarks.update({
         username: username
     }, {

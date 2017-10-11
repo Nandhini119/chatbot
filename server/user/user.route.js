@@ -80,7 +80,7 @@ module.exports = function(passport) {
     router.post('/addingbookmarks', function(req, res) {
         try {
             //console.log("inside chathistory route ", req.body);
-            usersController.addingbookmarks(req.body, function(result) {
+            usersController.addingbookmarks(req.body.bookmark,req.body.data, function(result) {
                 //console.log('success')
                 res.status(201).json({
                     result: result
