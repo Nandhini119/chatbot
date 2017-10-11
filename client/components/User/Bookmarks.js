@@ -9,16 +9,24 @@ import {
     CardHeader,
     CardText
 } from 'material-ui/Card';
+import * as ReactDOM from 'react-dom';
 import superagent from 'superagent';
-import './User.css';
 import {
     ButtonToolbar,
     Button
 } from 'react-bootstrap';
-import './Chats/ChatHistory.css';
+import './User.css';
 
 class Bookmarks extends React.Component {
-
+        scrollToBottom() {
+            const {
+                messageList
+            } = this.refs;
+            const scrollHeight = messageList.scrollHeight;
+            const height = messageList.clientHeight;
+            const maxScrollTop = scrollHeight - height;
+            ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+        }
         constructor() {
             super();
             this.state = {
@@ -29,6 +37,7 @@ class Bookmarks extends React.Component {
         }
 
         componentWillMount() {
+          alert("hi");
             this.getBookmarks();
         }
 
@@ -85,40 +94,50 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     return (
-      <div className="collection">
-      <div className="messageDiv"  ref="messageList" >
-          {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
-             this.state.bookmarks.map(function(bookmark, index) {
-          let time = bookmark.timestamp;
-            return (
-              <div>
-                <Row>
-                  <Col>
-                    <div>
-                      <Card className = "bookCard">
-                        <CardHeader
-                            title={bookmark.username}
-                            subtitle={time} />
-                        <CardText>
-                            {bookmark.value}
-                        </CardText>
-                        <CardActions >
-                          <ButtonToolbar>
-                            <Button bsSize="xs" onClick={()=> {self.deleteBookmark(index)}}>Delete</Button>
-                          </ButtonToolbar>
-                        </CardActions>
-                      </Card>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            )
-          })
-        }
-     </div>
-     </div>
+      <div className = "collection">
+        <div className="messageDiv "  ref="messageList" >
+            {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
+               this.state.bookmarks.map(function(bookmark, index) {
+            let time = bookmark.timestamp;
+              return (
+                <div>
+                  <Row >
+                    <Col cd  = {10}>
+                      <div>
+                        <Card className = "bookCard">
+                          <CardHeader
+                              title={bookmark.username}
+                              subtitle={time} />
+                          <CardText>
+                              {bookmark.value}
+                          </CardText>
+                          <CardActions >
+                            <ButtonToolbar>
+                              <Button bsSize="xs" onClick={()=> {self.deleteBookmark(index)}}>Delete</Button>
+                            </ButtonToolbar>
+                          </CardActions>
+                        </Card>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              )
+            })
+          }
+       </div>
+      </div>
     );
   }
+
+  componentDidMount() {
+      this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+      this.scrollToBottom();
+  }
+
+
 }
 
 export default Bookmarks;
