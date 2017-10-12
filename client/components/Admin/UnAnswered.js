@@ -35,8 +35,12 @@ export default class UnAnswered extends React.Component
           end : false,
     }
     this.handlePagination = this.handlePagination.bind(this);
+    this.handleUnanswered = this.handleUnanswered.bind(this);
   }
   componentWillMount() {
+    this.handleUnanswered();
+  }
+  handleUnanswered() {
     var allQuestions = "";
     let self = this;
     $.ajax({
@@ -44,9 +48,8 @@ export default class UnAnswered extends React.Component
       type : 'GET',
       data : { skip : 0},
       success : function(response) {
-        //console.log("response",response);
         allQuestions = response.result.map((data, index) => {
-            return <UnAnsweredCard question = {data} key = {index} id = {index}/>
+            return <UnAnsweredCard question = {data} key = {index} id = {index} />
         })
         self.setState({
             allquestions: allQuestions

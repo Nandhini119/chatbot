@@ -34,16 +34,17 @@ export default class ChatHistoryCard extends React.Component {
   }
 
 addingBookmarks(){
+  console.log("label",this.props.messageObj.question)
 let bookmark = {
         username: localStorage.getItem('username'),
         bookmarks: [{
-          username : localStorage.getItem('username'),
+          username : this.props.messageObj.Who,
           value: this.props.messageObj.What,
-          timestamp: this.props.messageObj.When.getTime()
+          timestamp: this.props.messageObj.When.getTime(),
+          label : this.props.messageObj.label,
+          question : this.props.messageObj.question
         }]
       };
-  console.log("inside bookmark");
-//  console.log('bookmark value', this.props.messageObj.What);
 let self = this;
 
 this.setState({bookmark:true})
@@ -113,9 +114,9 @@ this.setState({bookmark:true})
                   title={this.props.messageObj.Who}
                   subtitle={messageDateTime}/>
               <CardText className = "answer cardText textalign">
-                {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
-                    <Embedly url={this.props.messageObj.What} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
-                                 <p>{this.props.messageObj.What}</p>}
+              {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> {this.props.messageObj.label} : <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
+                  <Embedly url={this.props.messageObj.What} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
+                               <p>{this.props.messageObj.What}</p>}
               </CardText>
               <CardActions >
                 {self.state.bookmark ? <BookmarkFilled  style={style.bookmark} onClick={this.deleteBookmark.bind(this,answer)} /> : <BookmarkBorder style={style.bookmark} onClick={this.addingBookmarks}/>}

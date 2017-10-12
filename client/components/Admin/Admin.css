@@ -1,6 +1,5 @@
-
 .background {
-  margin-top:-20px;
+  margin-top:5px;
   /*//background-image: url('../../assets/images/react.png');*/
   background-color :ABE0EA;
   background-size: cover;
@@ -8,7 +7,7 @@
 .adminscroll{
   overflow-x: scroll;
   overflow-x: hidden;
-  height: 81vh;
+  height: 90vh;
   margin-right: 0.15%;
 }
 .adminscroll::-webkit-scrollbar{
@@ -17,8 +16,9 @@
 }
 .adminscroll::-webkit-scrollbar-thumb {
   background: gray;
-  /*box-shadow: 0 4px 10px rgba(0,0,0,0.5);*/
-  /*opacity: 0.3;*/
+}
+.table {
+  margin-top : 5%;
 }
 nav {
   background-color: #353D2F;

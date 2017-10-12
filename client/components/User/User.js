@@ -105,7 +105,6 @@ export default class User extends React.Component {
         sendMessage(message) {
             // for now this will let us know things work.  `console` will give us a
             // warning though
-            console.log("messageeeee", message);
             let msgs = this.state.msgs;
             msgs.push(message);
             this.setState({
@@ -123,7 +122,6 @@ export default class User extends React.Component {
                     if (err) {
                         console.log('error: ', err)
                     } else {
-                        console.log("succesfully saved");
                     }
                 });
         }
@@ -157,8 +155,8 @@ export default class User extends React.Component {
                 let self = this;
                 let msgs = this.state.msgs;
                 let answers = this.state.answers;
-
-                console.log("message", message.What);
+                let question = message.What;
+                console.log("///////////////////",question)
                 $.ajax({
                         url: '/users/answer',
                         type: 'GET',
@@ -196,19 +194,19 @@ export default class User extends React.Component {
                                     type: 'answer',
                                     label: "text",
                                     bookmark:false
-                                });console.log('answers',answers);
+                                });
 
                             } else {
-                                console.log("response", response.result);
                                 response.result.map(function(item, index) {
                                     switch (item.label) {
                                         case 'text':
-                                            {
+                                            { console.log("text",question);
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
                                                     When: when,
-                                                    label: "text"
+                                                    label: "text",
+                                                    question : question,
                                                 });
                                                 answers.push({
                                                     username: "Bot",
@@ -216,17 +214,19 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "text",
-                                                    bookmark:false
+                                                    bookmark:false,
+                                                    question : question
                                                 });
                                                 break;
                                             }
                                         case 'blog':
-                                            {
+                                            {console.log("blog",question);
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
                                                     When: when,
-                                                    label: "blog"
+                                                    label: "blog",
+                                                    question : question
                                                 });
 
                                                 answers.push({
@@ -235,18 +235,20 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "blog",
-                                                    bookmark: false
+                                                    bookmark: false,
+                                                    question : question
                                                 });
 
                                                 break;
                                             }
                                         case 'video':
-                                            {
+                                            {console.log("video",question);
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
                                                     When: when,
-                                                    label: "video"
+                                                    label: "video",
+                                                    question : question
                                                 });
 
                                                 answers.push({
@@ -255,18 +257,19 @@ export default class User extends React.Component {
                                                     timestamp: when.getTime(),
                                                     type: 'answer',
                                                     label: "video",
-                                                    bookmark:false
+                                                    bookmark:false,
+                                                    question : question,
                                                 });
                                                 break;
                                             }
                                         default:
-                                            {
+                                            {console.log("default",question);
                                                 msgs.push({
                                                     Who: "Bot",
                                                     Answer: "item.value",
-                                                    When: when
+                                                    When: when,
+                                                    question : question
                                                 });
-
                                                 break;
                                             }
                                     }
@@ -274,7 +277,6 @@ export default class User extends React.Component {
                                 } /*end of else*/
                                 self.setState({ msgs: msgs});
                                 self.setState({ answers: answers });
-                                console.log('answers in chat', answers);
                                 self.chatHistoryAnswers({
                                     username: localStorage.getItem('username'),
                                     messages: answers
@@ -327,13 +329,16 @@ export default class User extends React.Component {
                                 if (res.body.result == null) {
                                     self.setState({ msgs: [] });
                                 } else {
+
                                     res.body.result.messages.map(function(message) {
+                                      console.log("chat",message)
                                         msgs.push({
                                             Who: message.username,
                                             What: message.value,
                                             When: new Date(message.timestamp),
                                             label: message.label,
-                                            bookmark: message.bookmark
+                                            bookmark: message.bookmark,
+                                            question : message.question
                                         });
                                         self.setState({  msgs: msgs });
                                     });
@@ -357,7 +362,6 @@ export default class User extends React.Component {
                               bookmarkData = res.body.result.bookmarks.map((data,index)=> {
                                   return (<Bookmarks  bookmarks = {data} keys = {index} reloadBookmark = {self.reloadBookmark} reloadChatHistory = {self.reloadChatHistory}/>);
                               });
-                              console.log('bookmark event...');
                                 self.setState({bookmarks : bookmarkData});
                             }
 
@@ -387,7 +391,7 @@ export default class User extends React.Component {
               <ToolbarGroup lastChild={true}>
                 <AccountCircle className = "acc-circle" style={styles.account} color = "white" onClick={this.handlePopover}/>
                 &nbsp;
-                <ToolbarTitle text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
+                <ToolbarTitle className = "username" text={localStorage.getItem('username')} style={styles.title} onClick={this.handlePopover}/>
                 <Popover
                     style = {styles.title}
                     open={this.state.open}

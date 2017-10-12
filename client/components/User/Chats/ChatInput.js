@@ -31,7 +31,8 @@ class ChatInput extends React.Component {
             this.props.sendMessage({
                 Who: localStorage.getItem('username'),
                 What: message,
-                When: when
+                When: when,
+                label : "text"
             });
 
             this.pushHistory({
@@ -41,7 +42,8 @@ class ChatInput extends React.Component {
                     type: 'question',
                     value: message,
                     timestamp: when.getTime(),
-                    bookmark:false
+                    bookmark:false,
+                    label : "text"
                 }]
             });
 
@@ -57,7 +59,6 @@ class ChatInput extends React.Component {
                     if (err) {
                         console.log('error: ', err)
                     } else {
-                        console.log("succesfully saved");
                     }
                 });
         }

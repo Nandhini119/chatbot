@@ -112,11 +112,11 @@ export default class AllQuestions extends React.Component {
         }
     render() {
         return (
-          <div className = "adminscroll">
+          <div className = "container-fluid background adminscroll">
             <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
               <ArrowBack color = "black" / >
             </IconButton>
-            <div className = "container-fluid background" style={styles.marginTop}>
+            <div  style={styles.marginTop}>
 
               {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
               <Row center = 'xs' >

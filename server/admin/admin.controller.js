@@ -74,10 +74,10 @@ let controls = {
             skip = 0
 
         } else {
-            skip = 2 * (parseInt(data.skip) - 1);
+            skip = 4 * (parseInt(data.skip) - 1);
         }
         /* building a cypher query */
-        query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 2;`;
+        query = `MATCH path=(n)<-[r:answer_to]-(m) return n,collect(m) order by n.name skip ${skip} limit 4;`;
         /* executing the cypher query */
         session.run(query).then(function(result) {
             successCB(result, items);
@@ -145,7 +145,7 @@ let controls = {
             skipForUnanswered = 0
 
         } else {
-            skipForUnanswered = 2 * (parseInt(data.skip) - 1);
+            skipForUnanswered = 4 * (parseInt(data.skip) - 1);
         }
         unansweredquestions.find(function(err, questions) {
             if (questions) {
@@ -153,7 +153,7 @@ let controls = {
             } else {
                 errorCB(err);
             }
-        }).skip(skipForUnanswered).limit(2);
+        }).skip(skipForUnanswered).limit(4);
 
     },
     unAnswered_delete: function(data, successCB, errorCb) {

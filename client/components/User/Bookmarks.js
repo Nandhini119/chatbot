@@ -15,6 +15,7 @@ import {
     ButtonToolbar,
     Button
 } from 'react-bootstrap';
+import Embedly from 'react-embedly';
 import Close from 'material-ui/svg-icons/navigation/close';
 import './User.css';
 
@@ -57,7 +58,6 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     let date = new Date(this.props.bookmarks.timestamp)
-    console.log(date)
     const messageDate =date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
     const messageDateTime = messageDate +" "+date.getHours() +":"+ date.getMinutes();
     return (
@@ -66,12 +66,13 @@ class Bookmarks extends React.Component {
                       <Row>
                       <Col xs = {11}>
                         <CardHeader
-                            title={this.props.bookmarks.username}
+                            title={this.props.bookmarks.question}
                             subtitle={messageDateTime}>
                             </CardHeader>
-
-                        <CardText>
-                            {this.props.bookmarks.value}
+                        <CardText className = "textalign">
+                        {this.props.bookmarks.label == 'video'  || this.props.bookmarks.label == 'blog'?<div> {this.props.bookmarks.label} : <a href = {this.props.bookmarks.value} target="_blank">{this.props.bookmarks.value}</a>
+                            <Embedly url={this.props.bookmarks.value} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
+                                         <p>{this.props.bookmarks.value}</p>}
                         </CardText>
                         </Col>
                         <Col xs = {1}>

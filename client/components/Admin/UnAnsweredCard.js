@@ -60,6 +60,7 @@ export default class UnAnsweredCard extends React.Component {
       this.setState({open: false});
   }
   handleDiscard() {
+    let self = this;
     $.ajax({
       url : '/admin/question/'+this.state.questionTitle,
       type : 'POST',
@@ -67,6 +68,7 @@ export default class UnAnsweredCard extends React.Component {
       success : function(response) {
         console.log("response",response);
         if(response.result == "successfully deleted") {
+          //self.props.reloadUnanswered();
           alert("successfully deleted ")
         } else {
           alert("error in deleting");

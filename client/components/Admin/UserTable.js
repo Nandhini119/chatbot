@@ -8,8 +8,11 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-
 import RaisedButton from 'material-ui/RaisedButton';
+import {
+    Row,
+    Col
+} from 'react-flexbox-grid';
 import './Admin.css';
 import $ from 'jquery';
 
@@ -105,6 +108,7 @@ render()
           {this.state.button?<RaisedButton label="Block" primary = {true} onClick = {this.handleBlock} style={styles.button} /> :
           <RaisedButton label="Unblock" backgroundColor = "#FE4A3A" style={styles.button} onClick = {this.handleUnblock}/> }</TableRowColumn>
         </TableRow>
+
   );
 }
 }

@@ -59,11 +59,11 @@ export default class AllUsers extends React.Component {
                 }
   render(){
     return(
-     <div className = "container-fluid  background adminscroll" style={styles.body}>
+     <div className = "container-fluid  background adminscroll">
         <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
           <ArrowBack color = "black"/>
            </IconButton>
-           <Row center='xs'>
+           <Row center='xs' className = "table">
             <Col xs={10}>
               <div >
                 <Table fixedHeader={true}>

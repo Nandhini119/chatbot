@@ -16,10 +16,11 @@
   color: white;
   font-family: Rye;
 }
-
-
 .toolbaar{
   float: right;
+}
+.textalign {
+  word-wrap: break-word;
 }
 .botname{
   float: center;
@@ -45,6 +46,9 @@ opacity :0.5;
 }
 .acc-circle {
   cursor : pointer;
+}
+.username {
+cursor : pointer;
 }
 .logo {
   margin-top:  -10px;
