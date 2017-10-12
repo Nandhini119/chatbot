@@ -10,6 +10,7 @@ footer {
 }
 footer .input-field input,
 button {
+  color: #595B5B;
   border-color: gray;
 }
 

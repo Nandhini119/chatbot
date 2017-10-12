@@ -107,7 +107,7 @@ this.setState({bookmark:true})
     return(
       <div>
         <Row className = {this.props.messageObj.Who == 'Bot'  ? "alignmentRight" : "alignmentLeft"}>
-          <Col>
+          <Col xs = {12}>
             <div>
             <Card className = {this.props.messageObj.Who == 'Bot'  ? "cardBot" : "cardUser"} style={{backgroundColor: this.props.messageObj.Who == 'Bot' ? '#E0E1D8' : '#F4EDCE'}}>
               <CardHeader
@@ -115,7 +115,7 @@ this.setState({bookmark:true})
                   subtitle={messageDateTime}/>
               <CardText className = "answer cardText textalign">
                 {this.props.messageObj.label == 'video'  || this.props.messageObj.label == 'blog'?<div> <a href = {this.props.messageObj.What} target="_blank">{this.props.messageObj.What}</a>
-                    <Embedly url={this.props.messageObj.What} target="_blank" apiKey="72fec89ac6014af6a46956b950a374d6"/></div>:
+                    <Embedly url={this.props.messageObj.What} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
                                  <p>{this.props.messageObj.What}</p>}
               </CardText>
               <CardActions >

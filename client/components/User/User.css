@@ -1,8 +1,23 @@
-.bookmarkScroll {
-  overflow-y: scroll;
+.bookscroll{
+  overflow-x: scroll;
   overflow-x: hidden;
-  height: 83vh;
+  height: 81vh;
+  margin-right: -1.5%;
 }
+.bookscroll::-webkit-scrollbar {
+  background-color: transparent;
+  width: 4px;
+}
+.bookscroll::-webkit-scrollbar-thumb {
+  background: gray;
+
+}
+.fonto{
+  color: white;
+  font-family: Rye;
+}
+
+
 .toolbaar{
   float: right;
 }

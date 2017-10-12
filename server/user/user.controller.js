@@ -161,6 +161,28 @@ let answer = function(words, successCB, errorCB) {
                 break;
             }
         }
+        for(var i=0;i<question.length;i++) {
+          console.log(question[i],"sfegrrGRgrgrgv");
+          if(question[i].toLowerCase() == "video") {
+
+            answer_label = ":video";
+            question.splice(i,1);
+            break;
+          } else if(question[i].toLowerCase() == "text") {
+
+            answer_label = ":text";
+            question.splice(i,1);
+            break;
+          } else if (question[i].toLowerCase() == "blog") {
+
+            answer_label = ":blog";
+            break;
+          } else {
+
+            answer_label = "";
+            break;
+          }
+        }
         let keyword = stopWord.removeStopwords(question);
         /* building a cypher query */
         queryToFindRelation = `MATCH (intent:intent {name: "${intent}"}) WITH intent AS c\
@@ -176,12 +198,14 @@ let answer = function(words, successCB, errorCB) {
             let params = {
                 "keywords": keyword,
                 "intent": relation,
+                "answer_label" : answer_label
             }
+             console.log("keyword", params.answer_label);
             /* building a cypher query */
             queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\
                            match (o:question)-[rel:${params.intent}]->(m)\
-                          match (q)-[:answer_to]->(o) return collect(distinct q) ,o,count(rel) order by count(rel) desc;`;
+                          match (q${params.answer_label})-[:answer_to]->(o) return collect(distinct q) ,o,count(rel) order by count(rel) desc;`;
             /* executing the cypher query */
             session.run(queryToFindAnswer, params).then(function(result) {
                 if (result.records.length == 0) {

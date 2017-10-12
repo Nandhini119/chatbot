@@ -342,7 +342,6 @@ export default class User extends React.Component {
                         });
                 }
                 getBookmarks() {
-                  alert("in user.js");
                     let self = this;
                     let bookmarkData = " ";
                     superagent
@@ -367,7 +366,6 @@ export default class User extends React.Component {
                 }
                 reloadBookmark()
                 {
-                  alert("reload");
                   this.getBookmarks();
                 }
                 reloadChatHistory()
@@ -384,7 +382,7 @@ export default class User extends React.Component {
          <div>
             <Toolbar  style={ styles.toolbarStyle }>
               <ToolbarGroup style={styles.title} >
-                  <ToolbarTitle text="..." style={styles.title}/>
+                  <ToolbarTitle text="Get To Know" style={styles.title}/>
               </ToolbarGroup>
               <ToolbarGroup lastChild={true}>
                 <AccountCircle className = "acc-circle" style={styles.account} color = "white" onClick={this.handlePopover}/>
@@ -411,7 +409,7 @@ export default class User extends React.Component {
             <Row>
                 <Col xs = {4} className = "bookmark" style = {styles.title}>
                     <center><h4>Bookmarks</h4></center>
-                    <div  className = "bookmarkScroll">
+                    <div  className = "bookscroll">
                     {this.state.bookmarks}
                     </div>
                 </Col>

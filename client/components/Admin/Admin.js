@@ -116,7 +116,7 @@ export default class Admin extends React.Component {
       <div>
         <Toolbar  style={ styles.toolbarStyle }>
           <ToolbarGroup style={styles.title}>
-              <ToolbarTitle text="Quora" style={styles.title}/>
+              <ToolbarTitle text="Get To Know" style={styles.title}/>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
             <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>

@@ -17,14 +17,12 @@ import {
     Col
 } from 'react-flexbox-grid';
 import $ from 'jquery';
-
 import UserTable from './UserTable.js';
+import './Admin.css';
 
 const styles = {
   body : {
-  overflowY : "scroll",
-  overflowX : "hidden",
-  height : "500px",
+  marginTop : "50px",
   },
   arrow : {
     position : "fixed",
@@ -61,7 +59,7 @@ export default class AllUsers extends React.Component {
                 }
   render(){
     return(
-     <div className = "container-fluid  background " style={styles.body}>
+     <div className = "container-fluid  background adminscroll" style={styles.body}>
         <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
           <ArrowBack color = "black"/>
            </IconButton>

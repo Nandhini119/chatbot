@@ -1,12 +1,18 @@
 .messageDiv{
   overflow-x: scroll;
   overflow-x: hidden;
-  height: 75vh;
+  height: 81vh;
+  margin-right: 0.15%;
 }
+.messageDiv::-webkit-scrollbar {
+  background-color: transparent;
+  width: 4px;
+}
+.messageDiv::-webkit-scrollbar-thumb {
+  background: gray;
 
+}
 .collection {
-  /*overflow-x: scroll;
-  overflow-x: hidden;*/
   margin-top: 10px;;
   border: 0px;
   position: relative;
@@ -50,7 +56,8 @@ margin-top : 2%;
     margin-right: 2%;
 }
 .alignmentLeft {
-    margin-left: 70%;
+    margin-left: 60%;
+    margin-right : 1%;
 }
 .timealign {
   color: gray;
@@ -66,7 +73,7 @@ overflow: hidden;
       margin-right : 48px;
   }
 }
-@media(min-width : 421px) and (max-width : 770px){
+/*@media(min-width : 421px) and (max-width : 770px){
   .message {
     margin-top : 100%;
     margin-right :125px;
@@ -112,7 +119,9 @@ overflow: hidden;
   .alignmentLeft {
       margin-left: 45%;
   }
+  .alignmentRight {
 
+  }
 }
 @media (max-width : 519px) and (min-width : 400px){
   .alignmentRight {
@@ -154,4 +163,4 @@ overflow: hidden;
   .cardUser {
     max-width : 80%
   }
-}
+}*/

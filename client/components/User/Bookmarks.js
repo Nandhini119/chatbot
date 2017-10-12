@@ -85,5 +85,4 @@ class Bookmarks extends React.Component {
 
 }
 
-
 export default Bookmarks;
