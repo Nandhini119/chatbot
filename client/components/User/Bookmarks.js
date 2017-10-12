@@ -28,15 +28,14 @@ class Bookmarks extends React.Component {
             }
             this.deleteBookmark = this.deleteBookmark.bind(this);
         }
-
+        /* to delete the particular bookmark*/
         deleteBookmark() {
           let self = this;
-            console.log("bookmark value", this.props.keys);
             let {
                 bookmarks
             } = this.state;
             superagent
-                .post('/users/deletebookmark')
+                .post('/users/deletebookmarks')
                 .send({
                     username: localStorage.getItem('username'),
                     value: this.props.bookmarks.value,
@@ -45,9 +44,8 @@ class Bookmarks extends React.Component {
                     if (err) {
                         console.log('error: ', err);
                     } else {
-                      self.props.reloadBookmark();
-                      self.props.reloadChatHistory();
-                        console.log('delete bookmark response', res);
+                      self.props.getBookmarks();
+                      self.props.getChatHistory();
                     }
                 });
             this.setState({
@@ -58,7 +56,7 @@ class Bookmarks extends React.Component {
   render() {
     let self = this;
     let date = new Date(this.props.bookmarks.timestamp)
-    const messageDate =date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+    const messageDate =date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
     const messageDateTime = messageDate +" "+date.getHours() +":"+ date.getMinutes();
     return (
                     <div>
@@ -69,7 +67,7 @@ class Bookmarks extends React.Component {
                             title={this.props.bookmarks.question}
                             subtitle={messageDateTime}>
                             </CardHeader>
-                        <CardText className = "textalign">
+                        <CardText className = "textalign" >
                         {this.props.bookmarks.label == 'video'  || this.props.bookmarks.label == 'blog'?<div> {this.props.bookmarks.label} : <a href = {this.props.bookmarks.value} target="_blank">{this.props.bookmarks.value}</a>
                             <Embedly url={this.props.bookmarks.value} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
                                          <p>{this.props.bookmarks.value}</p>}

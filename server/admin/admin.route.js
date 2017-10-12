@@ -13,11 +13,15 @@ var isAuthenticated = function(req, res, next) {
         status: 'Invalid user'
     });
 };
-
+/*to get all the users of the application from mongodb*/
 router.get('/users', adminControl.allUsers);
+/*will check the status of the user whether in blocked or in active state*/
 router.get('/status', adminControl.checkstatus);
+/*will block the user*/
 router.post('/block', adminControl.blockUsers);
+/*will unblock the user*/
 router.post('/unblock', adminControl.unblockUsers);
+/*will get all the question from neo4j db*/
 router.get('/questions', function(req, res) {
     try {
         adminControl.getquestions(req.query, function(result, items) {
@@ -37,6 +41,7 @@ router.get('/questions', function(req, res) {
         });
     }
 });
+/*will add new answere for existing question to neo db*/
 router.post('/answer', function(req, res) {
     try {
         adminControl.answer(req.body, function(result) {
@@ -55,6 +60,7 @@ router.post('/answer', function(req, res) {
         });
     }
 });
+/* will add unanswered questions to neo db with answers*/
 router.post('/questions', function(req, res) {
     try {
         adminControl.newQuestions(req.body, function(result) {
@@ -73,6 +79,7 @@ router.post('/questions', function(req, res) {
         });
     }
 });
+/*to save the question which has no answeres in to mongodb*/
 router.post('/unAnswered', function(req, res) {
     try {
         adminControl.notify_UnAnswered(req.body, function(result) {
@@ -91,6 +98,7 @@ router.post('/unAnswered', function(req, res) {
         });
     }
 });
+/* will get all the unanswered question from mongodb*/
 router.get('/unAnswered', function(req, res) {
     try {
         adminControl.answer_unAnswered(req.query, function(result) {
@@ -109,9 +117,9 @@ router.get('/unAnswered', function(req, res) {
         });
     }
 });
+/* will delete a particular unanswered questions stored in db*/
 router.post('/question/:question', function(req, res) {
     try {
-        console.log("in deleting unanswered question");
         adminControl.unAnswered_delete(req.params, function(result) {
             res.status(201).json({
                 result: result

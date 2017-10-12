@@ -76,9 +76,8 @@ export default class User extends React.Component {
             this.chatHistoryAnswers = this.chatHistoryAnswers.bind(this);
             this.handleClearChat = this.handleClearChat.bind(this);
             this.getBookmarks = this.getBookmarks.bind(this);
-            this.reloadBookmark = this.reloadBookmark.bind(this);
-            this.reloadChatHistory = this.reloadChatHistory.bind(this);
         }
+        /*to load the chathistories and bookmark list when the user logged in*/
         componentWillMount() {
             this.getChatHistory({
                 count: 1
@@ -106,14 +105,33 @@ export default class User extends React.Component {
             // for now this will let us know things work.  `console` will give us a
             // warning though
             let msgs = this.state.msgs;
-            msgs.push(message);
-            this.setState({
-                msgs: msgs
-            });
-            this.getAnswer(message);
+              let self = this;
+            if(message.What == "badwords") {
+              $.ajax({
+                  url: '/admin/block',
+                  method: 'POST',
+                  data: {
+                      username: localStorage.getItem('username')
+                  },
+                  success: function(response) {
+                    alert("you have been blocked");
+                    self.logout();
+                  },
+                  error: function(err) {
+                      console.log(err);
+                  }
+              })
+            } else {
+              msgs.push(message);
+              this.setState({
+                  msgs: msgs
+              });
+              this.getAnswer(message);
+
+            }
 
         }
-
+        /*to save the answers in to chathistory db*/
         chatHistoryAnswers(history) {
             superagent
                 .post('/users/chathistory')
@@ -125,7 +143,7 @@ export default class User extends React.Component {
                     }
                 });
         }
-
+        /*to clear the chathistory*/
         handleClearChat() {
             let self = this;
             $.ajax({
@@ -148,7 +166,7 @@ export default class User extends React.Component {
                 }
             })
         }
-
+        /*to get answer for the users question*/
         getAnswer(message) {
                 let when = new Date();
                 this.state.answers = [];
@@ -156,7 +174,6 @@ export default class User extends React.Component {
                 let msgs = this.state.msgs;
                 let answers = this.state.answers;
                 let question = message.What;
-                console.log("///////////////////",question)
                 $.ajax({
                         url: '/users/answer',
                         type: 'GET',
@@ -165,16 +182,15 @@ export default class User extends React.Component {
                         },
                         success: function(response) {
                             if (response.result == "no answer found") {
-                                console.log(response.result);
-                                console.log("message", message.What);
+                              /*to save the questin which has no answeres in to mongodb*/
                                 $.ajax({
                                     url: '/admin/unAnswered',
                                     type: 'POST',
                                     data: {
-                                        question: message.What
+                                        question: message.What,
+                                        username : localStorage.getItem('username')
                                     },
                                     success: function(response) {
-                                        console.log("Question notified to be answered");
                                     },
                                     error: function(err) {
                                         console.log(err);
@@ -200,7 +216,7 @@ export default class User extends React.Component {
                                 response.result.map(function(item, index) {
                                     switch (item.label) {
                                         case 'text':
-                                            { console.log("text",question);
+                                            {
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
@@ -220,7 +236,7 @@ export default class User extends React.Component {
                                                 break;
                                             }
                                         case 'blog':
-                                            {console.log("blog",question);
+                                            {
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
@@ -242,7 +258,7 @@ export default class User extends React.Component {
                                                 break;
                                             }
                                         case 'video':
-                                            {console.log("video",question);
+                                            {
                                                 msgs.push({
                                                     Who: "Bot",
                                                     What: item.value,
@@ -263,7 +279,7 @@ export default class User extends React.Component {
                                                 break;
                                             }
                                         default:
-                                            {console.log("default",question);
+                                            {
                                                 msgs.push({
                                                     Who: "Bot",
                                                     Answer: "item.value",
@@ -292,7 +308,7 @@ export default class User extends React.Component {
                             }
                         });
                 }
-
+                /*logout the user ans remove the use's name from localstorage*/
                 logout() {
                     let self = this;
                     superagent
@@ -312,12 +328,12 @@ export default class User extends React.Component {
 
                         });
                 }
-
+                /*called in componentwillmount to get the chathistories*/
                 getChatHistory(data) {
                     let msgs = [];
                     let self = this;
                     superagent
-                        .get('/users/getchathistory')
+                        .get('/users/chathistory')
                         .query({
                             username: localStorage.getItem('username'),
                             skip: data.count
@@ -329,9 +345,7 @@ export default class User extends React.Component {
                                 if (res.body.result == null) {
                                     self.setState({ msgs: [] });
                                 } else {
-
                                     res.body.result.messages.map(function(message) {
-                                      console.log("chat",message)
                                         msgs.push({
                                             Who: message.username,
                                             What: message.value,
@@ -346,6 +360,7 @@ export default class User extends React.Component {
                             }
                         });
                 }
+                /*to get the bookmark questions when the user logged in*/
                 getBookmarks() {
                     let self = this;
                     let bookmarkData = " ";
@@ -358,27 +373,17 @@ export default class User extends React.Component {
                             if (err) {
                                 console.log('error: ', err);
                             } else {
-
+                              if(!(res.body.result.length == 0)) {
                               bookmarkData = res.body.result.bookmarks.map((data,index)=> {
-                                  return (<Bookmarks  bookmarks = {data} keys = {index} reloadBookmark = {self.reloadBookmark} reloadChatHistory = {self.reloadChatHistory}/>);
+                                  return (<Bookmarks  bookmarks = {data} keys = {index} getBookmarks = {self.getBookmarks} getChatHistory = {self.getChatHistory({count : 1})}/>);
                               });
+                            }
                                 self.setState({bookmarks : bookmarkData});
                             }
 
                         });
 
                 }
-                reloadBookmark()
-                {
-                  this.getBookmarks();
-                }
-                reloadChatHistory()
-                {
-                  this.getChatHistory({
-                      count: 1
-                  });
-                }
-
 
   render()
   {

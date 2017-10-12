@@ -39,6 +39,7 @@ export default class AllUsers extends React.Component {
 
             }
         }
+        /*to display all the users with status(blocked or active) when the component is rendered*/
         componentWillMount() {
                 let self = this;
                 var userdata = " ";

@@ -81,6 +81,7 @@ export default class newQuestions extends React.Component {
                 type: type
             })
         }
+        /*function to add new question to the db*/
         addQuestion() {
             $.ajax({
                 url: '/admin/questions',

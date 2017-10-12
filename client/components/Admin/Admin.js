@@ -57,7 +57,7 @@ export default class Admin extends React.Component {
             });
         }
 
-        /*to render different component switch case is used*/
+        /*to render different component based on actions to be performed*/
         getComponent() {
                 switch (this.state.component) {
                     case "unanswered":
@@ -87,7 +87,7 @@ export default class Admin extends React.Component {
                         />
                 }
             }
-            /*to remove component in state*/
+            /*to remove component in state when back is clicked*/
         nullifyComponent() {
                 this.setState({
                     component: ""

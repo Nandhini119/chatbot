@@ -37,9 +37,11 @@ export default class UnAnswered extends React.Component
     this.handlePagination = this.handlePagination.bind(this);
     this.handleUnanswered = this.handleUnanswered.bind(this);
   }
+  /* to display unanswered questions stored in mongodb on rendering the component*/
   componentWillMount() {
     this.handleUnanswered();
   }
+
   handleUnanswered() {
     var allQuestions = "";
     let self = this;
@@ -48,12 +50,17 @@ export default class UnAnswered extends React.Component
       type : 'GET',
       data : { skip : 0},
       success : function(response) {
+        if(response.result.length > 0) {
+          self.setState({end : false});
         allQuestions = response.result.map((data, index) => {
-            return <UnAnsweredCard question = {data} key = {index} id = {index} />
+            return <UnAnsweredCard question = {data} keys = {index} id = {index} />
         })
         self.setState({
             allquestions: allQuestions
         });
+      } else {
+        self.setState({end : true});
+      }
 
       },
       error : function(err) {
@@ -61,6 +68,8 @@ export default class UnAnswered extends React.Component
       }
     })
   }
+
+  /*same function as handleUnanswered function only difference is passing the skip value based on page number*/
   handlePagination(eventKey) {
     this.setState({
         activePage: eventKey
@@ -74,11 +83,10 @@ export default class UnAnswered extends React.Component
             skip: eventKey
         },
         success: function(response) {
-          console.log("response",response.result);
             if(response.result.length > 0) {
               self.setState({end : false});
             allQuestions = response.result.map((data, index) => {
-                return <UnAnsweredCard question = {data} key = {index + eventKey} id = {index}/>
+                return <UnAnsweredCard question = {data} keys = {index + eventKey} id = {index} />
             })
             self.setState({
                 allquestions: allQuestions
@@ -101,13 +109,13 @@ export default class UnAnswered extends React.Component
         <ArrowBack color = "black" / >
       </IconButton>
         <div style={styles.marginTop}>
-          {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+          {this.state.end ? <center><h3>No more questions to display</h3></center> : <div>{this.state.allquestions}
           <Row center = 'xs'>
             <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
                 items = {10} maxButtons = {3}
                 activePage = {this.state.activePage}
                 onSelect = {this.handlePagination}/>
-          </Row>
+          </Row></div>}
         </div>
       </div>
     );

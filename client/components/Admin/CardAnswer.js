@@ -7,15 +7,15 @@ import {
     CardTitle
 } from 'material-ui/Card';
 
-
 export default class CardAnswer extends React.Component {
+
         constructor(props) {
             super(props);
             this.state = {
                 flag: false,
             }
         }
-
+        /*to display url in link form label is checked on rendering the component*/
         componentWillMount() {
             if (this.props.answer.labels[0] == "blog" || this.props.answer.labels[0] == "video") {
                 console.log()
@@ -23,7 +23,6 @@ export default class CardAnswer extends React.Component {
                     flag: true
                 });
             }
-
         }
   render() {
     return (

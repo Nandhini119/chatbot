@@ -51,7 +51,7 @@ export default class AllQuestions extends React.Component {
             this.updateComponent = this.updateComponent.bind(this);
 
         }
-
+        /*to display all the questions in the db when the component is rendered*/
         componentWillMount() {
             this.updateComponent();
 
@@ -66,19 +66,24 @@ export default class AllQuestions extends React.Component {
                     skip: 0
                 },
                 success: function(response) {
-                    allQuestions = response.result.records.map((row, index) => {
-                        return <QuestionCard question = { row } key = { index } id = { index } updateComponent = { this.updateComponent } />
-                    })
-                    self.setState({
-                        allquestions: allQuestions
-                    });
-
+                  if (response.result.records.length > 0) {
+                      self.setState({
+                          end: false
+                      });
+                      allQuestions = response.result.records.map((row, index) => {
+                          return <QuestionCard question = { row } key = { index } id = { index } />
+                      })
+                      self.setState({ allquestions: allQuestions });
+                  } else {
+                      self.setState({ end: true });
+                  }
                 },
                 error: function(err) {
                     console.log("Error", err);
                 }
             })
         }
+        /*same function as updateComponent function only difference is passing the skip value based on page number*/
         handlePagination(eventKey) {
             this.setState({
                 activePage: eventKey
@@ -118,13 +123,13 @@ export default class AllQuestions extends React.Component {
             </IconButton>
             <div  style={styles.marginTop}>
 
-              {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+              {this.state.end ? <center><h3>No more questions to display</h3></center> : <div>{this.state.allquestions}
               <Row center = 'xs' >
                 <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
                     items = {10} maxButtons = {3}
                     activePage = {this.state.activePage}
                     onSelect = {this.handlePagination}/>
-              </Row>
+              </Row></div>}
             </div>
           </div>
         );

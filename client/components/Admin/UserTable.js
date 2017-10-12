@@ -13,8 +13,8 @@ import {
     Row,
     Col
 } from 'react-flexbox-grid';
-import './Admin.css';
 import $ from 'jquery';
+import './Admin.css';
 
 const styles = {
     button: {
@@ -39,7 +39,7 @@ export default class UserTable extends React.Component {
                 url: '/admin/status',
                 method: 'GET',
                 data: {
-                    email: this.props.userdata.email
+                    username: this.props.userdata.username
                 },
                 success: function(response) {
                     if (response[0].status == 'blocked') {
@@ -58,13 +58,14 @@ export default class UserTable extends React.Component {
                 }
             })
         }
+        /*to block the user*/
         handleBlock() {
             let self = this;
             $.ajax({
                 url: '/admin/block',
                 method: 'POST',
                 data: {
-                    email: this.props.userdata.email
+                    username: this.props.userdata.username
                 },
                 success: function(response) {
                     self.setState({
@@ -77,6 +78,7 @@ export default class UserTable extends React.Component {
             })
 
         }
+        /*to unblock the user*/
         handleUnblock() {
 
             let self = this;
@@ -84,7 +86,7 @@ export default class UserTable extends React.Component {
                 url: '/admin/unblock',
                 method: 'POST',
                 data: {
-                    email: this.props.userdata.email
+                    username: this.props.userdata.username
                 },
                 success: function(response) {
                     self.setState({

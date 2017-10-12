@@ -110,7 +110,7 @@ class Signup extends Component {
         }
         return false;
     }
-
+    /*to register the user data*/
     handleSignup() {
         if (this.validationSuccess()) {
             let self = this;

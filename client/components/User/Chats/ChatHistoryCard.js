@@ -32,9 +32,8 @@ export default class ChatHistoryCard extends React.Component {
     this.addingBookmarks = this.addingBookmarks.bind(this);
     this.deleteBookmark = this.deleteBookmark.bind(this);
   }
-
+/*to add bookmark*/
 addingBookmarks(){
-  console.log("label",this.props.messageObj.question)
 let bookmark = {
         username: localStorage.getItem('username'),
         bookmarks: [{
@@ -46,11 +45,10 @@ let bookmark = {
         }]
       };
 let self = this;
-
 this.setState({bookmark:true})
 
     superagent
-    .post('/users/addingbookmarks')
+    .post('/users/addbookmarks')
     .send({bookmark,data:{  username: localStorage.getItem('username'),
       bookmarks: [{
         username : localStorage.getItem('username'),
@@ -68,14 +66,13 @@ this.setState({bookmark:true})
         }
      });
   }
-
+/*to delete bookmarks while click on bookmark filled icon*/
  deleteBookmark(answer) {
    let self = this;
- // console.log('VALUE OF', answer);
   this.setState({bookmark:false});
     let { bookmarks } = this.state;
     superagent
-     .post('/users/deletebookmark')
+     .post('/users/deletebookmarks')
      .send({
        username: localStorage.getItem('username'),
        value:answer,
@@ -85,13 +82,11 @@ this.setState({bookmark:true})
            console.log('error: ', err);
         } else {
           self.props.getBookmark();
-           console.log('delete bookmark response', res);
          }
       });
-    //  console.log('bookmarks index',  bookmarks.splice(index, 1))
 
   }
-
+/*to check the bookmark status to display the icon(filled/border)*/
  componentWillMount(){
    if(this.props.messageObj.bookmark){
      this.setState({bookmark:true})

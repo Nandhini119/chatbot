@@ -70,7 +70,7 @@ class Login extends Component {
             password: event.target.value
         });
     }
-
+    /*will check whether the user has registered and redirect to landing page if he is in active state.blocked user will get an alert*/
     onLogin() {
         let self = this;
         if (this.validationSuccess()) {
@@ -98,7 +98,7 @@ class Login extends Component {
                 });
         }
     }
-
+    /*to validate the data  that user has entered*/
     validationSuccess() {
         if (this.state.username.trim().length == 0) {
             this.setState({
@@ -135,7 +135,7 @@ class Login extends Component {
                      floatingLabelText={<Password/>}
                      onChange={this.onPasswordChange} /><br />
                   <RaisedButton label="Log In" primary={true} style={styles.buttonstyle} onClick = {this.onLogin} />
-                  <RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />
+                  {/*<RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />*/}
                   <p>New User?<Link to = '/signup'>
                   <FlatButton label="Register Here" primary={true} /></Link></p>
               </Paper>

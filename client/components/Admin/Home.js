@@ -45,7 +45,7 @@ const tilesData = [{
 }]
 
 export default class Home extends React.Component {
-
+/*to display components in grid*/
 render()
 {
   return(

@@ -69,7 +69,7 @@ export default class QuestionCard extends React.Component {
             var label = event.target.value;
             this.setState({label: label});
         }
-
+        /*to add new answer for existing question*/
         addAnswer() {
             console.log(this.state.question);
             let self = this;

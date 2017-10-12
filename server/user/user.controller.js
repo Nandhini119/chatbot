@@ -51,7 +51,6 @@ let getchathistory = function(username, skip, successCB, errorCB) {
 }
 
 let addingbookmarks = function(bookmarks,data, successCB, errorCB) {
-  console.log('bookmark value',bookmarks);
     ChatHistory.update({
         'username': bookmarks.username,
         'messages.value': data.bookmarks[0].value
@@ -60,7 +59,6 @@ let addingbookmarks = function(bookmarks,data, successCB, errorCB) {
             'messages.$.bookmark': true
         }
     }, function(err) {
-        console.log("inside updatebookmark controller");
         if (err) {
             console.log('err for saving bookmarkflag: ', err)
             errorCB(err);
@@ -98,7 +96,6 @@ let getBookmarks = function(username, successCB, errorCB) {
 }
 
 let deleteBookmark = function(username, answer, successCB, errorCB) {
-    // console.log('value in deletebookmark', answer)
     ChatHistory.update({
         'username': username,
         'messages.value': answer
@@ -107,7 +104,6 @@ let deleteBookmark = function(username, answer, successCB, errorCB) {
             'messages.$.bookmark': false
         }
     }, function(err) {
-        console.log("inside deletebookmark controller");
         if (err) {
             console.log('err for delete bookmarkflag: ', err)
             errorCB(err);
@@ -140,9 +136,7 @@ let answer = function(words, successCB, errorCB) {
     let resultobj = [];
     let answer_label = " ";
     var punctuationless = words.words.replace(/[^\w\s]|_/g, "");
-    //console.log(punctuationless);
     var finalString = punctuationless.replace(/\s+/g, " ");
-    //console.log(finalString);
     let question = finalString.split(' ');
     /* connecting to the db */
     let session = driver.session();
@@ -161,7 +155,6 @@ let answer = function(words, successCB, errorCB) {
             }
         }
         for(var i=0;i<question.length;i++) {
-          console.log(question[i],"sfegrrGRgrgrgv");
           if(question[i].toLowerCase() == "video") {
 
             answer_label = ":video";
@@ -199,7 +192,6 @@ let answer = function(words, successCB, errorCB) {
                 "intent": relation,
                 "answer_label" : answer_label
             }
-             console.log("keyword", params.answer_label);
             /* building a cypher query */
             queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\

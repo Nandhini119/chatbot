@@ -39,8 +39,6 @@ class ChatHistory extends React.Component {
                 count: 1,
             }
             this.handleLoadMore = this.handleLoadMore.bind(this);
-            this.getBookmark = this.getBookmark.bind(this);
-
         }
 
         handleLoadMore() {
@@ -52,13 +50,10 @@ class ChatHistory extends React.Component {
                 count: count
             });
         }
-        getBookmark() {
-          this.props.getBookmarks();
-        }
+
 render() {
     const { props } = this;
     const self = this;
-    console.log(props.history);
     return (
       <div className =  "collection">
         <div className="messageDiv "  ref="messageList" >
@@ -66,7 +61,7 @@ render() {
           { props.history.length == 0 ?<div className = "message">This is the beginning of your chat..</div>:
             props.history.map(function(messageObj, index) {
               return (
-                <ChatHistoryCard messageObj = {messageObj} getBookmark = {self.getBookmark} index={index}/>
+                <ChatHistoryCard messageObj = {messageObj} getBookmark = {self.props.getBookmarks} index={index}/>
               )
             })
           }

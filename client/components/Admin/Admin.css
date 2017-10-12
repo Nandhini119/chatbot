@@ -23,7 +23,6 @@
 nav {
   background-color: #353D2F;
 }
-
 body{
   overflow-y: scroll;
 }
@@ -46,7 +45,9 @@ h3, .title {
   height: 50px;
   width: 50px;
 }
-
+.close {
+  margin-top : 2%;
+}
 @media (max-width : 768px)
 {
   .logo {
