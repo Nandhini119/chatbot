@@ -71,7 +71,7 @@ this.setState({bookmark:true})
 
  deleteBookmark(answer) {
    let self = this;
- console.log('VALUE OF', answer);
+ // console.log('VALUE OF', answer);
   this.setState({bookmark:false});
     let { bookmarks } = this.state;
     superagent
@@ -103,6 +103,7 @@ this.setState({bookmark:true})
     let answer = this.props.messageObj.What;
       let self = this;
     const messageDate = this.props.messageObj.When.toLocaleDateString();
+
     const messageDateTime = messageDate +" "+this.props.messageObj.When.getHours() +":"+ this.props.messageObj.When.getMinutes();
     return(
       <div>
