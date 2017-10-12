@@ -263,7 +263,7 @@ export default class User extends React.Component {
                                             {
                                                 msgs.push({
                                                     Who: "Bot",
-                                                    Answer: "item.value",
+                                                    Answer: item.value,
                                                     When: when
                                                 });
 
