@@ -7,7 +7,6 @@ import {
 } from 'material-ui';
 import Navigatenext from 'material-ui/svg-icons/image/navigate-next';
 import './Admin.css';
-
 const styles = {
     title: {
         color: "black",
@@ -43,7 +42,6 @@ const tilesData = [{
     title: "Add Questions",
     comp: "newquestions"
 }]
-
 export default class Home extends React.Component {
 /*to display components in grid*/
 render()

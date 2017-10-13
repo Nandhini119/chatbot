@@ -38,10 +38,14 @@ let chathistory = function(history, successCB, errorCB) {
 }
 
 let getchathistory = function(username, skip, successCB, errorCB) {
-    skipLimit = (-10* parseInt(skip));
+    skipLimit = (-10 * parseInt(skip));
     ChatHistory.findOne({
         username: username
-    },{"messages" : {$slice : skipLimit}}, function(err, data) {
+    }, {
+        "messages": {
+            $slice: skipLimit
+        }
+    }, function(err, data) {
         if (err) {
             console.log('err in chathistory:', err)
             errorCB(err);
@@ -50,7 +54,7 @@ let getchathistory = function(username, skip, successCB, errorCB) {
     });
 }
 
-let addingbookmarks = function(bookmarks,data, successCB, errorCB) {
+let addingbookmarks = function(bookmarks, data, successCB, errorCB) {
     ChatHistory.update({
         'username': bookmarks.username,
         'messages.value': data.bookmarks[0].value
@@ -154,26 +158,27 @@ let answer = function(words, successCB, errorCB) {
                 break;
             }
         }
-        for(var i=0;i<question.length;i++) {
-          if(question[i].toLowerCase() == "video") {
+        /*to find the answer label*/
+        for (var i = 0; i < question.length; i++) {
+            if (question[i].toLowerCase() == "video") {
 
-            answer_label = ":video";
-            question.splice(i,1);
-            break;
-          } else if(question[i].toLowerCase() == "text") {
+                answer_label = ":video";
+                question.splice(i, 1);
+                break;
+            } else if (question[i].toLowerCase() == "text") {
 
-            answer_label = ":text";
-            question.splice(i,1);
-            break;
-          } else if (question[i].toLowerCase() == "blog") {
+                answer_label = ":text";
+                question.splice(i, 1);
+                break;
+            } else if (question[i].toLowerCase() == "blog") {
 
-            answer_label = ":blog";
-            break;
-          } else {
+                answer_label = ":blog";
+                break;
+            } else {
 
-            answer_label = "";
-            break;
-          }
+                answer_label = "";
+                break;
+            }
         }
         let keyword = stopWord.removeStopwords(question);
         /* building a cypher query */
@@ -188,11 +193,11 @@ let answer = function(words, successCB, errorCB) {
                 relation = result.records[0]._fields[0];
             } /*end of else queryToFindRelation*/
             let params = {
-                "keywords": keyword,
-                "intent": relation,
-                "answer_label" : answer_label
-            }
-            /* building a cypher query */
+                    "keywords": keyword,
+                    "intent": relation,
+                    "answer_label": answer_label
+                }
+                /* building a cypher query */
             queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\
                            match (o:question)-[rel:${params.intent}]->(m)\

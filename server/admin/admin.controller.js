@@ -7,7 +7,7 @@ let items = 0;
 let skip = 0;
 let skipForUnanswered = 0;
 let controls = {
-  /*give all the users in database from mongodb*/
+    /*give all the users in database from mongodb*/
     allUsers: function(req, res) {
         user.find({
             type: "user"
@@ -109,11 +109,20 @@ let controls = {
     /*to add new question to the neo4j db*/
     newQuestions: function(data, successCB, errorCB) {
         let query = " ";
-        query = `match (n:domain{name:"react"})\
-                merge (m:concept{name:"${data.concept}"})-[r:concept_of]->(n) with n,m\
-                merge (o:question{name:"${data.question}"})-[q:${data.relation}]->(m) with m,o\
-                merge (p:${data.type}{name:"${data.answer}"})-[t:answer_to]->(o)  return p,o,m;`;
-
+        console.log(data);
+        if(data.alert == "one") {
+          query = `match (n:domain{name:"react"})\
+                  merge (m:concept{name:"${data.concept}"})-[r:concept_of]->(n) with n,m\
+                  merge (o:question{name:"${data.question}"})-[q:${data.relation}]->(m) with m,o\
+                  merge (p:${data.type}{name:"${data.answer}"})-[t:answer_to]->(o)  return p,o,m;`;
+        } else {
+          query = `match (n:domain{name:"react"})\
+                  merge (m:concept{name:"${data.concept}"})-[r:concept_of]->(n) with n,m\
+                  merge (w:concept{name:"${data.concepttwo}"})-[r1:concept_of]->(n) with n,m,w\
+                  merge (o:question{name:"${data.question}"})-[q:${data.relation}]->(m) with m,o,w\
+                  merge (o)-[q1:${data.relation}]->(w) with m,o,w,q1\
+                  merge (p:${data.type}{name:"${data.answer}"})-[t:answer_to]->(o)  return p,o,m;`;
+        }
         /* executing the cypher query */
         session.run(query).then(function(result) {
             successCB(result);

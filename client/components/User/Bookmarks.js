@@ -22,15 +22,15 @@ import './User.css';
 class Bookmarks extends React.Component {
 
         constructor() {
-            super();
-            this.state = {
-                bookmarks: []
+                super();
+                this.state = {
+                    bookmarks: []
+                }
+                this.deleteBookmark = this.deleteBookmark.bind(this);
             }
-            this.deleteBookmark = this.deleteBookmark.bind(this);
-        }
-        /* to delete the particular bookmark*/
+            /* to delete the particular bookmark*/
         deleteBookmark() {
-          let self = this;
+            let self = this;
             let {
                 bookmarks
             } = this.state;
@@ -44,8 +44,8 @@ class Bookmarks extends React.Component {
                     if (err) {
                         console.log('error: ', err);
                     } else {
-                      self.props.getBookmarks();
-                      self.props.getChatHistory();
+                        self.props.getBookmarks();
+                        self.props.getChatHistory();
                     }
                 });
             this.setState({
@@ -53,12 +53,12 @@ class Bookmarks extends React.Component {
 
             });
         }
-  render() {
-    let self = this;
-    let date = new Date(this.props.bookmarks.timestamp)
-    const messageDate =date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
-    const messageDateTime = messageDate +" "+date.getHours() +":"+ date.getMinutes();
-    return (
+        render() {
+            let self = this;
+            let date = new Date(this.props.bookmarks.timestamp)
+            const messageDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            const messageDateTime = messageDate + " " + date.getHours() + ":" + date.getMinutes();
+            return (
                     <div>
                       <Card className = "bookCard">
                       <Row>
@@ -79,9 +79,9 @@ class Bookmarks extends React.Component {
                         </Row>
                       </Card>
             </div>
-          )
-  }
+                )
+            }
 
-}
+        }
 
-export default Bookmarks;
+        export default Bookmarks;

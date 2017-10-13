@@ -4,7 +4,7 @@ let usersController = require('./user.controller.js');
 
 
 module.exports = function(passport) {
-  /*will get answer for the users question from neo4j db*/
+    /*will get answer for the users question from neo4j db*/
     router.get('/answer', function(req, res) {
         try {
             usersController.answer(req.query, function(result) {
@@ -53,8 +53,8 @@ module.exports = function(passport) {
             var skip = req.query.skip;
             usersController.getchathistory(username, skip, function(result) {
                 res.status(201).json({
-                        result: result
-                    })
+                    result: result
+                })
             }, function(error) {
                 res.status(500).json({
                     error: error
@@ -71,46 +71,46 @@ module.exports = function(passport) {
 
     /* adding bookmarks to mongodb */
     router.post('/addbookmarks', function(req, res) {
-        try {
-            usersController.addingbookmarks(req.body.bookmark,req.body.data, function(result) {
-                res.status(201).json({
-                    result: result
+            try {
+                usersController.addingbookmarks(req.body.bookmark, req.body.data, function(result) {
+                    res.status(201).json({
+                        result: result
+                    });
+                }, function(error) {
+                    res.status(500).json({
+                        error: error
+                    });
                 });
-            }, function(error) {
-                res.status(500).json({
-                    error: error
-                });
-            });
 
-        } catch (e) {
-            console.log('error in addingbookmarks route: ', e)
-            res.status(500).json({
-                error: "internal server error"
-            });
-        }
-    })
-    /*will get the bookmark list from mongodb*/
+            } catch (e) {
+                console.log('error in addingbookmarks route: ', e)
+                res.status(500).json({
+                    error: "internal server error"
+                });
+            }
+        })
+        /*will get the bookmark list from mongodb*/
     router.get('/bookmarks', function(req, res) {
-        try {
-            var username = req.query.username;
-            usersController.getBookmarks(username, function(result) {
-                res.status(201).json({
-                    result: result
+            try {
+                var username = req.query.username;
+                usersController.getBookmarks(username, function(result) {
+                    res.status(201).json({
+                        result: result
+                    });
+                }, function(error) {
+                    res.status(500).json({
+                        error: error
+                    });
                 });
-            }, function(error) {
-                res.status(500).json({
-                    error: error
-                });
-            });
 
-        } catch (e) {
-            console.log('error in getbookmarks route: ', e)
-            res.status(500).json({
-                error: "internal server error"
-            });
-        }
-    })
-    /*to delete the bookmark of particular question saved in mongodb*/
+            } catch (e) {
+                console.log('error in getbookmarks route: ', e)
+                res.status(500).json({
+                    error: "internal server error"
+                });
+            }
+        })
+        /*to delete the bookmark of particular question saved in mongodb*/
     router.post('/deletebookmarks', function(req, res, next) {
         try {
             var username = req.body.username;

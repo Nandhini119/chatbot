@@ -25,10 +25,11 @@ import './Signup.css';
 const styles = {
     paper: {
         height: '100%',
-        width: 380,
+        width: 350,
         marginTop: 100,
         textAlign: 'center',
         display: 'inline-block',
+        backgroundColor : 'transparent'
     },
     buttonstyle: {
         margin: 12,
@@ -36,6 +37,12 @@ const styles = {
     },
     svgstyle: {
         marginRight: 10
+    },
+    message : {
+      marginTop : 90,
+      fontFamily: 'Lobster',
+      fontSize : "2rem",
+      color : "teal"
     }
 };
 
@@ -91,26 +98,26 @@ class Signup extends Component {
 
     // Validating textfields
     validationSuccess() {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (this.state.username.length == 0) {
-            this.setState({
-                usernameError: "Username cannot be empty"
-            });
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (this.state.username.length == 0) {
+                this.setState({
+                    usernameError: "Username cannot be empty"
+                });
 
-        } else if (!(this.state.email.match(mailformat))) {
-            this.setState({
-                emailError: "email is not valid"
-            })
-        } else if (this.state.password.length == 0) {
-            this.setState({
-                passwordError: "Password cannot be empty"
-            });
-        } else {
-            return true;
+            } else if (!(this.state.email.match(mailformat))) {
+                this.setState({
+                    emailError: "email is not valid"
+                })
+            } else if (this.state.password.length == 0) {
+                this.setState({
+                    passwordError: "Password cannot be empty"
+                });
+            } else {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-    /*to register the user data*/
+        /*to register the user data*/
     handleSignup() {
         if (this.validationSuccess()) {
             let self = this;
@@ -141,14 +148,16 @@ class Signup extends Component {
                 });
         }
     }
-  render() {
-    return (
-      <div>
+    render() {
+        return (  <div>
         <div  className="container-fluid ">
-          <Row center="xs" end = 'sm'>
-            <Col xs={11} sm={5}>
+        <Row center="xs">
+        <Col xs  = {3}></Col>
+        <Col xs = {3} style = {styles.message}><div>Hi!!... I am Skye.. Lets Learn React together</div>
+        </Col>
+          <Col xs={6}>
               <Paper style={styles.paper} zDepth={3} >
-                <h4>Create your Account</h4>
+                <h5>Create your Account</h5>
                   <TextField
                     hintText="Username"
                     value={this.state.username}
@@ -172,15 +181,15 @@ class Signup extends Component {
                     floatingLabelText={<Password/>}
                     onChange={this.onPasswordChange}/><br />
                   <RaisedButton label="REGISTER NOW" primary={true} style={styles.buttonstyle} onClick = {this.handleSignup}/>
-                  <p>Already have an account?<Link to ='/'><FlatButton label="Login" primary={true} /></Link></p>
+                  <p>Already have an account?<Link to ='/'><FlatButton label="Login" secondary={true} /></Link></p>
               </Paper>
             </Col>
           </Row>
         {this.state.signupflag ?  < Redirect to = '/userhome' > < /Redirect>:''}
        </div>
      </div>
-    );
-  }
-}
+            );
+        }
+    }
 
-export default Signup;
+    export default Signup;

@@ -3,8 +3,16 @@ import IconButton from 'material-ui/IconButton';
 import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookmarkFilled from 'material-ui/svg-icons/action/bookmark';
 import Embedly from 'react-embedly';
-import { Row, Col } from 'react-flexbox-grid';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {
+    Row,
+    Col
+} from 'react-flexbox-grid';
+import {
+    Card,
+    CardActions,
+    CardHeader,
+    CardText
+} from 'material-ui/Card';
 import superagent from 'superagent';
 import Bookmarks from '../Bookmarks.js';
 import './ChatHistory.css';
@@ -23,85 +31,98 @@ const style = {
 
 export default class ChatHistoryCard extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      flag : false,
-      bookmark:false
-    }
-    this.addingBookmarks = this.addingBookmarks.bind(this);
-    this.deleteBookmark = this.deleteBookmark.bind(this);
-  }
-/*to add bookmark*/
-addingBookmarks(){
-let bookmark = {
-        username: localStorage.getItem('username'),
-        bookmarks: [{
-          username : this.props.messageObj.Who,
-          value: this.props.messageObj.What,
-          timestamp: this.props.messageObj.When.getTime(),
-          label : this.props.messageObj.label,
-          question : this.props.messageObj.question
-        }]
-      };
-let self = this;
-this.setState({bookmark:true})
+        constructor(props) {
+                super(props);
+                this.state = {
+                    flag: false,
+                    bookmark: false
+                }
+                this.addingBookmarks = this.addingBookmarks.bind(this);
+                this.deleteBookmark = this.deleteBookmark.bind(this);
+            }
+            /*to add bookmark*/
+        addingBookmarks() {
+                let bookmark = {
+                    username: localStorage.getItem('username'),
+                    bookmarks: [{
+                        username: this.props.messageObj.Who,
+                        value: this.props.messageObj.What,
+                        timestamp: this.props.messageObj.When.getTime(),
+                        label: this.props.messageObj.label,
+                        question: this.props.messageObj.question
+                    }]
+                };
+                let self = this;
+                this.setState({
+                    bookmark: true
+                })
 
-    superagent
-    .post('/users/addbookmarks')
-    .send({bookmark,data:{  username: localStorage.getItem('username'),
-      bookmarks: [{
-        username : localStorage.getItem('username'),
-        value: this.props.messageObj.What,
-        timestamp: this.props.messageObj.When.getTime()
-      }]}})
-    .end(function(err, res) {
-        if (err) {
-            console.log('error: ', err)
+                superagent
+                    .post('/users/addbookmarks')
+                    .send({
+                        bookmark,
+                        data: {
+                            username: localStorage.getItem('username'),
+                            bookmarks: [{
+                                username: localStorage.getItem('username'),
+                                value: this.props.messageObj.What,
+                                timestamp: this.props.messageObj.When.getTime()
+                            }]
+                        }
+                    })
+                    .end(function(err, res) {
+                        if (err) {
+                            console.log('error: ', err)
+                        } else {
+                            self.props.getBookmark();
+                            console.log("succesfully saved: ", res);
+
+                        }
+                    });
+            }
+            /*to delete bookmarks while click on bookmark filled icon*/
+        deleteBookmark(answer) {
+                let self = this;
+                this.setState({
+                    bookmark: false
+                });
+                let {
+                    bookmarks
+                } = this.state;
+                superagent
+                    .post('/users/deletebookmarks')
+                    .send({
+                        username: localStorage.getItem('username'),
+                        value: answer,
+                    })
+                    .end(function(err, res) {
+                        if (err) {
+                            console.log('error: ', err);
+                        } else {
+                            self.props.getBookmark();
+                        }
+                    });
+
+            }
+            /*to check the bookmark status to display the icon(filled/border)*/
+        componentWillMount() {
+            if (this.props.messageObj.bookmark) {
+                this.setState({
+                    bookmark: true
+                })
+            } else {
+                this.setState({
+                    bookmark: false
+                })
+            }
         }
-        else{
-            self.props.getBookmark();
-          console.log("succesfully saved: ",res);
+        render() {
+            let answer = this.props.messageObj.What;
+            let self = this;
+            const messageDate = this.props.messageObj.When.toLocaleDateString();
 
-        }
-     });
-  }
-/*to delete bookmarks while click on bookmark filled icon*/
- deleteBookmark(answer) {
-   let self = this;
-  this.setState({bookmark:false});
-    let { bookmarks } = this.state;
-    superagent
-     .post('/users/deletebookmarks')
-     .send({
-       username: localStorage.getItem('username'),
-       value:answer,
-     })
-     .end(function(err, res) {
-         if (err) {
-           console.log('error: ', err);
-        } else {
-          self.props.getBookmark();
-         }
-      });
-
-  }
-/*to check the bookmark status to display the icon(filled/border)*/
- componentWillMount(){
-   if(this.props.messageObj.bookmark){
-     this.setState({bookmark:true})
-   } else {
-     this.setState({bookmark:false})
-   }
- }
-  render() {
-    let answer = this.props.messageObj.What;
-      let self = this;
-    const messageDate = this.props.messageObj.When.toLocaleDateString();
-
-    const messageDateTime = messageDate +" "+this.props.messageObj.When.getHours() +":"+ this.props.messageObj.When.getMinutes();
-    return(
-      <div>
+            const messageDateTime = messageDate + " " + this.props.messageObj.When.getHours() + ":" + this.props.messageObj.When.getMinutes();
+            return (  <div>
         <Row className = {this.props.messageObj.Who == 'Bot'  ? "alignmentRight" : "alignmentLeft"}>
           <Col xs = {12}>
             <div>
@@ -122,6 +143,6 @@ this.setState({bookmark:true})
           </Col>
         </Row>
       </div>
-    );
-  }
-}
+                );
+            }
+        }

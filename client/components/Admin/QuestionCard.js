@@ -50,26 +50,42 @@ export default class QuestionCard extends React.Component {
         componentWillMount() {
             var answer = " ";
             answer = this.props.question._fields[1].map((row, index) => {
-                return <CardAnswer answer = {row} key = {index}/>
+                return <CardAnswer answer = {
+                    row
+                }
+                key = {
+                    index
+                }
+                />
             })
-            this.setState({answers: answer});
+            this.setState({
+                answers: answer
+            });
         }
 
         handleOpen() {
-            this.setState({open: true});
+            this.setState({
+                open: true
+            });
         }
         handleClose() {
-            this.setState({open: false});
+            this.setState({
+                open: false
+            });
         }
         handleName(event) {
             var name = event.target.value;
-            this.setState({name: name});
+            this.setState({
+                name: name
+            });
         }
         handleLabel(event) {
-            var label = event.target.value;
-            this.setState({label: label});
-        }
-        /*to add new answer for existing question*/
+                var label = event.target.value;
+                this.setState({
+                    label: label
+                });
+            }
+            /*to add new answer for existing question*/
         addAnswer() {
             console.log(this.state.question);
             let self = this;
@@ -83,7 +99,9 @@ export default class QuestionCard extends React.Component {
                 },
                 success: function(response) {
                     alert("successfully answer added");
-                    self.setState({open: false});
+                    self.setState({
+                        open: false
+                    });
                     self.props.updateComponent();
 
                 },
@@ -94,8 +112,7 @@ export default class QuestionCard extends React.Component {
         }
 
         render() {
-          return (
-          <div >
+                return ( <div >
             <Row center = 'xs' >
               <Col xs = {11} >
                 <Card style = {styles.card} >
@@ -148,5 +165,5 @@ export default class QuestionCard extends React.Component {
             </Row>
           </div>);
 
-            }
-        }
+                    }
+                }

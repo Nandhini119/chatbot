@@ -1,35 +1,38 @@
-.bookscroll{
-  overflow-x: scroll;
-  overflow-x: hidden;
-  height: 81vh;
-  margin-right: -1.5%;
+.backgroundUser {
+  background-color: #F2F2F2
+}
+.bookscroll {
+    overflow-x: scroll;
+    overflow-x: hidden;
+    height: 81vh;
+    margin-right: -1.5% ;
 }
 .bookscroll::-webkit-scrollbar {
-  background-color: transparent;
-  width: 4px;
-}
-.bookscroll::-webkit-scrollbar-thumb {
-  background: gray;
+        background-color: transparent;
+        width: 4px;
+    }
+    .bookscroll::-webkit-scrollbar-thumb {
+        background: gray;
 
-}
-.fonto{
-  color: white;
-  font-family: Rye;
-}
-.toolbaar{
-  float: right;
-}
-.textalign {
-  word-wrap: break-word;
-}
-.botname{
-  float: center;
-}
-.title {
-  color:white;
-}
-.bookmark {
-  background-color: #059C75;
+    }
+    .fonto {
+        color: white;
+        font-family: Rye;
+    }
+    .toolbaar {
+        float: right;
+    }
+    .textalign {
+        word-wrap: break-word;
+    }
+    .botname {
+        float: center;
+    }
+    .title {
+        color: white;
+    }
+    .bookmark {
+        background-color: #059C75;
 }
 .close {
   margin-top : 2%;
@@ -39,6 +42,10 @@ margin-left: 6%;
 margin-right : 1%;
 max-width : 90%;
 margin : 5%;
+}
+.appName {
+  font-family: 'EB Garamond', serif;
+  color : white;
 }
 .chatWindow {
 background-color : red;

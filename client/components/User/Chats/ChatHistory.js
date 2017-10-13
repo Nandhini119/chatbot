@@ -23,7 +23,7 @@ import ChatHistoryCard from './ChatHistoryCard.js';
 
 
 class ChatHistory extends React.Component {
-      scrollToBottom() {
+        scrollToBottom() {
             const {
                 messageList
             } = this.refs;
@@ -51,11 +51,12 @@ class ChatHistory extends React.Component {
             });
         }
 
-render() {
-    const { props } = this;
-    const self = this;
-    return (
-      <div className =  "collection">
+        render() {
+            const {
+                props
+            } = this;
+            const self = this;
+            return (  <div className =  "collection">
         <div className="messageDiv "  ref="messageList" >
           {props.history.length >2 ? <Chip onClick = {this.handleLoadMore}>Load more..</Chip>  : " "}
           { props.history.length == 0 ?<div className = "message">This is the beginning of your chat..</div>:
@@ -67,13 +68,13 @@ render() {
           }
         </div>
       </div>
-    );
-  }
-  componentDidMount() {
-        this.scrollToBottom();
-    }
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-}
-export default ChatHistory;
+                );
+            }
+            componentDidMount() {
+                this.scrollToBottom();
+            }
+            componentDidUpdate() {
+                this.scrollToBottom();
+            }
+        }
+        export default ChatHistory;

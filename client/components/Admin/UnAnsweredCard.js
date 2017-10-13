@@ -32,111 +32,116 @@ const styles = {
 }
 
 export default class UnAnsweredCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      questionTitle : this.props.question.question,
-      open: false,
-      concept: " ",
-      question: " ",
-      answer: " ",
-      relation: " ",
-      type: " ",
+        constructor(props) {
+            super(props);
+            this.state = {
+                questionTitle: this.props.question.question,
+                open: false,
+                concept: " ",
+                question: " ",
+                answer: " ",
+                relation: " ",
+                type: " ",
 
-    };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleDiscard = this.handleDiscard.bind(this);
-    this.addQuestion = this.addQuestion.bind(this);
-    this.handleConcept = this.handleConcept.bind(this);
-    this.handleQuestion = this.handleQuestion.bind(this);
-    this.handleAnswer = this.handleAnswer.bind(this);
-    this.handleansRelation = this.handleansRelation.bind(this);
-    this.handleansType = this.handleansType.bind(this);
-  }
-  handleOpen() {
-      this.setState({open: true});
-  }
-  handleClose() {
-      this.setState({open: false});
-  }
-  /* to delete a particular question which are in unanswered list*/
-  handleDiscard() {
-    let self = this;
-    console.log('handleDiscard: ', this.props);
-    $.ajax({
-      url : '/admin/question/'+this.state.questionTitle,
-      type : 'POST',
-      data : {},
-      success : function(response) {
-        if(response.result == "successfully deleted") {
-          alert("successfully deleted ")
-        } else {
-          alert("error in deleting");
+            };
+            this.handleOpen = this.handleOpen.bind(this);
+            this.handleClose = this.handleClose.bind(this);
+            this.handleDiscard = this.handleDiscard.bind(this);
+            this.addQuestion = this.addQuestion.bind(this);
+            this.handleConcept = this.handleConcept.bind(this);
+            this.handleQuestion = this.handleQuestion.bind(this);
+            this.handleAnswer = this.handleAnswer.bind(this);
+            this.handleansRelation = this.handleansRelation.bind(this);
+            this.handleansType = this.handleansType.bind(this);
         }
-      },
-      error : function(err) {
-        console.log("Error",err);
-      }
-    })
-  }
-  handleConcept(event) {
-      var concept = event.target.value;
-      this.setState({
-          concept: concept
-      });
-  }
-  handleQuestion(event) {
-      var question = event.target.value;
-      this.setState({
-          question: question
-      });
-  }
-  handleAnswer(event) {
-      var answer = event.target.value;
-      this.setState({
-          answer: answer
-      });
-  }
-  handleansRelation(event) {
-      var relation = event.target.value;
-      this.setState({
-          relation: relation
-      });
-  }
-  handleansType(event) {
-      var type = event.target.value;
-      this.setState({
-          type: type
-      })
-  }
-  /*to add the unanswered question to neo4j with answered */
-  addQuestion() {
-    let self = this;
-      $.ajax({
-          url: '/admin/questions',
-          method: 'POST',
-          data: {
-              concept: this.state.concept,
-              question: this.state.question,
-              answer: this.state.answer,
-              relation: this.state.relation,
-              type: this.state.type
-          },
-          success: function(response) {
-              alert("Question added successfully");
-              self.setState({open : false});
-              self.handleDiscard();
-          },
-          error: function(err) {
-              concole.log("Error", err);
-          }
-      })
+        handleOpen() {
+            this.setState({
+                open: true
+            });
+        }
+        handleClose() {
+                this.setState({
+                    open: false
+                });
+            }
+            /* to delete a particular question which are in unanswered list*/
+        handleDiscard() {
+            let self = this;
+            console.log('handleDiscard: ', this.props);
+            $.ajax({
+                url: '/admin/question/' + this.state.questionTitle,
+                type: 'POST',
+                data: {},
+                success: function(response) {
+                    if (response.result == "successfully deleted") {
+                        alert("successfully deleted ")
+                    } else {
+                        alert("error in deleting");
+                    }
+                },
+                error: function(err) {
+                    console.log("Error", err);
+                }
+            })
+        }
+        handleConcept(event) {
+            var concept = event.target.value;
+            this.setState({
+                concept: concept
+            });
+        }
+        handleQuestion(event) {
+            var question = event.target.value;
+            this.setState({
+                question: question
+            });
+        }
+        handleAnswer(event) {
+            var answer = event.target.value;
+            this.setState({
+                answer: answer
+            });
+        }
+        handleansRelation(event) {
+            var relation = event.target.value;
+            this.setState({
+                relation: relation
+            });
+        }
+        handleansType(event) {
+                var type = event.target.value;
+                this.setState({
+                    type: type
+                })
+            }
+            /*to add the unanswered question to neo4j with answered */
+        addQuestion() {
+            let self = this;
+            $.ajax({
+                url: '/admin/questions',
+                method: 'POST',
+                data: {
+                    concept: this.state.concept,
+                    question: this.state.question,
+                    answer: this.state.answer,
+                    relation: this.state.relation,
+                    type: this.state.type
+                },
+                success: function(response) {
+                    alert("Question added successfully");
+                    self.setState({
+                        open: false
+                    });
+                    self.handleDiscard();
+                },
+                error: function(err) {
+                    concole.log("Error", err);
+                }
+            })
 
-  }
-  render() {
-    return (
-    <div >
+        }
+        render() {
+                return ( <div >
       <Row center = 'xs' >
         <Col xs = {8} >
           <Card style = {styles.card} >
@@ -218,5 +223,5 @@ export default class UnAnsweredCard extends React.Component {
       </Row>
     </div>);
 
-      }
-}
+                    }
+                }

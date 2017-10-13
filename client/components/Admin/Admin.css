@@ -1,27 +1,27 @@
-.background {
-  margin-top:5px;
-  /*//background-image: url('../../assets/images/react.png');*/
-  background-color :ABE0EA;
-  background-size: cover;
+.backgroundAdmin {
+
+    background-color: #E7F6F2;
+    height : 100%;
+
 }
-.adminscroll{
-  overflow-x: scroll;
-  overflow-x: hidden;
-  height: 90vh;
-  margin-right: 0.15%;
+.adminscroll {
+    overflow-x: scroll;
+    overflow-x: hidden;
+    height: 90vh;
+    margin-right: 0.15% ;
 }
-.adminscroll::-webkit-scrollbar{
-  background-color: transparent;
-  width: 4px;
-}
-.adminscroll::-webkit-scrollbar-thumb {
-  background: gray;
-}
-.table {
-  margin-top : 5%;
-}
+.adminscroll::-webkit-scrollbar {
+        background-color: transparent;
+        width: 4px;
+    }
+    .adminscroll::-webkit-scrollbar-thumb {
+        background: gray;
+    }
+    .table {
+        margin-top: 5% ;
+    }
 nav {
-  background-color: #353D2F;
+    background-color: #353D2F;
 }
 body{
   overflow-y: scroll;

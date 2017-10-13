@@ -1,16 +1,16 @@
 footer {
-  color: gray;
-  position: fixed;
-  padding: 0;
-  bottom: 0;
-  left: 0;
-  height: 15vh;
-  width: 97%;
-  /*z-index : -1;*/
+    color: gray;
+    position: fixed;
+    padding: 0;
+    bottom: 0;
+    left: 0;
+    height: 15vh;
+    width: 97% ;
+    /*z-index : -1;*/
 }
-footer .input-field input,
-button {
-  color: #595B5B;
+footer.input-field input,
+    button {
+        color: #595B5B;
   border-color: gray;
 }
 

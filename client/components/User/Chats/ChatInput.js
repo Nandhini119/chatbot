@@ -6,11 +6,11 @@ import {
     Col
 } from 'react-flexbox-grid';
 import './ChatInput.css';
-let BadWords =require('../../../badWords.json');
+let BadWords = require('../../../badWords.json');
 
 
 class ChatInput extends React.Component {
-        constructor() {
+    constructor() {
             super();
             this.state = {
                 userQuery: '',
@@ -20,55 +20,55 @@ class ChatInput extends React.Component {
             this.handleCheck = this.handleCheck.bind(this);
         }
         /*to check for a badwords if present boolean value is passed to callback function*/
-        handleCheck(message,callback) {
-          let words = message.split(' ');
-            for (var i=0;i<words.length;i++) {
-              if(BadWords.indexOf(words[i].toLowerCase()) >= 0) {
+    handleCheck(message, callback) {
+        let words = message.split(' ');
+        for (var i = 0; i < words.length; i++) {
+            if (BadWords.indexOf(words[i].toLowerCase()) >= 0) {
                 callback(true);
                 break;
-              }
-              if(words.length-1 == i){
+            }
+            if (words.length - 1 == i) {
                 callback();
-              }
             }
         }
-        onSubmit(e) {
-          let self = this;
-          let when = new Date();
-          e.preventDefault();
+    }
+    onSubmit(e) {
+            let self = this;
+            let when = new Date();
+            e.preventDefault();
             // Check if the message is empty
-          const message = this.state.userQuery;
-          /*if the status is true it will block the user and change the status of the user to blocked in mongodb,
-           if not the question will be passed to the controller to get the answer*/
-          this.handleCheck(message, function(status) {
-                  if(status) {
+            const message = this.state.userQuery;
+            /*if the status is true it will block the user and change the status of the user to blocked in mongodb,
+             if not the question will be passed to the controller to get the answer*/
+            this.handleCheck(message, function(status) {
+                if (status) {
                     self.props.sendMessage({
-                      Who : localStorage.getItem('username'),
-                      What: "badwords",
-                      When: when,
-                      label : "text"
+                        Who: localStorage.getItem('username'),
+                        What: "badwords",
+                        When: when,
+                        label: "text"
                     })
-                  } else {
-                      self.props.sendMessage({
-                      Who: localStorage.getItem('username'),
-                      What: message,
-                      When: when,
-                      label : "text"
-                  });
-                  /*data to be stored in mongodb for chathistories*/
-                  self.pushHistory({
-                      username: localStorage.getItem('username'),
-                      messages: [{
-                          username: localStorage.getItem('username'),
-                          type: 'question',
-                          value: message,
-                          timestamp: when.getTime(),
-                          bookmark:false,
-                          label : "text"
-                      }]
-                  });
+                } else {
+                    self.props.sendMessage({
+                        Who: localStorage.getItem('username'),
+                        What: message.toLowerCase(),
+                        When: when,
+                        label: "text"
+                    });
+                    /*data to be stored in mongodb for chathistories*/
+                    self.pushHistory({
+                        username: localStorage.getItem('username'),
+                        messages: [{
+                            username: localStorage.getItem('username'),
+                            type: 'question',
+                            value: message.toLowerCase(),
+                            timestamp: when.getTime(),
+                            bookmark: false,
+                            label: "text"
+                        }]
+                    });
                 }
-              })
+            })
             if (message.length === 0) {
                 return;
             }
@@ -77,21 +77,22 @@ class ChatInput extends React.Component {
             });
         }
         /*to store the chat data into db*/
-        pushHistory(history) {
-            superagent
-                .post('/users/chathistory')
-                .send(history)
-                .end(function(err, res) {
-                    if (err) {
-                        console.log('error: ', err)
-                    } else {
-                    }
-                });
-        }
-  render() {
-    const { props, onSubmit } = this;
-    return (
-      <footer >
+    pushHistory(history) {
+        superagent
+            .post('/users/chathistory')
+            .send(history)
+            .end(function(err, res) {
+                if (err) {
+                    console.log('error: ', err)
+                } else {}
+            });
+    }
+    render() {
+        const {
+            props,
+            onSubmit
+        } = this;
+        return ( <footer >
         <Row className = "footer" >
           <Col xs = {4} >
           </Col>
@@ -121,7 +122,7 @@ class ChatInput extends React.Component {
           </Col>
         </Row>
       </footer>
-    );
-  }
+        );
+    }
 }
 export default ChatInput;
