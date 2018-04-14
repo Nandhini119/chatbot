@@ -1,0 +1,3 @@
+{"_id":{"$oid":"59ca524c89d538149020f922"},"status":"active","type":"user","email":"nandhini@gmail.com","password":"nandhini","username":"nandhini","__v":0}
+{"_id":{"$oid":"59ca543489d538149020f924"},"type":"admin","email":"admin@gmail.com","password":"admin","username":"admin","__v":0}
+{"_id":{"$oid":"59d327f5cec73a2c8cf5ab5c"},"status":"blocked","type":"user","email":"karthigaa@gmail.com","password":"karthigaa","username":"karthigaa","__v":0}
