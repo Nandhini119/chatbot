@@ -16,7 +16,6 @@ module.exports = function(passport) {
                 }
                 // user already exsist
                 if (user) {
-                    console.log('username already exsists:' + username);
                     return done(null, false);
                 } else {
                     var newUser = new UserModel();

@@ -38,35 +38,31 @@ let chathistory = function(history, successCB, errorCB) {
 }
 
 let getchathistory = function(username, skip, successCB, errorCB) {
-    console.log(skip, "skip")
-    if (skip == 1) {
-        skipLimit = 0
-    } else {
-        skipLimit = 5 * skip;
-    }
-    console.log(skipLimit, "skip")
+    skipLimit = (-10 * parseInt(skip));
     ChatHistory.findOne({
         username: username
+    }, {
+        "messages": {
+            $slice: skipLimit
+        }
     }, function(err, data) {
         if (err) {
             console.log('err in chathistory:', err)
             errorCB(err);
         }
         successCB(data);
-    }).skip(skipLimit).limit(5);
+    });
 }
 
-let addingbookmarks = function(bookmarks, successCB, errorCB) {
-    console.log('bookmarkvalue::', bookmarks);
+let addingbookmarks = function(bookmarks, data, successCB, errorCB) {
     ChatHistory.update({
         'username': bookmarks.username,
-        'messages.value': bookmarks.value
+        'messages.value': data.bookmarks[0].value
     }, {
         '$set': {
             'messages.$.bookmark': true
         }
     }, function(err) {
-        console.log("inside updatebookmark controller");
         if (err) {
             console.log('err for saving bookmarkflag: ', err)
             errorCB(err);
@@ -104,7 +100,20 @@ let getBookmarks = function(username, successCB, errorCB) {
 }
 
 let deleteBookmark = function(username, answer, successCB, errorCB) {
-    console.log('value in deletebookmark', answer)
+    ChatHistory.update({
+        'username': username,
+        'messages.value': answer
+    }, {
+        '$set': {
+            'messages.$.bookmark': false
+        }
+    }, function(err) {
+        if (err) {
+            console.log('err for delete bookmarkflag: ', err)
+            errorCB(err);
+        }
+        //successCB("successfully saved");
+    })
     Bookmarks.update({
         username: username
     }, {
@@ -131,9 +140,7 @@ let answer = function(words, successCB, errorCB) {
     let resultobj = [];
     let answer_label = " ";
     var punctuationless = words.words.replace(/[^\w\s]|_/g, "");
-    //console.log(punctuationless);
     var finalString = punctuationless.replace(/\s+/g, " ");
-    //console.log(finalString);
     let question = finalString.split(' ');
     /* connecting to the db */
     let session = driver.session();
@@ -151,6 +158,28 @@ let answer = function(words, successCB, errorCB) {
                 break;
             }
         }
+        /*to find the answer label*/
+        for (var i = 0; i < question.length; i++) {
+            if (question[i].toLowerCase() == "video") {
+
+                answer_label = ":video";
+                question.splice(i, 1);
+                break;
+            } else if (question[i].toLowerCase() == "text") {
+
+                answer_label = ":text";
+                question.splice(i, 1);
+                break;
+            } else if (question[i].toLowerCase() == "blog") {
+
+                answer_label = ":blog";
+                break;
+            } else {
+
+                answer_label = "";
+                break;
+            }
+        }
         let keyword = stopWord.removeStopwords(question);
         /* building a cypher query */
         queryToFindRelation = `MATCH (intent:intent {name: "${intent}"}) WITH intent AS c\
@@ -164,15 +193,15 @@ let answer = function(words, successCB, errorCB) {
                 relation = result.records[0]._fields[0];
             } /*end of else queryToFindRelation*/
             let params = {
-                "keywords": keyword,
-                "intent": relation,
-            }
-            console.log("keyword", params.answer_label);
-            /* building a cypher query */
+                    "keywords": keyword,
+                    "intent": relation,
+                    "answer_label": answer_label
+                }
+                /* building a cypher query */
             queryToFindAnswer = `match (n:domain{name:"react"})\
                           match (m:concept)-[:concept_of]->(n) where m.name in {keywords}\
                            match (o:question)-[rel:${params.intent}]->(m)\
-                          match (q)-[:answer_to]->(o) return collect(distinct q) ,o,count(rel) order by count(rel) desc;`;
+                          match (q${params.answer_label})-[:answer_to]->(o) return collect(distinct q) ,o,count(rel) order by count(rel) desc;`;
             /* executing the cypher query */
             session.run(queryToFindAnswer, params).then(function(result) {
                 if (result.records.length == 0) {

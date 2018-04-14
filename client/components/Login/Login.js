@@ -24,11 +24,11 @@ import './Login.css';
 const styles = {
     paperstyle: {
         height: '100%',
-        width: 380,
+        width: 350,
         marginTop: 100,
         textAlign: 'center',
         display: 'inline-block',
-
+        backgroundColor : 'transparent'
     },
     svgstyle: {
         marginRight: 10
@@ -36,6 +36,12 @@ const styles = {
     buttonstyle: {
         margin: 12,
         width: 300,
+    },
+    message : {
+      marginTop : 90,
+      fontFamily: 'Lobster',
+      fontSize : "2rem",
+      color : "teal"
     }
 
 }
@@ -65,40 +71,40 @@ class Login extends Component {
     }
 
     onPasswordChange(event) {
-        this.setState({
-            passwordError: '',
-            password: event.target.value
-        });
-    }
-
-    onLogin() {
-        let self = this;
-        if (this.validationSuccess()) {
-            superagent
-                .post('/users/login')
-                .send({
-                    username: self.state.username,
-                    password: self.state.password
-                })
-                .end(function(err, res) {
-                    if (err) {
-                        if (res.body.message === 'Invalid User') alert('Invalid User!');
-                        else alert('Server Error! Try after some time.');
-                    } else {
-                        self.setState({
-                            currentUser: res.body.user.type
-                        });
-                        if (res.body.user.status == "blocked") {
-                            alert("you have been blocked");
-                        } else {
-                            // set username to localstorage to protect client routes after logout
-                            localStorage.setItem('username', res.body.user.username);
-                        }
-                    }
-                });
+            this.setState({
+                passwordError: '',
+                password: event.target.value
+            });
         }
-    }
-
+        /*will check whether the user has registered and redirect to landing page if he is in active state.blocked user will get an alert*/
+    onLogin() {
+            let self = this;
+            if (this.validationSuccess()) {
+                superagent
+                    .post('/users/login')
+                    .send({
+                        username: self.state.username,
+                        password: self.state.password
+                    })
+                    .end(function(err, res) {
+                        if (err) {
+                            if (res.body.message === 'Invalid User') alert('Invalid User!');
+                            else alert('Server Error! Try after some time.');
+                        } else {
+                            self.setState({
+                                currentUser: res.body.user.type
+                            });
+                            if (res.body.user.status == "blocked") {
+                                alert("you have been blocked");
+                            } else {
+                                // set username to localstorage to protect client routes after logout
+                                localStorage.setItem('username', res.body.user.username);
+                            }
+                        }
+                    });
+            }
+        }
+        /*to validate the data  that user has entered*/
     validationSuccess() {
         if (this.state.username.trim().length == 0) {
             this.setState({
@@ -113,14 +119,16 @@ class Login extends Component {
         }
         return false;
     }
-  render() {
-    return (
-      <div>
-        <div className="container-fluid ">
-          <Row center="xs" end = "sm">
-            <Col xs={11} sm={5}>
-              <Paper style={styles.paperstyle} zDepth={3} >
-                <h4>Login</h4>
+    render() {
+        return ( <div>
+        <div className="container-fluid background">
+          <Row center="xs">
+          <Col xs  = {3}></Col>
+          <Col xs = {3} style = {styles.message}><div>Hi!!... I am Skye.. Lets Learn React together</div>
+          </Col>
+            <Col xs={6}>
+            <Paper style={styles.paperstyle} zDepth={3} >
+                <h5>Login</h5>
                 <TextField
                   hintText="Username"
                   value={this.state.username}
@@ -135,9 +143,9 @@ class Login extends Component {
                      floatingLabelText={<Password/>}
                      onChange={this.onPasswordChange} /><br />
                   <RaisedButton label="Log In" primary={true} style={styles.buttonstyle} onClick = {this.onLogin} />
-                  <RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />
+                  {/*<RaisedButton label="LogIn using Google" secondary={true} style={styles.buttonstyle} />*/}
                   <p>New User?<Link to = '/signup'>
-                  <FlatButton label="Register Here" primary={true} /></Link></p>
+                  <FlatButton label="Register Here" secondary={true} /></Link></p>
               </Paper>
             </Col>
           </Row>
@@ -145,8 +153,8 @@ class Login extends Component {
             this.state.currentUser === 'admin' ? <Redirect to='/adminhome' push={false} /> :''}
       </div>
     </div>
-    );
-  }
-}
+            );
+        }
+    }
 
-export default Login;
+    export default Login;

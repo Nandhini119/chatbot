@@ -26,12 +26,7 @@ import $ from 'jquery';
 
 
 const styles = {
-    body: {
-        overflowY: "scroll",
-        overflowX: "hidden",
-        height: "800px",
 
-    },
     marginTop: {
         marginTop: "60px",
     },
@@ -43,47 +38,65 @@ const styles = {
 
 export default class AllQuestions extends React.Component {
         constructor(props) {
-            super(props);
-            this.state = {
-                Questions: [],
-                Answers: [],
-                allquestions: "",
-                activePage: 1,
-                end: false,
+                super(props);
+                this.state = {
+                    Questions: [],
+                    Answers: [],
+                    allquestions: "",
+                    activePage: 1,
+                    end: false,
+
+                }
+                this.handlePagination = this.handlePagination.bind(this);
+                this.updateComponent = this.updateComponent.bind(this);
 
             }
-            this.handlePagination = this.handlePagination.bind(this);
-            this.updateComponent = this.updateComponent.bind(this);
-
-        }
-
+            /*to display all the questions in the db when the component is rendered*/
         componentWillMount() {
             this.updateComponent();
 
         }
         updateComponent() {
-            var allQuestions = "";
-            let self = this;
-            $.ajax({
-                url: '/admin/questions',
-                method: 'GET',
-                data: {
-                    skip: 0
-                },
-                success: function(response) {
-                    allQuestions = response.result.records.map((row, index) => {
-                        return <QuestionCard question = { row } key = { index } id = { index } updateComponent = { this.updateComponent } />
-                    })
-                    self.setState({
-                        allquestions: allQuestions
-                    });
-
-                },
-                error: function(err) {
-                    console.log("Error", err);
-                }
-            })
-        }
+                var allQuestions = "";
+                let self = this;
+                $.ajax({
+                    url: '/admin/questions',
+                    method: 'GET',
+                    data: {
+                        skip: 0
+                    },
+                    success: function(response) {
+                        if (response.result.records.length > 0) {
+                            self.setState({
+                                end: false
+                            });
+                            allQuestions = response.result.records.map((row, index) => {
+                                return <QuestionCard question = {
+                                    row
+                                }
+                                key = {
+                                    index
+                                }
+                                id = {
+                                    index
+                                }
+                                />
+                            })
+                            self.setState({
+                                allquestions: allQuestions
+                            });
+                        } else {
+                            self.setState({
+                                end: true
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log("Error", err);
+                    }
+                })
+            }
+            /*same function as updateComponent function only difference is passing the skip value based on page number*/
         handlePagination(eventKey) {
             this.setState({
                 activePage: eventKey
@@ -102,11 +115,24 @@ export default class AllQuestions extends React.Component {
                             end: false
                         });
                         allQuestions = response.result.records.map((row, index) => {
-                            return <QuestionCard question = { row } key = { index + eventKey } id = { index } />
+                            return <QuestionCard question = {
+                                row
+                            }
+                            key = {
+                                index + eventKey
+                            }
+                            id = {
+                                index
+                            }
+                            />
                         })
-                        self.setState({ allquestions: allQuestions });
+                        self.setState({
+                            allquestions: allQuestions
+                        });
                     } else {
-                        self.setState({ end: true });
+                        self.setState({
+                            end: true
+                        });
                     }
 
                 },
@@ -114,22 +140,20 @@ export default class AllQuestions extends React.Component {
                     console.log("Error", err);
                 }
             })
-        }
-    render() {
+        }    render() {
         return (
-          <div style={styles.body}>
+          <div className = "container-fluid background adminscroll">
             <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()} >
               <ArrowBack color = "black" / >
             </IconButton>
-            <div className = "container-fluid background" style={styles.marginTop}>
-
-              {this.state.end ? <center><h3>No more questions to display</h3></center> : this.state.allquestions}
+            <div  style={styles.marginTop}>
+              {this.state.end ? <center><h3>No more questions to display</h3></center> : <div>{this.state.allquestions}
               <Row center = 'xs' >
                 <Pagination bsSize = "small" prev next first last ellipsis boundaryLinks
                     items = {10} maxButtons = {3}
                     activePage = {this.state.activePage}
                     onSelect = {this.handlePagination}/>
-              </Row>
+              </Row></div>}
             </div>
           </div>
         );

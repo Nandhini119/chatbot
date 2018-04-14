@@ -1,68 +1,73 @@
-.MessageDiv{
-  overflow-x: scroll;
-  overflow-x: hidden;
-  height: 83vh;
+.messageDiv {
+    overflow-x: scroll;
+    overflow-x: hidden;
+    height: 81vh;
+    margin-right: 0.15% ;
 }
+.messageDiv::-webkit-scrollbar {
+        background-color: transparent;
+        width: 4px;
+    }
+    .messageDiv::-webkit-scrollbar-thumb {
+        background: gray;
 
-.collection {
-  overflow-x: scroll;
-  overflow-x: hidden;
-  margin-top: 10px;;
-  border: 0px;
-  position: relative;
-  float: right;
-}
-.msgalign {
-  background-color: white;
-  top: -5px;
-  position: relative;
-  margin: 10px;
-  padding: 5px;
-  overflow: auto;
-}
-.message {
-  margin-top : 60%;
-  margin-right : 250px;
-}
-.titlealign {
-  font-weight : bold;
-}
+    }
+    .collection {
+        margin-top: 10px;;
+        border: 0px;
+        position: relative;
+        float: right;
+    }
+    .msgalign {
+        background-color: white;
+        top: -5px;
+        position: relative;
+        margin: 10px;
+        padding: 5px;
+        overflow: auto;
+    }
+    .message {
+        margin-top: 60% ;
+        margin-right: 250px;
+    }
+    .titlealign {
+        font-weight: bold;
+    }
 
 .textalign {
-  line-height: 150%;
-  position: relative;
-  word-wrap: break-word;
-  float: left;
+    word-wrap: break-word;
 }
 .cardText {
-margin-top : -15px;
+    margin-top: -15px;
 }
-.card {
-  height : 50%;
+.cardBot {
+    max-width: 70%;
+    min-width: 55%;
+    margin-top: 2%;
+}
+.cardUser {
+    margin-top: 2%;
+
+}
+.alignmentRight {
+    margin-left: 1%;
+    margin-right: 2%;
+}
+.alignmentLeft {
+    margin-left: 60%;
+    margin-right: 1%;
 }
 .timealign {
-  color: gray;
+    color: gray;
 }
 body {
-background: #EEEEEE;
-overflow: hidden;
+    background: #EEEEEE;
+    overflow: hidden;
 }
 
-@media(max-width : 420px) {
-  .message {
-      margin-top : 100%;
-      margin-right : 48px;
-  }
-}
-@media(min-width : 421px) and (max-width : 770px){
-  .message {
-    margin-top : 100%;
-    margin-right :125px;
-  }
-}
-@media (min-width : 1060px) {
-  .message {
-    margin-top : 50%;
-    margin-right : 400px;
-  }
+@media(max-width: 420 px) {
+        .message {
+            margin-top: 100% ;
+            margin-right: 48px;
+        }
 }

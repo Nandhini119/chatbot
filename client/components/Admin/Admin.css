@@ -1,14 +1,28 @@
+.backgroundAdmin {
 
-.background {
-  margin-top:-20px;
-  /*//background-image: url('../../assets/images/react.png');*/
-  background-color :ABE0EA;
-  background-size: cover;
+    background-color: #E7F6F2;
+    height : 100%;
+
 }
+.adminscroll {
+    overflow-x: scroll;
+    overflow-x: hidden;
+    height: 90vh;
+    margin-right: 0.15% ;
+}
+.adminscroll::-webkit-scrollbar {
+        background-color: transparent;
+        width: 4px;
+    }
+    .adminscroll::-webkit-scrollbar-thumb {
+        background: gray;
+    }
+    .table {
+        margin-top: 5% ;
+    }
 nav {
-  background-color: #353D2F;
+    background-color: #353D2F;
 }
-
 body{
   overflow-y: scroll;
 }
@@ -31,7 +45,9 @@ h3, .title {
   height: 50px;
   width: 50px;
 }
-
+.close {
+  margin-top : 2%;
+}
 @media (max-width : 768px)
 {
   .logo {

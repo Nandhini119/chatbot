@@ -4,6 +4,7 @@ let usersController = require('./user.controller.js');
 
 
 module.exports = function(passport) {
+    /*will get answer for the users question from neo4j db*/
     router.get('/answer', function(req, res) {
         try {
             usersController.answer(req.query, function(result) {
@@ -24,17 +25,14 @@ module.exports = function(passport) {
 
     });
 
-    /* chathistory router */
+    /* chathistory router to save in db */
     router.post('/chathistory', function(req, res) {
         try {
-            //console.log("inside chathistory route ", req.body);
             usersController.chathistory(req.body, function(result) {
-                //console.log('success')
                 res.status(201).json({
                     result: result
                 });
             }, function(error) {
-                //console.log("err")
                 res.status(500).json({
                     error: error
                 });
@@ -49,20 +47,15 @@ module.exports = function(passport) {
     });
 
     /* Retrieving chathistory from DB */
-    router.get('/getchathistory', function(req, res) {
+    router.get('/chathistory', function(req, res) {
         try {
             var username = req.query.username;
             var skip = req.query.skip;
-            //console.log("username", req.query.username);
             usersController.getchathistory(username, skip, function(result) {
-                //console.log('inside getchathistory route')
                 res.status(201).json({
-                        result: result
-
-                    })
-                    //  console.log('result:', result);
+                    result: result
+                })
             }, function(error) {
-                //console.log("err")
                 res.status(500).json({
                     error: error
                 });
@@ -76,61 +69,53 @@ module.exports = function(passport) {
         }
     });
 
-    /* adding bookmarks to db */
-    router.post('/addingbookmarks', function(req, res) {
-        try {
-            //console.log("inside chathistory route ", req.body);
-            usersController.addingbookmarks(req.body, function(result) {
-                //console.log('success')
-                res.status(201).json({
-                    result: result
+    /* adding bookmarks to mongodb */
+    router.post('/addbookmarks', function(req, res) {
+            try {
+                usersController.addingbookmarks(req.body.bookmark, req.body.data, function(result) {
+                    res.status(201).json({
+                        result: result
+                    });
+                }, function(error) {
+                    res.status(500).json({
+                        error: error
+                    });
                 });
-            }, function(error) {
-                //console.log("err")
+
+            } catch (e) {
+                console.log('error in addingbookmarks route: ', e)
                 res.status(500).json({
-                    error: error
+                    error: "internal server error"
                 });
-            });
-
-        } catch (e) {
-            console.log('error in addingbookmarks route: ', e)
-            res.status(500).json({
-                error: "internal server error"
-            });
-        }
-    })
-
+            }
+        })
+        /*will get the bookmark list from mongodb*/
     router.get('/bookmarks', function(req, res) {
-        try {
-            var username = req.query.username;
-            //console.log("inside chathistory route ", req.body);
-            usersController.getBookmarks(username, function(result) {
-                //console.log('success')
-                res.status(201).json({
-                    result: result
+            try {
+                var username = req.query.username;
+                usersController.getBookmarks(username, function(result) {
+                    res.status(201).json({
+                        result: result
+                    });
+                }, function(error) {
+                    res.status(500).json({
+                        error: error
+                    });
                 });
-            }, function(error) {
-                //console.log("err")
+
+            } catch (e) {
+                console.log('error in getbookmarks route: ', e)
                 res.status(500).json({
-                    error: error
+                    error: "internal server error"
                 });
-            });
-
-        } catch (e) {
-            console.log('error in getbookmarks route: ', e)
-            res.status(500).json({
-                error: "internal server error"
-            });
-        }
-    })
-
-    router.post('/deletebookmark', function(req, res, next) {
-        console.log("inside deletebookmark router");
+            }
+        })
+        /*to delete the bookmark of particular question saved in mongodb*/
+    router.post('/deletebookmarks', function(req, res, next) {
         try {
             var username = req.body.username;
             var value = req.body.value;
             usersController.deleteBookmark(username, value, function(result) {
-                console.log("inside deletebookmark controller");
                 res.status(201).json({
                     result: result
                 });
@@ -147,7 +132,7 @@ module.exports = function(passport) {
         }
     })
 
-    /* login action */
+    /* login action using passport*/
     router.post('/login', function(req, res, next) {
         passport.authenticate('login', function(err, user, info) {
             if (err) return res.status(500).json({
@@ -163,10 +148,9 @@ module.exports = function(passport) {
         })(req, res, next);
     });
 
-    /* user signup action */
+    /* user signup action to save user data in mongodb using passport*/
     router.post('/signup', function(req, res, next) {
         passport.authenticate('signup', function(err, newUser, info) {
-            console.log("inside signup route");
             if (err) return res.status(500).json({
                 status: 'signup failed'
             });
@@ -197,7 +181,7 @@ module.exports = function(passport) {
             });
         }
     });
-
+    /*will clear the chathistory*/
     router.post('/clear', function(req, res) {
         try {
             usersController.clear(req.body, function(result) {
@@ -225,7 +209,6 @@ module.exports = function(passport) {
                     status: 'error in logout'
                 });
             } else {
-                console.log("success in logout");
                 response.status(200).json({
                     status: 'success'
                 });

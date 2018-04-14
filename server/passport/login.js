@@ -6,7 +6,6 @@ module.exports = function(passport) {
             passReqToCallback: true
         },
         function(req, username, password, done) {
-            console.log('inside passport login');
             UserModel.findOne({
                 'username': username,
                 'password': password

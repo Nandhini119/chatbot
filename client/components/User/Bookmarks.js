@@ -9,114 +9,79 @@ import {
     CardHeader,
     CardText
 } from 'material-ui/Card';
+import * as ReactDOM from 'react-dom';
 import superagent from 'superagent';
-import './User.css';
 import {
     ButtonToolbar,
     Button
 } from 'react-bootstrap';
-import './Chats/ChatHistory.css';
+import Embedly from 'react-embedly';
+import Close from 'material-ui/svg-icons/navigation/close';
+import './User.css';
 
 class Bookmarks extends React.Component {
 
         constructor() {
-            super();
-            this.state = {
-                bookmarks: []
+                super();
+                this.state = {
+                    bookmarks: []
+                }
+                this.deleteBookmark = this.deleteBookmark.bind(this);
             }
-            this.getBookmarks = this.getBookmarks.bind(this);
-            this.deleteBookmark = this.deleteBookmark.bind(this);
-        }
-
-        componentWillMount() {
-            this.getBookmarks();
-        }
-
-        getBookmarks() {
+            /* to delete the particular bookmark*/
+        deleteBookmark() {
             let self = this;
-            superagent
-                .get('/users/bookmarks')
-                .query({
-                    username: localStorage.getItem('username')
-                })
-                .end(function(err, res) {
-                    if (err) {
-                        console.log('error: ', err);
-                    } else {
-                        if (res.body.result == null) {
-                            self.setState({
-                                bookmarks: []
-                            });
-                        } else {
-                            self.setState({
-                                bookmarks: res.body.result.bookmarks
-                            })
-                            console.log("succesfully saved");
-                        }
-                    }
-                });
-        }
-
-        deleteBookmark(index) {
-            //  console.log("bookmark value", this.state.bookmarks[index].value);
             let {
                 bookmarks
             } = this.state;
             superagent
-                .post('/users/deletebookmark')
+                .post('/users/deletebookmarks')
                 .send({
                     username: localStorage.getItem('username'),
-                    value: bookmarks[index].value,
+                    value: this.props.bookmarks.value,
                 })
                 .end(function(err, res) {
                     if (err) {
                         console.log('error: ', err);
                     } else {
-                        console.log('delete bookmark response', res);
+                        self.props.getBookmarks();
+                        self.props.getChatHistory();
                     }
                 });
-            //  console.log('bookmarks index',  bookmarks.splice(index, 1))
-            bookmarks: bookmarks.splice(index, 1)
             this.setState({
                 bookmarks: bookmarks
 
             });
         }
-  render() {
-    let self = this;
-    return (
-      <div className="MessageDiv collection"  ref="messageList" >
-          {this.state.bookmarks.length == 0 ? <p>Add your bookmarks here....</p> :
-             this.state.bookmarks.map(function(bookmark, index) {
-          let time = bookmark.timestamp;
+        render() {
+            let self = this;
+            let date = new Date(this.props.bookmarks.timestamp)
+            const messageDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            const messageDateTime = messageDate + " " + date.getHours() + ":" + date.getMinutes();
             return (
-              <div>
-                <Row>
-                  <Col>
                     <div>
                       <Card className = "bookCard">
+                      <Row>
+                      <Col xs = {11}>
                         <CardHeader
-                            title={bookmark.username}
-                            subtitle={time} />
-                        <CardText>
-                            {bookmark.value}
+                            title={this.props.bookmarks.question}
+                            subtitle={messageDateTime}>
+                            </CardHeader>
+                        <CardText className = "textalign" >
+                        {this.props.bookmarks.label == 'video'  || this.props.bookmarks.label == 'blog'?<div> {this.props.bookmarks.label} : <a href = {this.props.bookmarks.value} target="_blank">{this.props.bookmarks.value}</a>
+                            <Embedly url={this.props.bookmarks.value} target="_blank" apiKey="e59214aafcfd43169165962f374f6501"/></div>:
+                                         <p>{this.props.bookmarks.value}</p>}
                         </CardText>
-                        <CardActions >
-                          <ButtonToolbar>
-                            <Button bsSize="xs" onClick={()=> {self.deleteBookmark(index)}}>Delete</Button>
-                          </ButtonToolbar>
-                        </CardActions>
+                        </Col>
+                        <Col xs = {1}>
+                        <Close  className = "close" onClick={()=> {self.deleteBookmark()}}/>
+                        </Col>
+                        </Row>
                       </Card>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-            )
-          })
-        }
-     </div>
-    );
-  }
-}
+            </div>
+                )
+            }
 
-export default Bookmarks;
+        }
+
+        export default Bookmarks;

@@ -36,7 +36,7 @@ class ChatHistory extends React.Component {
             super();
             this.state = {
                 flag: false,
-                count: 0,
+                count: 1,
             }
             this.handleLoadMore = this.handleLoadMore.bind(this);
         }
@@ -50,30 +50,31 @@ class ChatHistory extends React.Component {
                 count: count
             });
         }
-render() {
-    const { props } = this;
-    return (
-      <div className =  "collection">
-        <div className="MessageDiv "  ref="messageList" >
+
+        render() {
+            const {
+                props
+            } = this;
+            const self = this;
+            return (  <div className =  "collection">
+        <div className="messageDiv "  ref="messageList" >
           {props.history.length >2 ? <Chip onClick = {this.handleLoadMore}>Load more..</Chip>  : " "}
           { props.history.length == 0 ?<div className = "message">This is the beginning of your chat..</div>:
             props.history.map(function(messageObj, index) {
               return (
-                <ChatHistoryCard messageObj = {messageObj} index={index}/>
+                <ChatHistoryCard messageObj = {messageObj} getBookmark = {self.props.getBookmarks} index={index}/>
               )
             })
-          } 
+          }
         </div>
       </div>
-    );
-  }
-    componentDidMount() {
-        this.scrollToBottom();
-    }
-
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-
-}
-export default ChatHistory;
+                );
+            }
+            componentDidMount() {
+                this.scrollToBottom();
+            }
+            componentDidUpdate() {
+                this.scrollToBottom();
+            }
+        }
+        export default ChatHistory;

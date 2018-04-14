@@ -17,30 +17,29 @@ import {
     Col
 } from 'react-flexbox-grid';
 import $ from 'jquery';
-
 import UserTable from './UserTable.js';
+import './Admin.css';
 
 const styles = {
-  body : {
-  overflowY : "scroll",
-  overflowX : "hidden",
-  height : "800px",
-  },
-  arrow : {
-    position : "fixed",
-  },
+    body: {
+        marginTop: "50px",
+    },
+    arrow: {
+        position: "fixed",
+    },
 }
 
 
 export default class AllUsers extends React.Component {
 
         constructor(props) {
-            super(props);
-            this.state = {
-                allusers: "",
+                super(props);
+                this.state = {
+                    allusers: "",
 
+                }
             }
-        }
+            /*to display all the users with status(blocked or active) when the component is rendered*/
         componentWillMount() {
                 let self = this;
                 var userdata = " ";
@@ -50,41 +49,50 @@ export default class AllUsers extends React.Component {
                         data: {},
                         success: function(response) {
                             userdata = response.result.map((row, index) => {
-                                        return ( < UserTable userdata = {row} key = {index} id = {index}/>);
-                                        });
-                                        self.setState({allusers: userdata});
+                                        return ( < UserTable userdata = {
+                                                row
+                                            }
+                                            key = {
+                                                index
+                                            }
+                                            id = {
+                                                index
+                                            }
+                                            />);
+                                        }); self.setState({
+                                        allusers: userdata
+                                    });
                                 },
                                 error: function(err) {
                                     console.log(err)
                                 }
                         });
-                }
-  render(){
+                }  render(){
     return(
-     <div className = "container-fluid  background " style={styles.body}>
-        <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
-          <ArrowBack color = "black"/>
-           </IconButton>
-           <Row center='xs'>
-            <Col xs={10}>
-              <div >
-                <Table fixedHeader={true}>
-                  <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                    <TableRow>
-                      <TableHeaderColumn>ID</TableHeaderColumn>
-                      <TableHeaderColumn >Name</TableHeaderColumn>
-                      <TableHeaderColumn >Mail-Id</TableHeaderColumn>
-                      <TableHeaderColumn ></TableHeaderColumn>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody displayRowCheckbox={false} showRowHover={true}>
-                    {this.state.allusers}
-                  </TableBody>
-                </Table>
-              </div>
-            </Col>
-           </Row>
-      </div>
+      <div className = "container-fluid  background adminscroll">
+         <IconButton style={styles.arrow} tooltip = "Back to home" onClick = {() => this.props.nullifyComponent()}>
+           <ArrowBack color = "black"/>
+            </IconButton>
+            <Row center='xs' className = "table">
+             <Col xs={10}>
+               <div >
+                 <Table fixedHeader={true}>
+                   <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                     <TableRow>
+                       <TableHeaderColumn>ID</TableHeaderColumn>
+                       <TableHeaderColumn >Name</TableHeaderColumn>
+                       <TableHeaderColumn >Mail-Id</TableHeaderColumn>
+                       <TableHeaderColumn ></TableHeaderColumn>
+                     </TableRow>
+                   </TableHeader>
+                   <TableBody displayRowCheckbox={false} showRowHover={true}>
+                     {this.state.allusers}
+                   </TableBody>
+                 </Table>
+               </div>
+             </Col>
+            </Row>
+       </div>
     );
   }
 }

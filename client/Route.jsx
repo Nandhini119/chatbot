@@ -8,13 +8,11 @@ import UserHome from './components/User/User.js';
 import './styles/index.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Redirect} from 'react-router-dom';
-
 render(
   <MuiThemeProvider>
     <Router>
      <div className = "App">
        <Route exact path = '/' component = {Login}/>
-
   <Route path = '/adminhome'
        render={()=>{
           const username = localStorage.getItem('username');
@@ -25,7 +23,6 @@ render(
              path = '/userhome'
              render={ () => localStorage.getItem('username') ? <UserHome /> : <Redirect to='/' />}
        />
-
        <Route path = '/signup' component = {Signup}/>
      </div>
     </Router>

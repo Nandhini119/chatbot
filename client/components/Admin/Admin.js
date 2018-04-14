@@ -32,6 +32,16 @@ const styles = {
         backgroundColor: "#3B3B3A",
         height: "7%",
     },
+    appName : {
+      color : "white",
+      fontFamily: 'EB Garamond',
+      fontSize : "2rem",
+    },
+    userName : {
+      color : "white",
+      fontFamily: 'EB Garamond',
+      fontSize : "1rem",
+    },
     account: {
         height: "50px",
         width: "40px",
@@ -57,7 +67,7 @@ export default class Admin extends React.Component {
             });
         }
 
-        /*to render different component switch case is used*/
+        /*to render different component based on actions to be performed*/
         getComponent() {
                 switch (this.state.component) {
                     case "unanswered":
@@ -87,7 +97,7 @@ export default class Admin extends React.Component {
                         />
                 }
             }
-            /*to remove component in state*/
+            /*to remove component in state when back is clicked*/
         nullifyComponent() {
                 this.setState({
                     component: ""
@@ -111,18 +121,16 @@ export default class Admin extends React.Component {
                     }
                 });
         }
-  render() {
-    return(
-      <div>
+        render() {
+            return ( <div className = "backgroundAdmin">
         <Toolbar  style={ styles.toolbarStyle }>
           <ToolbarGroup style={styles.title}>
-              <ToolbarTitle text="Quora" style={styles.title}/>
+              <ToolbarTitle text="Skye" style={styles.appName}/>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
             <AccountCircle className = "acc-cirlce" style={styles.account} color = "white" onClick={this.handlePopover}/>
               &nbsp;
-            <ToolbarTitle text="Admin" style={styles.title} onClick={this.handlePopover}/>
-
+            <ToolbarTitle text="Admin" style={styles.userName} onClick={this.handlePopover}/>
           <Glyphicon glyph="log-out" className = "logout title"  onClick={this.logout}></Glyphicon>
           {this.state.logout ? <Redirect to='/' push={false} /> : ''}
             &nbsp;
@@ -130,8 +138,8 @@ export default class Admin extends React.Component {
         </Toolbar>
         {this.getComponent()}
       </div>
-    );
+                );
 
 
-    }
-}
+            }
+        }
